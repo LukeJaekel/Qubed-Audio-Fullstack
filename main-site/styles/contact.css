@@ -1,0 +1,188 @@
+/* Author:
+   Luke Jaekel */
+
+p {
+    margin: 0;
+    font-family: Hind, Helvetica;
+}
+
+body {
+    background: url(../images/contact-image.jpeg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    width: 100%;
+}
+
+.contact-title-container {
+    display: flex;
+    top: 0;
+    flex-direction: column;
+    color: white;
+    align-items: center;
+    gap: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 40px;
+    text-align: center;
+}
+
+.contact-title {
+    font-size: 50px;
+    font-weight: 600;
+}
+
+.contact-description {
+    font-size: 25px;
+}
+
+.contact-info-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 2fr;
+    top: 250px;
+    width: 100%;
+    color: white;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.contact-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+
+.or-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(57, 57, 57, 0.9);
+    color: rgb(233, 32, 23);
+}
+
+.option {
+    font-size: 40px;
+    font-weight: 500;
+}
+
+.contact-details-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+    font-size: 25px;
+    padding: 20px;
+}
+
+.contact-number-container,
+.contact-email-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.icon {
+    width: 80px;
+}
+
+.contact-form-container {
+    padding: 20px;
+}
+
+.label {
+    text-align: left;
+    color: rgb(233, 32, 23);
+    margin-bottom: 10px;
+}
+
+.name-input {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    text-align: left;
+    font-family: Hind, Helvetica;
+}
+
+.name-input input,
+.email-input input,
+.phone-input input,
+.subject-input input {
+    font-family: Hind, Helvetica;
+    height: 30px;
+    text-indent: 10px;
+    font-size: 20px;
+    background-color: rgb(40, 40, 40);
+    border: none;
+    color: rgb(233, 233, 233);
+    margin-bottom: 30px;
+}
+
+.email-input,
+.phone-input,
+.subject-input,
+.message-input {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    text-align: left;
+    font-family: Hind, Helvetica;
+}
+
+.message-input textarea {
+    font-family: Hind, Helvetica;
+    text-indent: 10px;
+    font-size: 20px;
+    background-color: rgb(40, 40, 40);
+    border: none;
+    color: rgb(233, 233, 233);
+    margin-bottom: 30px;
+    height: 300px;
+}
+
+.submit-button {
+    font-size: 18px;
+    padding: 10px 80px;
+    border: none;
+    color: rgb(217, 217, 217);
+    background-color: rgb(233,32,23);
+    border-radius: 5px;
+    transition: background-color 0.15s, color 0.15s;
+    cursor: pointer;
+    animation: slideInFromLeft 1s;
+}
+
+.submit-button:hover {
+    background-color: #d9d9d9;
+    color: rgb(233,32,23);
+}
+
+.submit-button:active {
+    opacity: 0.7;
+}
+
+@media (max-width: 1160px) {
+    .contact-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .or-container {
+        height: 200px;
+    }
+
+    .name-input input,
+    .email-input input,
+    .phone-input input,
+    .subject-input input {
+    height: 60px;
+    font-size: 30px;
+    }
+
+    .message-input textarea {
+        font-size: 30px;
+    }
+
+    .submit-button {
+        font-size: 30px;
+    }
+}

@@ -1,0 +1,50 @@
+/* Author:
+   Luke Jaekel */
+
+.about-container {
+    position: relative;
+    background-color: rgb(35, 35, 35);
+    display: flex;
+    color: rgb(231, 231, 231);
+    font-family: Hind, Helvetica;
+    padding: 10px 10px;
+    z-index: 1;
+}
+
+.about-video {
+    width: 800px;
+    height: 600px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+.about-text-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 20px;
+}
+
+.about-title {
+    color: rgb(233,32,23);
+    font-size: 50px;
+    font-weight: 600;
+    text-decoration: underline;
+    margin-bottom: 30px;
+}
+
+.about-description {
+    font-size: 20px;
+    text-align: center;
+}
+
+@media (max-width: 1420px) {
+    .about-container {
+        flex-direction: column;
+    }
+
+    .about-video {
+        width: 100%;
+    }
+}

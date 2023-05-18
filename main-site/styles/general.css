@@ -1,0 +1,80 @@
+/* Author:
+   Luke Jaekel */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background-color: rgb(64, 64, 64);
+    padding-top: 100px;
+}
+
+section {
+    animation: transitionIn 1s ease-in-out;
+}
+
+@media (max-width: 1160px) {
+    body {
+        padding-top: 200px;
+    }
+}
+
+
+/* Animation Classes */
+
+@keyframes transitionIn {
+    from {
+        opacity: 0;
+        transform: rotateX(-5deg);
+    }
+    to {
+        opacity: 1;
+        transform: rotateX(0deg);
+    }
+}
+
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0%);
+    }
+}
+
+@keyframes slideInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0%);
+    }
+}
+
+@keyframes slideInFromTop {
+    from {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+}
+
+@keyframes slideInFromBottom {
+    from {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+}

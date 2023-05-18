@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Testimonials | Qubed Audio</title>
+        <link rel="icon" type="image/x-icon" href="logo/logo.jpg">
+
+        <link rel="stylesheet" href="styles/header.css">
+        <link rel="stylesheet" href="styles/general.css">
+        <link rel="stylesheet" href="styles/testimonials.css">
+        <link rel="stylesheet" href="styles/footer.css">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+        <script defer src="scripts/header.js"></script>
+        <script defer src="scripts/general.js"></script>
+    </head>
+    <body>
+    
+        <!----- HEADER SECTION ----->
+        <header class="js-header">
+            <nav class="nav-bar">
+                <div class="brand-name">
+                    <div class="logo-container" onclick="loadHomePage();">
+                        <img class="logo" src="logo/logo.jpg" alt="qubed-logo">
+                    </div>
+                    <div class="title-container" onclick="loadHomePage();">
+                        <p class="title">Qubed <span class="title-two">Audio</span></p>
+                    </div>
+                    <div class="menu-button-container">
+                        <a href="#" class="menu-button">
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="nav-bar-links">
+                    <ul>
+                        <li><a href="home.html">Home</a></li>
+                        <li><a href="home.html#about">About</a></li>
+                        <li><a href="home.html#why-us">Company Values</a></li>
+                        <li><a href="testimonials.html">Testimonials</a></li>
+                        <li><a href="portfolio.html">Portfolio</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="../stock-site/stock.php">Hire Equipment</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+         <!----- MAIN SECTION ----->
+        <main>
+            <section>
+                <div class="testimonials-main-container">
+                    <div class="testimonials-title-container">
+                        <p class="testimonials-title">TESTIMONIALS</p>
+                        <p class="testimonials-description">
+                            We strongly value customer feedback and strive to deliver
+                            the best outcome of every show we do no matter the size.
+                            Here at <span style="color: rgb(233,32,23);">Qubed</span> Audio, we believe that everyone should have access
+                            to industry standard equipment. Hence, client reviews play an 
+                            invaluable part to helping our audio business thrive.
+                        </p>
+                        <p class="testimonials-description-two">Don't believe us? See what our clientele says about us.</p>
+                    </div>
+                    <div class="testimonials-image-container">
+                        <img class="testimonials-image" src="images/testimonials-image.jpg" alt="live-audience">
+                        <div class="main-review-container">
+                            <p class="quote">
+                                "Many thanks for a great sound last night, much appreciated by the whole band. Will be in touch if we need your 
+                                help in the future."
+                            </p>
+                            <p class="customer-name">- Kast Off Kinks</p>
+                            <img class="customer-image" src="images/kast-off-kinks.jpeg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="more-reviews-container">
+                    <p class="read-more-reviews">READ MORE REVIEWS</p>
+                    <button class="read-more-button" onclick="window.location.href = '#more-reviews';">Read More</button>
+                </div>
+            </section>
+            <section id="more-reviews">
+                <div class="more-testimonials-container">
+                    <div class="review-container">
+                        <p class="review">
+                            "Joe has worked as sound engineer on many of my shows, providing 
+                            all necessary equipment, liaising with and advising performers 
+                            and adapting to varied requirements. He has been prepared to 
+                            talk through and walk through projects beforehand in different 
+                            venues and spaces, ensuring that things run smoothly. Joe is 
+                            very adaptable, reliable and a pleasure to work with."
+                        </p>
+                        <p class="client">- Private Client</p>
+                    </div>
+                    <div class="review-container">
+                        <p class="review">
+                            "Thanks for the hire of the kit, everything went well for the 
+                            wedding. The PA was great, though we didn't get to push it very 
+                            hard due to the noise limiter. Joe is a nice chap, collection 
+                            and drop off of the gear back was no problem. All round a success 
+                            and I hope to do business with you again some time."
+                        </p>
+                        <p class="client">- Private Client</p>
+                    </div>
+                    <div class="review-container">
+                        <p class="review">
+                            "I have had the pleasure of working closely with Joe on a range of 
+                            events across the county, from smaller scale events, to larger scale 
+                            festivals. He is always friendly, reliable, professional and takes 
+                            incredible pride in his work, paying close attention to detail. He 
+                            is always willing to adapt his rates and packages depending on what 
+                            the client needs. I highly recommend Joe for all your live sound and
+                            AV needs."
+                        </p>
+                        <p class="client">- Private Client</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- FOOTER SECTION -->
+        <footer class="footer">
+            <div class="footer-grid">
+                <div class="left-container">
+                    <div class="footer-logo-container" onclick="loadHomePage();">
+                        <img class="footer-logo" src="logo/logo.jpg" alt="qubed-logo">
+                    </div>
+                    <div onclick="loadHomePage();">
+                        <p class="footer-title">Qubed <span class="footer-title-two">Audio</span></p>
+                    </div>
+                </div>
+                <div class="middle-container">
+                    <div class="link-container">
+                        <div class="middle-title-container">
+                            <p>THE BORING STUFF</p>
+                        </div>
+                        <p><a href="terms-and-conditions.html">Terms and Conditions</a></p>
+                        <p><a href="#">Privacy Policy</a></p>
+                        <p><a href="documents/pli-insurance-certificate.pdf" target="_blank">PLI Insurance Certificate</a></p>
+                    </div>
+                </div>
+                <div class="right-container">
+                    <div class="link-container">
+                        <div class="right-title-container">
+                            <p>THE COMPANY</p>
+                        </div>
+                        <p><a href="contact.html">Contact Us</a></p>
+                        <p><a href="home.html#about">About</a></p>
+                    </div>
+                </div>
+                <div class="socials-container">
+                    <p>SOCIALS</p>
+                    <div class="socials-main-icon-container">
+                        <div class="socials-icon-container">
+                            <img class="socials-icon" src="icons/facebook-icon.svg" alt="facebook-icon">
+                        </div>
+                        <div class="socials-icon-container">
+                            <img class="socials-icon" src="icons/twitter-icon.svg" alt="twitter-icon">
+                        </div>
+                        <div class="socials-icon-container">
+                            <img class="socials-icon" src="icons/linkedin-icon.svg" alt="twitter-icon">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright-container">
+                <p>© 2023 Qubed Audio | All Rights Reserved</p>
+                <p>Website Developed by <a target="_blank" href="https://github.com/LukeJaekel">Luke Jaekel</a></p>
+            </div>
+        </footer>
+    </body>
+</html>

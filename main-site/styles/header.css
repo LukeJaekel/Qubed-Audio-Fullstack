@@ -1,0 +1,173 @@
+/* Author:
+   Luke Jaekel */
+
+.js-header {
+    flex-direction: column;
+    position: fixed;
+    background-color: rgb(20, 20, 20);
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    padding-top: 5px;
+    padding-left: 60px;
+    padding-right: 60px;
+    color: white;
+    font-family: Hind, Helvetica;
+    z-index: 100;
+}
+
+.logo-container {
+    display: flex;
+    height: 90px;
+}
+
+.logo {
+    height: 100%;
+}
+
+.brand-name {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    column-gap: 20px;
+    font-size: 26px;
+}
+
+.title {
+    color: rgb(233,32,23);
+    width: 170px;
+}
+
+.title-two {
+    color: white;
+    margin-right: 20px;
+}
+
+.nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.nav-bar-links ul {
+    margin: 0;
+    padding: 0;
+    height: 52px;
+    display: flex;
+}
+
+.nav-bar-links li {
+    list-style: none;
+}
+
+.nav-bar-links li a {
+    text-decoration: none;
+    padding: 15px;
+    display: block;
+    cursor: pointer;
+    user-select: none;
+    color: white;
+}
+
+.nav-bar-links li a:hover {
+    color: rgb(233,32,23);
+    border-bottom-style: solid;
+    border-bottom-color: rgb(233,32,23);
+    border-bottom-width: 2px;
+}
+
+.nav-bar-links li:active {
+    opacity: 0.6;
+}
+
+.menu-button-container {
+    display: flex;
+    align-items: center;
+}
+
+.menu-button {
+    margin-right: 30px;
+    position: absolute;
+    right: 30px;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 25px;
+}
+
+.menu-button .bar {
+    height: 3px;
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+}
+
+@media (max-width: 1160px) {
+    .menu-button {
+        display: flex;
+   }
+   
+   .nav-bar-links {
+        display: none;
+        width: 100%;
+   }
+
+   .nav-bar {
+        flex-direction: column;
+        align-items: flex-start;
+   }
+
+   .nav-bar-links ul {
+        width: 100%;
+        flex-direction: column;
+   }
+
+   .nav-bar-links li {
+        text-align: center;
+        font-size: 30px;
+   }
+
+   .nav-bar-links li a:hover {
+        background-color: rgb(36, 36, 36);
+        border: none;
+    }
+
+   .nav-bar-links li a {
+        padding: 8px 15px;
+   }
+
+   .nav-bar-links.active {
+        display: flex;
+        padding-top: 10px;
+   }
+
+   .js-header {
+        padding-top: 50px;
+        height: 150px;
+   }
+
+   .js-header.active {
+        height: 600px;
+   }
+
+   .logo-container {
+        height: 100px;
+   }
+
+   .brand-name {
+        font-size: 34px;
+   }
+
+   .menu-button {
+        width: 40px;
+        height: 35px;
+    }
+
+    .title {
+        width: 220px;
+    }
+
+}

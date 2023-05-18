@@ -1,0 +1,33 @@
+/* Author:
+   Luke Jaekel */
+
+p {
+    color: rgb(232, 232, 232);
+    font-family: Hind, Helvetica;
+    margin: 0;
+}
+
+.terms-and-conditions-container p {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 100px;
+}
+
+.terms-and-conditions-title-container {
+    background-color: black;
+}
+
+.terms-and-conditions-title {
+    font-size: 50px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.terms-and-conditions-content {
+    background-image: linear-gradient(to bottom right, rgb(16, 16, 16), rgb(33, 33, 33));
+}
+
+.terms-and-conditions-content p {
+    font-size: 20px;
+}
+

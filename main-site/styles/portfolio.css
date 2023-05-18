@@ -1,0 +1,88 @@
+/* Author:
+   Luke Jaekel */
+
+p {
+    margin: 0;
+}
+
+.portfolio-title-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    font-family: Hind, Helvetica;
+    color: white;
+    background-color: rgb(4, 4, 4);
+    padding: 20px 20px;
+}
+
+.portfolio-title {
+    font-size: 50px;
+    font-weight: 600;
+    animation: slideInFromTop 0.75s;
+}
+
+.portfolio-description {
+    font-size: 25px;
+    text-align: center;
+    animation: slideInFromTop 0.75s;
+}
+
+.image-main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: linear-gradient(to bottom right, rgb(16, 16, 16), rgb(33, 33, 33));
+    padding: 50px 50px;
+}
+
+.image-grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 20px;
+    row-gap: 20px;
+}
+
+.image-grid-container .image-container {
+    animation: fadeIn 1s ease-in-out;
+    animation-fill-mode: both;
+    opacity: 0;
+    animation-delay: calc(0.2s + (var(--delay-multiplier, 1) - 1) * 0.2s);
+}
+
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+}
+
+.image-container {
+    display: flex;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 1);
+}
+
+.image {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+}
+
+@media (max-width: 1280px) {
+    .image-grid-container {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media (max-width: 970px) {
+    .image-grid-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 650px) {
+    .image-grid-container {
+        grid-template-columns: 1fr;
+    }
+}

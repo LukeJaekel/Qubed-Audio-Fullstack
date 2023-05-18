@@ -1,0 +1,214 @@
+/* Author:
+   Luke Jaekel */
+
+   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Hind, Helvetica;
+    text-decoration: none;
+}
+
+.js-header {
+    flex-direction: column;
+    position: fixed;
+    background-color: rgb(240, 240, 240);
+    top: 0;
+    left: 0;
+    right: 0;
+    padding-top: 5px;
+    padding-left: 60px;
+    padding-right: 60px;
+    font-family: Hind, Helvetica;
+    z-index: 100;
+}
+
+.top-container {
+    display: flex;
+    align-items: center;
+}
+
+.header-left-container {
+    display: flex;
+    flex: 1;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 26px;
+}
+
+.header-right-container {
+    display: flex;
+    position: relative;
+    align-items: center;
+    gap: 10px;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-container a {
+    color: rgb(35, 35, 35);
+}
+
+.login-container a:hover {
+    text-decoration: underline;
+    color: rgb(113, 113, 113);
+}
+
+.login-container a:active {
+    opacity: 0.6;
+}
+
+.basket-container {
+    display: flex;
+    position: relative;
+}
+
+.basket-number {
+    position: absolute;
+    padding-top: 1px;
+    padding-left: 1px;
+    top: -3px;
+    right: -3px;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-right-container img {
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.header-right-container img:hover {
+    background-color: rgb(198, 198, 198);
+    border-width: 1px;
+}
+
+.header-right-container img:active {
+    opacity: 0.6;
+}
+
+.js-navbar {
+    display: flex;
+    margin-top: 20px;
+    border-radius: 5px;
+    justify-content: center;
+    border-top: solid;
+    border-top-width: 1px;
+    border-top-style: groove;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 10px;
+    text-align: center;
+}
+
+.navbar ul li {
+    position: relative;
+    float: left;
+}
+
+.navbar ul li a {
+    font-size: 18px;
+    padding: 20px;
+    color: black;
+    display: block;
+}
+
+.navbar ul li a:hover {
+    background-color: rgb(221, 221, 221);
+    color: rgb(233, 32, 23);
+}
+
+.navbar ul li a:active {
+    opacity: 0.6;
+}
+
+.navbar ul li ul {
+    position: absolute;
+    left: 0;
+    width: 200px;
+    background: rgb(206, 206, 206);
+    animation: headerSlideInTop 0.15s;
+    display: none;
+}
+
+.navbar ul li ul li {
+    width: 100%;
+    border-top: 1px solid rgba(0, 0, 0, .1);
+}
+
+
+.navbar ul li:hover > ul {
+    display: initial;
+}
+
+#menu-bar {
+    display: none;
+}
+
+.navbar label {
+    font-size: 20px;
+    color: black;
+    cursor: pointer;
+    display: none;
+}
+
+ @media (max-width: 1160px) {
+
+    .navbar label {
+        display: initial;
+        font-size: 25px;
+        width: 100%;
+    }
+
+    .navbar label:hover {
+        opacity: 0.8;
+    }
+
+    .navbar label:active {
+        opacity: 0.6;
+    }
+
+    .navbar ul li ul li {
+        background: rgb(206, 206, 206);
+    }
+
+   .navbar ul {
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+   }
+
+   .navbar ul li {
+    width: 100%;
+   }
+
+   .navbar ul li ul {
+    position: relative;
+    width: 100%;
+   }
+}
