@@ -16,7 +16,7 @@ if ($connection->connect_error) {
 
 
 // Retrieve product data from the database
-$sql = "SELECT * FROM website_products;";
+$sql = "SELECT * FROM products;";
 $result = $connection->query($sql);
 
 

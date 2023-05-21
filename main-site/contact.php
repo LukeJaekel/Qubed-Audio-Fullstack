@@ -43,7 +43,7 @@
                         <li><a href="home.html#why-us">Company Values</a></li>
                         <li><a href="testimonials.html">Testimonials</a></li>
                         <li><a href="portfolio.html">Portfolio</a></li>
-                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="contact.php">Contact</a></li>
                         <li><a href="../stock-site/stock.php">Hire Equipment</a></li>
                     </ul>
                 </div>
@@ -83,40 +83,45 @@
                     </div>
                     <div class="contact-form-container">
                         <p class="option">SEND US A MESSAGE</p>
-                        <form class="contact-form" method="post" action="php-scripts/contact-form-handler.php">
+                        <form class="contact-form" method="post">
                             <div class="label">
                                 <p>Your Name *</p>
                             </div>
                             <div class="name-input">
-                                <input id="first-name" type="text" placeholder="First Name">
-                                <input id="last-name" type="text" placeholder="Last Name">
+                                <input type="text" name="first-name" placeholder="First Name">
+                                <input type="text" name="last-name" placeholder="Last Name">
                             </div>
                             <div class="label">
                                 <p>Email Address *</p>
                             </div>
                             <div class="email-input">
-                                <input id="email" type="text" placeholder="Email Address">
+                                <input type="email" name="email" placeholder="Email Address">
                             </div>
                             <div class="label">
                                 <p>Phone Number</p>
                             </div>
                             <div class="phone-input">
-                                <input id="phone" type="text" placeholder="Phone Number (optional)">
+                                <input type="tel" name="phone" placeholder="Phone Number (optional)">
                             </div>
                             <div class="label">
                                 <p>Subject *</p>
                             </div>
                             <div class="subject-input">
-                                <input id="subject" type="text" placeholder="Subject">
+                                <input type="text" name="subject" placeholder="Subject">
                             </div>
                             <div class="label">
                                 <p>Message *</p>
                             </div>
                             <div class="message-input">
-                                <textarea id="message" placeholder="Please enter your message here..."></textarea>
+                                <textarea name="message" placeholder="Please enter your message here..."></textarea>
                             </div>
                             <div class="button-container">
-                                <button class="submit-button">Submit</button>
+                                <button type="submit" class="submit-button" value="Submit">Submit</button>
+                            </div>
+                            <div>
+                                <p class="status <?php echo ($status === 'Email sent successfully.') ? 'success' : 'error'; ?>">
+                                    <?php echo $status; ?>
+                                </p>
                             </div>
                         </form>
                     </div>
@@ -150,7 +155,7 @@
                         <div class="right-title-container">
                             <p>THE COMPANY</p>
                         </div>
-                        <p><a href="contact.html">Contact Us</a></p>
+                        <p><a href="contact.php">Contact Us</a></p>
                         <p><a href="home.html#about">About</a></p>
                     </div>
                 </div>
@@ -174,5 +179,41 @@
                 <p>Website Developed by <a target="_blank" href="https://github.com/LukeJaekel">Luke Jaekel</a></p>
             </div>
         </footer>
+        
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                document.querySelector(".contact-form").addEventListener("submit", function(event) {
+                    event.preventDefault(); // Prevent form from submitting
+
+                    // Perform form validation and submission using AJAX or fetch API
+                    // You can display the status message dynamically using JavaScript
+                    // Example code for AJAX submission:
+                    let formData = new FormData(this);
+
+                    fetch("php-scripts/form-handler.php", {
+                    method: "POST",
+                    body: formData
+                    })
+                    .then(response => response.text())
+                    .then(data => {
+                        const statusElement = document.querySelector(".status");
+                        statusElement.textContent = data;
+                        statusElement.className = "status"; // Remove any existing classes
+
+                        if (data.includes("successfully")) {
+                        statusElement.classList.add("success");
+                        } else {
+                        statusElement.classList.add("error");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        const statusElement = document.querySelector(".status");
+                        statusElement.textContent = "An error occurred while sending the email. Please try again later.";
+                        statusElement.className = "status error";
+                    });
+                });
+            });
+        </script>
     </body>
 </html>

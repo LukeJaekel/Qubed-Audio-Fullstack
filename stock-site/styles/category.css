@@ -1,0 +1,21 @@
+p {
+    margin: 0;
+    font-family: Hind, Helvetica;
+}
+
+.category-title-container {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(35, 35, 35);
+    padding: 20px;
+    color: rgb(232, 232, 232);
+}
+
+.category-title {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.results {
+    font-size: 18px;
+}

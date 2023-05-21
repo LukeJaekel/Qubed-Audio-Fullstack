@@ -1,3 +1,41 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "Products";
+
+
+// Establish a database connection
+$connection = new mysqli($servername, $username, $password, $database);
+
+
+// Check connection
+if ($connection->connect_error) {
+    die("Connection failed: " . $connection->connect_error);
+}
+
+// Step 2: Retrieve category slugs from the database
+$query = "SELECT slug FROM categories";
+$result = $connection->query($query);
+$categories = $result->fetch_all(MYSQLI_ASSOC);
+?>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Menu</title>
+</head>
+<body>
+    <ul>
+    </ul>
+</body>
+</html>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -43,7 +81,7 @@
                 <nav class="navbar">
                     <ul class="links">
                         <li><a href="stock.php">Stock</a></li>
-                        <li><a href="category.php?category=consoles" target="_blank">Consoles</a></li>
+                        <li><a href="category.php?category=consoles">Consoles</a></li>
 
                         <li><a href="category.php?category=pa-speakers">PA Speakers +</a>
                             <ul>
