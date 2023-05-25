@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Q-Stock | Stock</title>
+        <title>Q-Stock | Product Details</title>
         <link rel="icon" type="image/x-icon" href="logo/logo.jpg">
 
         <link rel="stylesheet" href="styles/header.css">
         <link rel="stylesheet" href="styles/general.css">
         <link rel="stylesheet" href="styles/footer.css">
-        <link rel="stylesheet" href="styles/product.css">
+        <link rel="stylesheet" href="styles/sproduct.css">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,8 +16,10 @@
         <script defer src="scripts/header.js"></script>
         <script defer src="scripts/general.js"></script>
     </head>
-    <body style="height: 3000px;">
 
+    <body>
+
+        <!-- HEADER SECTION -->
         <header class="js-header">
             <div class="top-container">
                 <div class="header-left-container">
@@ -41,47 +43,47 @@
             <div class="js-navbar">
                 <nav class="navbar">
                     <ul class="links">
-                        <li><a href="#">Stock</a></li>
-                        <li><a href="#">Consoles</a></li>
+                        <li><a href="stock.php">Stock</a></li>
+                        <li><a href="category.php?category=consoles" target="_blank">Consoles</a></li>
 
-                        <li><a href="#">PA Speakers +</a>
+                        <li><a href="category.php?category=pa-speakers">PA Speakers +</a>
                             <ul>
-                                <li><a href="#">Subwoofers</a></li>
-                                <li><a href="#">Speakers</a></li>
+                                <li><a href="category.php?category=pa-speakers%2Fsubwoofers">Subwoofers</a></li>
+                                <li><a href="category.php?category=pa-speakers%2Fspeakers">Speakers</a></li>
                             </ul>
                         </li>
 
-                        <li><a href="#">Wired Equipment +</a>
+                        <li><a href="category.php?category=wired-equipment">Wired Equipment +</a>
                             <ul>
-                                <li><a href="#">Wired Microphones</a></li>
-                                <li><a href="#">Bundles</a></li>
+                                <li><a href="category.php?category=wired-equipment%2Fwired-microphones">Wired Microphones</a></li>
+                                <li><a href="category.php?category=wired-equipment%2Fbundles">Bundles</a></li>
                             </ul>
                         </li>
 
-                        <li><a href="#">Wireless Equipment +</a>
+                        <li><a href="category.php?category=wireless-equipment">Wireless Equipment +</a>
                             <ul>
-                                <li><a href="#">Wireless Microphones</a></li>
-                                <li><a href="#">IEMS</a></li>
+                                <li><a href="category.php?category=wireless-equipment%2Fwireless-microphones">Wireless Microphones</a></li>
+                                <li><a href="category.php?category=wireless-equipment%2Fiems">IEMS</a></li>
                             </ul>
                         </li>
 
-                        <li><a href="#">Units +</a>
+                        <li><a href="category.php?category=units">Units +</a>
                             <ul>
-                                <li><a href="#">Amplifiers</a></li>
-                                <li><a href="#">Stage Boxes</a></li>
-                                <li><a href="#">DI Boxes</a></li>
-                                <li><a href="#">FX Racks</a></li>
+                                <li><a href="category.php?category=units%2Famplifiers">Amplifiers</a></li>
+                                <li><a href="category.php?category=units%2Fstage-boxes">Stage Boxes</a></li>
+                                <li><a href="category.php?category=units%2Fdi-boxes">DI Boxes</a></li>
+                                <li><a href="category.php?category=units%2Ffx-racks">FX Racks</a></li>
                             </ul>
                         </li>
 
-                        <li><a href="#">Consumables +</a>
+                        <li><a href="category.php?category=consumables">Consumables +</a>
                             <ul>
-                                <li><a href="#">Batteries</a></li>
-                                <li><a href="#">Accessories</a></li>
+                                <li><a href="category.php?category=consumables%2Fbatteries">Batteries</a></li>
+                                <li><a href="category.php?category=consumables%2Faccessories">Accessories</a></li>
                             </ul>
                         </li>
 
-                        <li><a href="#">Services +</a>
+                        <li><a href="category.php?category=services">Services +</a>
                             <ul>
                                 <li><a href="#">Show Recording & Editing</a></li>
                             </ul>
@@ -95,53 +97,47 @@
             </div>
         </header>
 
-        <!-- MAIN SECTION -->
         <main>
-            <div class="stock-title-container">
-                <h1>Welcome to Q-Stock</h1>
-                <p>
-                    Browse through our products or 
-                    find what you require on the
-                    navigation menu.
-                </p>
-            </div>
-            <div class="product-grid-container">
-                <div class="product-grid">
-                    <div class="product">
-                        <div class="image-container">
-                            <img class="product-image" src="product-images/x-32.jpeg" alt="audio-console">
-                        </div>
-                        <div class="text-container">
-                            <div class="product-title-container">
-                                <p><a class="product-title-link" href="#">Behringer X32 Compact</a></p>
-                            </div>
-                            <div class="price-container">
-                                <p>Price p/day:</p>
-                                <p>£15.00</p>
-                            </div>
-                            <div class="price-container">
-                                <p>Price p/week:</p>
-                                <p>£15.00</p>
-                            </div>
-                        </div>
-                        <div class="button-container">
-                            <button class="add-to-cart-button">Add To Cart</button>
-                            <label for="quantity" id="quantity"></label>
-                            <select name="quantity" id="">
-                                <option value="1">1</option>
-                            </select>
+            <section class="product-title-container">
+                <p>ABOUT {PRODUCT NAME}</p>
+            </section>
+            <section class="sproduct">
+                <div class="product-details-container">
+                    <div class="left-section">
+                        <img class="product-image" src="product-images/behringer-pmp500.webp" />
+                    </div>
+                    <div class="right-section">
+                        <p class="category-link">Stock / Consoles</p>
+                        <p class="product-title">
+                            Behringer PMP500
+                        </p>
+                        <div class="price-container">
+                            <p>Per Day: <span style="font-weight: 600;">£22.00</span></p>
+                            <p>Per Week: <span style="font-weight: 600;">£80.00</span></p>
                         </div>
                         <div class="status-container">
-                            <p>Currently out on hire</p>
+                            <p>Availability: <span class="status" style="color: rgb(240, 104, 0);">Currently out on hire</span></p>
+                            <p>Returning on 25/05/2023 at 20:00</p>
                         </div>
-                        <div class="stock-container">
-                            <p>Stock available:</p>
-                            <p>1</p>
+                        <div class="add-to-cart-container">
+                            <label for="quantity" id="quantity"></label>
+                            <select class="quantity-box" name="quantity">
+                                <option value="1">1</option>
+                            </select>
+                            <button class="add-to-cart-button">Add To Cart</button>
+                        </div>
+                        <div class="details-container">
+                            <p class="details-title">Description</p>
+                            <p class="details">
+                                This is the Behringer PMP500. A 12 channel mixing console designed
+                                for a smaller live setup.
+                            </p>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
         </main>
+
 
         <!-- FOOTER SECTION -->
         <footer class="footer">

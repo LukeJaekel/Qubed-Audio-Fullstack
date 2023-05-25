@@ -1,19 +1,6 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "Products";
 
-
-// Establish a database connection
-$connection = new mysqli($servername, $username, $password, $database);
-
-
-// Check connection
-if ($connection->connect_error) {
-    die("Connection failed: " . $connection->connect_error);
-}
-
+include("includes/connect.php");
 
 // Retrieve product data from the database
 $sql = "SELECT * FROM products;";

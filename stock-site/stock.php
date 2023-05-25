@@ -19,6 +19,7 @@
     </head>
     <body>
 
+        <!-- HEADER SECTION -->
         <header class="js-header">
             <div class="top-container">
                 <div class="header-left-container">
