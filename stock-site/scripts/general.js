@@ -9,7 +9,7 @@ function loadMainSite() {
     window.location.href = "../main-site/home.html";
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+/* document.addEventListener("DOMContentLoaded", function() {
     var links = document.querySelectorAll("a");
   
     for (var i = 0; i < links.length; i++) {
@@ -17,4 +17,4 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault(); // Prevent the default link behavior
       });
     }
-});
+}); */

@@ -44,6 +44,11 @@ if (isset($_POST['insert-category'])) {
 
 
 <style>
+    .form-title-container {
+        display: flex;
+        flex-direction: column;
+    }
+
     .mb-2 {
         display: flex;
         flex-direction: column;
@@ -84,6 +89,7 @@ if (isset($_POST['insert-category'])) {
 </style>
 
 <form action="" method="post" class="mb-2">
+    <h2>Insert A New Category</h2>
     <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon1"></span>
         <input type="text" class="form-control" name="category-title" placeholder="Insert Category" aria-label="Category" aria-describedby="basic-addon1">

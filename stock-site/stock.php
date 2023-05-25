@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="styles/header.css">
         <link rel="stylesheet" href="styles/general.css">
         <link rel="stylesheet" href="styles/footer.css">
-        <link rel="stylesheet" href="styles/product-box.css">
+        <link rel="stylesheet" href="styles/stock.css">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,7 +24,7 @@
             <div class="top-container">
                 <div class="header-left-container">
                     <div class="logo-container">
-                        <img src="logo/logo.jpg" alt="qubed-logo">
+                        <img class="logo" src="logo/logo.jpg" alt="qubed-logo">
                         <p style="color: rgb(233, 32, 23);">Q-<span style="color: rgb(35, 35, 35);">Stock</span></p>
                     </div>
                 </div>
@@ -40,61 +40,6 @@
                     </div>
                 </div>
             </div>
-            <div class="js-navbar">
-                <nav class="navbar">
-                    <ul class="links">
-                        <li><a href="stock.php">Stock</a></li>
-                        <li><a href="category.php?category=consoles" target="_blank">Consoles</a></li>
-
-                        <li><a href="category.php?category=pa-speakers">PA Speakers +</a>
-                            <ul>
-                                <li><a href="category.php?category=pa-speakers%2Fsubwoofers">Subwoofers</a></li>
-                                <li><a href="category.php?category=pa-speakers%2Fspeakers">Speakers</a></li>
-                            </ul>
-                        </li>
-
-                        <li><a href="category.php?category=wired-equipment">Wired Equipment +</a>
-                            <ul>
-                                <li><a href="category.php?category=wired-equipment%2Fwired-microphones">Wired Microphones</a></li>
-                                <li><a href="category.php?category=wired-equipment%2Fbundles">Bundles</a></li>
-                            </ul>
-                        </li>
-
-                        <li><a href="category.php?category=wireless-equipment">Wireless Equipment +</a>
-                            <ul>
-                                <li><a href="category.php?category=wireless-equipment%2Fwireless-microphones">Wireless Microphones</a></li>
-                                <li><a href="category.php?category=wireless-equipment%2Fiems">IEMS</a></li>
-                            </ul>
-                        </li>
-
-                        <li><a href="category.php?category=units">Units +</a>
-                            <ul>
-                                <li><a href="category.php?category=units%2Famplifiers">Amplifiers</a></li>
-                                <li><a href="category.php?category=units%2Fstage-boxes">Stage Boxes</a></li>
-                                <li><a href="category.php?category=units%2Fdi-boxes">DI Boxes</a></li>
-                                <li><a href="category.php?category=units%2Ffx-racks">FX Racks</a></li>
-                            </ul>
-                        </li>
-
-                        <li><a href="category.php?category=consumables">Consumables +</a>
-                            <ul>
-                                <li><a href="category.php?category=consumables%2Fbatteries">Batteries</a></li>
-                                <li><a href="category.php?category=consumables%2Faccessories">Accessories</a></li>
-                            </ul>
-                        </li>
-
-                        <li><a href="category.php?category=services">Services +</a>
-                            <ul>
-                                <li><a href="#">Show Recording & Editing</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <div class="menu-button">
-                        <input type="checkbox" id="menu-bar">
-                        <label for="menu-bar">Menu</label>
-                    </div>
-                </nav>
-            </div>
         </header>
 
         <!-- MAIN SECTION -->
@@ -107,9 +52,31 @@
                     navigation menu.
                 </p>
             </div>
-            <div class="product-grid-container">
-                <div class="product-grid">
-                    <?php include "product-handler.php"; ?>
+
+            <div class="main-content">
+                <nav class="sidebar">
+                    <p>Categories</p>
+                    <?php
+
+                    // Connects to database
+                    include('includes/connect.php');
+
+                    $selectCategories = "SELECT * FROM `categories`;";
+                    $resultCategories = mysqli_query($connection, $selectCategories);
+
+                    while ($rowData = mysqli_fetch_assoc($resultCategories)) {
+                        $categoryTitle = $rowData['category_title'];
+                        $categoryId = $rowData['category_id'];
+
+                        echo '<li><a href="stock.php?category=' . $categoryId . '">' . $categoryTitle . '</a></li>';
+                    }
+
+                    ?>
+                </nav>
+                <div class="product-grid-container">
+                    <div class="product-grid">
+                        <?php include "product-handler.php"; ?>
+                    </div>
                 </div>
             </div>
         </main>

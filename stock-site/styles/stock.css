@@ -12,7 +12,51 @@ p {
     color: rgb(232, 232, 232);
 }
 
+.stock-title-container h1 {
+    font-size: 50px;
+}
+
+.stock-title-container p {
+    font-size: 20px;
+}
+
+.main-content {
+    position: relative;
+    display: flex;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    width: 300px;
+    background-color: black;
+    align-items: center;
+    list-style: none;
+}
+
+.sidebar p {
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: white;
+    text-decoration: underline;
+}
+
+.sidebar li a {
+    font-size: 18px;
+    color: rgb(200, 200, 200);
+}
+
+.sidebar li a:hover {
+    text-decoration: underline;
+    color: rgb(233, 32, 23);
+}
+
 .product-grid-container {
+    display: flex;
+    flex: 1;
+    justify-content: center;
     padding: 50px;
 }
 
@@ -27,7 +71,7 @@ p {
 .product {
     display: flex;
     flex-direction: column;
-    width: 250px;
+    width: 300px;
     height: auto;
     font-size: 20px;
     color: white;
@@ -39,7 +83,7 @@ p {
 }
 
 .image-container {
-    width: 200px;
+    width: 250px;
 }
 
 .product-image {
@@ -58,6 +102,7 @@ p {
 
 .product-title-container {
     margin-bottom: 10px;
+    font-size: 25px;
 }
 
 .product-title-link {
@@ -70,7 +115,7 @@ p {
 }
 
 .price-container {
-    font-size: 16px;
+    font-size: 18px;
     color: rgb(200, 200, 200);
     display: flex;
     gap: 10px;
@@ -79,12 +124,18 @@ p {
 .button-container {
     display: flex;
     gap: 5px;
-    margin-top: 20px;
+    margin-top: 30px;
+}
+
+.quantity {
+    width: 50px;
+    font-size: 20px;
+    text-indent: 10px;
 }
 
 .add-to-cart-button {
     padding: 6px 12px;
-    font-size: 15px;
+    font-size: 18px;
     border: none;
     border-radius: 3px;
     background-color: rgb(233, 32, 23);
@@ -105,12 +156,38 @@ p {
 
 .status-container {
     margin-top: 5px;
-    font-size: 14px;
+    font-size: 16px;
     color: black;
 }
 
 .stock-container {
     display: flex;
     gap: 10px;
-    font-size: 14px;
+    font-size: 16px;
+}
+
+@media (max-width: 1570px) {
+    .product-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    
+    .sidebar p {
+        font-size: 24px;
+    }
+
+    .sidebar li a {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 1250px) {
+    .product-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 940px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
 }

@@ -39,7 +39,7 @@ while ($row = $result->fetch_assoc()) {
     echo '<div class="button-container">';
     echo '<button class="add-to-cart-button">Add To Cart</button>';
     echo '<label for="quantity" id="quantity"></label>';
-    echo '<select name="quantity" id="">';
+    echo '<select class="quantity" name="quantity">';
     echo '<option value="1">1</option>';
     echo '</select>';
     echo '</div>';
