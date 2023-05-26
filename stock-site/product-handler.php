@@ -9,19 +9,19 @@ $result = $connection->query($sql);
 
 // Loop through the retrieved data and generate dynamic HTML
 while ($row = $result->fetch_assoc()) {
-    $productId = $row['id'];
-    $productName = $row["name"];
-    $productPricePerDay = $row["price p/d"];
-    $productPricePerWeek = $row["price p/w"];
-    $productStatus = $row["status"];
-    $productAvailability = $row["stock_availability"];
-    $productImage = $row["image"];
+    $productId = $row['product_id'];
+    $productName = $row["product_title"];
+    $productPricePerDay = $row["product_price_pd"];
+    $productPricePerWeek = $row["product_price_pw"];
+    $productStatus = $row["product_status"];
+    $productAvailability = $row["product_stock"];
+    $productImage = $row["product_image"];
 
 
     // Generate HTML code for each product
     echo '<div class="product" id="' . $productId . '">';
     echo '<div class="image-container">';
-    echo '<img class="product-image" src="' . $productImage . '" alt="' . $productName . '">';
+    echo '<img class="product-image" src="' . $productImage . '" alt="' . $productName . '" onerror="this.src=`admin-area/product-images/default-image.jpeg`">';
     echo '</div>';
     echo '<div class="text-container">';
     echo '<div class="product-title-container">';

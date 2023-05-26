@@ -37,7 +37,7 @@
         </section>
         <section>
             <div class="categories-container">
-                <button class="category-button"><a>Edit Products</a></button>
+                <button class="category-button"><a href="insert-product.php">Edit Products</a></button>
                 <button class="category-button"><a>View Products</a></button>
                 <button class="category-button"><a href="index.php?edit-categories">Edit Categories</a></button>
                 <button class="category-button"><a>View Categories</a></button>
@@ -57,6 +57,7 @@
                 echo "<h1>Hi Joe, Click one of the above options to make changes! :)</h1>";
             }
             ?>
+
         </section>
 
         <!-- FOOTER SECTION -->

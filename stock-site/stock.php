@@ -68,7 +68,7 @@
                         $categoryTitle = $rowData['category_title'];
                         $categoryId = $rowData['category_id'];
 
-                        echo '<li><a href="stock.php?category=' . $categoryId . '">' . $categoryTitle . '</a></li>';
+                        echo "<li><a href='stock.php?category=$categoryId'>$categoryTitle</a></li>";
                     }
 
                     ?>
