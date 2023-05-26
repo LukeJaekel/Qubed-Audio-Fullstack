@@ -30,7 +30,8 @@ if (isset($_POST['insert-product'])) {
         $productStock == '') {
             echo "<script>alert('Please fill in all the available fields!')</script>";
             exit();
-    } else {
+    } 
+    else {
         // Get the maximum ID value from the products table
         $maxIdQuery = "SELECT MAX(product_id) AS max_id FROM `products`;";
         $resultMaxId = mysqli_query($connection, $maxIdQuery);
