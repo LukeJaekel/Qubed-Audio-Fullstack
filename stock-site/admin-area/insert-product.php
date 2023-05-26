@@ -59,6 +59,7 @@ if (isset($_POST['insert-product'])) {
         }
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -73,16 +74,11 @@ if (isset($_POST['insert-product'])) {
 
     <link rel="stylesheet" href="styles/header.css">
     <link rel="stylesheet" href="styles/general.css">
-    <link rel="stylesheet" href="../styles/footer.css">
-    <link rel="stylesheet" href="styles/admin.css">
     <link rel="stylesheet" href="styles/form-content.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <script defer src="scripts/header.js"></script>
-    <script defer src="scripts/general.js"></script>
 
     <style>
         .title-container {
