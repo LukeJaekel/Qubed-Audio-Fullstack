@@ -1,3 +1,13 @@
+<?php 
+
+// Connects to database
+include('includes/connect.php');
+
+// Grabs common functions
+include('functions/function.php');
+
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -57,25 +67,19 @@
                 <nav class="sidebar">
                     <p>Categories</p>
                     <?php
-
-                    // Connects to database
-                    include('includes/connect.php');
-
-                    $selectCategories = "SELECT * FROM `categories`;";
-                    $resultCategories = mysqli_query($connection, $selectCategories);
-
-                    while ($rowData = mysqli_fetch_assoc($resultCategories)) {
-                        $categoryTitle = $rowData['category_title'];
-                        $categoryId = $rowData['category_id'];
-
-                        echo "<li><a href='stock.php?category=$categoryId'>$categoryTitle</a></li>";
-                    }
-
+                        // Fetches all categories
+                        getCategories();
                     ?>
                 </nav>
                 <div class="product-grid-container">
                     <div class="product-grid">
-                        <?php include "product-handler.php"; ?>
+                        <?php
+                            // Fetches all products
+                            getProducts();
+
+                            // Fetches products from certain category if chosen
+                            getProductsFromCategories();
+                        ?>
                     </div>
                 </div>
             </div>

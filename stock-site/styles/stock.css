@@ -58,6 +58,7 @@ p {
     flex: 1;
     justify-content: center;
     padding: 50px;
+    padding-top: 50px;
 }
 
 .product-grid {
