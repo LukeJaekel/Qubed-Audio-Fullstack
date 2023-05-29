@@ -1,40 +1,12 @@
-<?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+<?php 
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "Products";
+// Connects to database
+include('includes/connect.php');
 
+// Grabs common functions
+include('functions/function.php');
 
-// Establish a database connection
-$connection = new mysqli($servername, $username, $password, $database);
-
-
-// Check connection
-if ($connection->connect_error) {
-    die("Connection failed: " . $connection->connect_error);
-}
-
-// Step 2: Retrieve category slugs from the database
-$query = "SELECT slug FROM categories";
-$result = $connection->query($query);
-$categories = $result->fetch_all(MYSQLI_ASSOC);
 ?>
-
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Menu</title>
-</head>
-<body>
-    <ul>
-    </ul>
-</body>
-</html>
 
 <!DOCTYPE html>
 <html>
@@ -45,7 +17,7 @@ $categories = $result->fetch_all(MYSQLI_ASSOC);
         <link rel="stylesheet" href="styles/header.css">
         <link rel="stylesheet" href="styles/general.css">
         <link rel="stylesheet" href="styles/footer.css">
-        <link rel="stylesheet" href="styles/product-box.css">
+        <link rel="stylesheet" href="styles/stock.css">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -57,13 +29,22 @@ $categories = $result->fetch_all(MYSQLI_ASSOC);
     </head>
     <body>
 
+        <!-- HEADER SECTION -->
         <header class="js-header">
             <div class="top-container">
                 <div class="header-left-container">
                     <div class="logo-container">
-                        <img src="logo/logo.jpg" alt="qubed-logo">
+                        <img class="logo" src="logo/logo.jpg" alt="qubed-logo">
                         <p style="color: rgb(233, 32, 23);">Q-<span style="color: rgb(35, 35, 35);">Stock</span></p>
                     </div>
+                </div>
+                <div class="header-middle-container">
+                    <form class="search-bar" action="" method="get">
+                        <input type="search" placeholder="Search Item" name="search-data" aria-label="Search">
+                        <button type="submit" name="search-data-product" value="search">
+                            <img class="search-icon" src="icons/search-icon.svg" alt="search-icon">
+                        </button>
+                    </form>
                 </div>
                 <div class="header-right-container">
                     <div class="login-container">
@@ -77,61 +58,6 @@ $categories = $result->fetch_all(MYSQLI_ASSOC);
                     </div>
                 </div>
             </div>
-            <div class="js-navbar">
-                <nav class="navbar">
-                    <ul class="links">
-                        <li><a href="stock.php">Stock</a></li>
-                        <li><a href="category.php?category=consoles">Consoles</a></li>
-
-                        <li><a href="category.php?category=pa-speakers">PA Speakers +</a>
-                            <ul>
-                                <li><a href="category.php?category=pa-speakers%2Fsubwoofers">Subwoofers</a></li>
-                                <li><a href="category.php?category=pa-speakers%2Fspeakers">Speakers</a></li>
-                            </ul>
-                        </li>
-
-                        <li><a href="category.php?category=wired-equipment">Wired Equipment +</a>
-                            <ul>
-                                <li><a href="category.php?category=wired-equipment%2Fwired-microphones">Wired Microphones</a></li>
-                                <li><a href="category.php?category=wired-equipment%2Fbundles">Bundles</a></li>
-                            </ul>
-                        </li>
-
-                        <li><a href="category.php?category=wireless-equipment">Wireless Equipment +</a>
-                            <ul>
-                                <li><a href="category.php?category=wireless-equipment%2Fwireless-microphones">Wireless Microphones</a></li>
-                                <li><a href="category.php?category=wireless-equipment%2Fiems">IEMS</a></li>
-                            </ul>
-                        </li>
-
-                        <li><a href="category.php?category=units">Units +</a>
-                            <ul>
-                                <li><a href="category.php?category=units%2Famplifiers">Amplifiers</a></li>
-                                <li><a href="category.php?category=units%2Fstage-boxes">Stage Boxes</a></li>
-                                <li><a href="category.php?category=units%2Fdi-boxes">DI Boxes</a></li>
-                                <li><a href="category.php?category=units%2Ffx-racks">FX Racks</a></li>
-                            </ul>
-                        </li>
-
-                        <li><a href="category.php?category=consumables">Consumables +</a>
-                            <ul>
-                                <li><a href="category.php?category=consumables%2Fbatteries">Batteries</a></li>
-                                <li><a href="category.php?category=consumables%2Faccessories">Accessories</a></li>
-                            </ul>
-                        </li>
-
-                        <li><a href="category.php?category=services">Services +</a>
-                            <ul>
-                                <li><a href="#">Show Recording & Editing</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <div class="menu-button">
-                        <input type="checkbox" id="menu-bar">
-                        <label for="menu-bar">Menu</label>
-                    </div>
-                </nav>
-            </div>
         </header>
 
         <!-- MAIN SECTION -->
@@ -144,9 +70,25 @@ $categories = $result->fetch_all(MYSQLI_ASSOC);
                     navigation menu.
                 </p>
             </div>
-            <div class="product-grid-container">
-                <div class="product-grid">
-                    <?php include "product-handler.php"; ?>
+
+            <div class="main-content">
+                <nav class="sidebar">
+                    <p>Categories</p>
+                    <?php
+                        // Fetches all categories
+                        getCategories();
+                    ?>
+                </nav>
+                <div class="product-grid-container">
+                    <div class="product-grid">
+                        <?php
+                            // Searches products
+                            searchProduct();
+
+                            // Fetches products from certain category if chosen
+                            getProductsFromCategories();
+                        ?>
+                    </div>
                 </div>
             </div>
         </main>
