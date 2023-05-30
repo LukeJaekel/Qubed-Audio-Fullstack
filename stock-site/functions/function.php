@@ -314,41 +314,65 @@ function productDetails() {
             $sql = "SELECT * FROM `products` WHERE product_id = $productId";
             $result = $connection->query($sql);
 
-            echo '<section class="product">';
-            echo '<div class="product-details-container">';
-            echo '<div class="left-section">';
-            echo '<img class="product-image" src="product-images/behringer-pmp500.webp" />';
-            echo '</div>';
-            echo '<div class="right-section">';
-            echo '<p class="category-link">Stock / Consoles</p>';
-            echo '<p class="product-title">';
-            echo 'Behringer PMP500';
-            echo '</p>';
-            echo '<div class="price-container">';
-            echo '<p>Per Day: <span style="font-weight: 600;">£22.00</span></p>';
-            echo '<p>Per Week: <span style="font-weight: 600;">£80.00</span></p>';
-            echo '</div>';
-            echo '<div class="status-container">';
-            echo '<p>Availability: <span class="status" style="color: rgb(240, 104, 0);">Currently out on hire</span></p>';
-            echo '<p>Returning on 25/05/2023 at 20:00</p>';
-            echo '</div>';
-            echo '<div class="add-to-cart-container">';
-            echo '<label for="quantity" id="quantity"></label>';
-            echo '<select class="quantity-box" name="quantity">';
-            echo '<option value="1">1</option>';
-            echo '</select>';
-            echo '<button class="add-to-cart-button">Add To Cart</button>';
-            echo '</div>';
-            echo '</div>';
-            echo '</div>';
-            echo '<div class="details-container">';
-            echo '<p class="details-title">Description</p>';
-            echo '<p class="details">';
-            echo 'This is the Behringer PMP500. A 12 channel mixing console designed';
-            echo 'for a smaller live setup.';
-            echo '</p>';
-            echo '</div>';
-            echo '</section>';
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+    
+                $productName = $row["product_title"];
+                $productPricePerDay = $row["product_price_pd"];
+                $productPricePerWeek = $row["product_price_pw"];
+                $productStatus = $row["product_status"];
+                $productStock = $row["product_stock"];
+                $productImage = $row["product_image"];
+                $productDescription = $row['product_description'];
+
+                echo '<div class="sproduct-container">';
+                echo '<div class="sproduct-left-container">';
+                echo '<div class="sproduct-image-container">';
+                echo '<img src="' . $productImage . '" alt="" onerror="this.src=`admin-area/product-images/default-image.jpeg`">';
+                echo '</div>';
+                echo '</div>';
+                echo '<div class="sproduct-text-container">';
+                echo '<p class="sproduct-title">' . $productName . '</p>';
+                echo '<div class="sproduct-price-container">';
+                echo '<p>Per Day: <span style="font-weight: 600;">£' . $productPricePerDay . '</span></p>';
+                echo '<p>Per Week: <span style="font-weight: 600;">£' . $productPricePerWeek . '</span></p>';
+                echo '</div>';
+                echo '<div class="sproduct-status-container">';
+                echo '<p>Availability: <span class="status" style=font-weight: 600;">' . $productStatus . '</span></p>';
+                echo '<p>Current Stock: <span style="font-weight: 600;">0</span></p>';
+                echo '<p>Total Stock: <span style="font-weight: 600;">' . $productStock . '</span></p>';
+                echo '</div>';
+                echo '<div class="sproduct-button-container">';
+                echo '<button class="add-to-cart-button">Add to Cart</button>';
+                echo '<label for="sproduct-quantity" id="quantity"></label>';
+                echo '<select class="sproduct-quantity-box" name="quantity">';
+                echo '<option value="1">1</option>';
+                echo '</select>';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+                echo '<div class="sproduct-description-container">';
+                echo '<h1>Description</h1>';
+                echo '<p>' . $productDescription . '</p>';
+                echo '</div>';
+            }
+            else {
+                echo "<div style='
+                        position: absolute;
+                        top: 50px;
+                
+                        '>";
+                
+                echo "<h1 style='
+                        color: rgb(235, 235, 235);
+                        text-align: center;
+                        '>
+
+                        Product not found... <br>:(</br>
+                        
+                        </h1>";
+                echo "</div>";
+            }
         }
     }
 }

@@ -81,39 +81,10 @@ include('functions/function.php');
                     ?>
                 </nav>
                 <div class="sproduct">
-                    <div class="sproduct-container">
-                        <div class="sproduct-left-container">
-                            <div class="sproduct-image-container">
-                                <img src="product-images/behringer-pmp500.webp" alt="">
-                            </div>
-                        </div>
-                        <div class="sproduct-text-container">
-                            <p class="sproduct-title">Behringer PMP500</p>
-                            <div class="sproduct-price-container">
-                                <p>Per Day: <span style="font-weight: 600;">£22.00</span></p>
-                                <p>Per Week: <span style="font-weight: 600;">£80.00</span></p>
-                            </div>
-                            <div class="sproduct-status-container">
-                                <p>Availability: <span class="status" style="color: rgb(240, 104, 0); font-weight: 600;">Currently out on hire</span></p>
-                                <p>Current Stock: <span style="font-weight: 600;">0</span></p>
-                                <p>Total Stock: <span style="font-weight: 600;">1</span></p>
-                            </div>
-                            <div class="sproduct-button-container">
-                                <button class="add-to-cart-button">Add to Cart</button>
-                                <label for="sproduct-quantity" id="quantity"></label>
-                                <select class="sproduct-quantity-box" name="quantity">
-                                    <option value="1">1</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="sproduct-description-container">
-                        <h1>Description</h1>
-                        <p>
-                            This is the Behringer PMP500. It works great for smaller events
-                            and comes in a handy little case to carry with ease to your event.
-                        </p>
-                    </div>
+                    <?php
+                        
+                        productDetails();
+                    ?>
                 </div>
             </div>
         </main>
