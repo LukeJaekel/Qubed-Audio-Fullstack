@@ -47,9 +47,12 @@
     color: rgb(217, 217, 217);
 }
 
-.sproduct-status-container {
+.status-container, .sproduct-stock-container {
     font-size: 20px;
     color: rgb(217, 217, 217);
+}
+
+.sproduct-stock-container {
     margin-bottom: 30px;
 }
 
@@ -104,7 +107,7 @@
         font-size: 24px;
     }
 
-    .sproduct-status-container {
+    .status-container, .sproduct-stock-container {
         font-size: x-large;
     }
 

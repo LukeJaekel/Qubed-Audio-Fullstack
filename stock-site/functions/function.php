@@ -322,6 +322,7 @@ function productDetails() {
                 $productPricePerWeek = $row["product_price_pw"];
                 $productStatus = $row["product_status"];
                 $productStock = $row["product_stock"];
+                $productCurrentStock = $row['product_current_stock'];
                 $productImage = $row["product_image"];
                 $productDescription = $row['product_description'];
 
@@ -337,9 +338,11 @@ function productDetails() {
                 echo '<p>Per Day: <span style="font-weight: 600;">£' . $productPricePerDay . '</span></p>';
                 echo '<p>Per Week: <span style="font-weight: 600;">£' . $productPricePerWeek . '</span></p>';
                 echo '</div>';
-                echo '<div class="sproduct-status-container">';
-                echo '<p>Availability: <span class="status" style=font-weight: 600;">' . $productStatus . '</span></p>';
-                echo '<p>Current Stock: <span style="font-weight: 600;">0</span></p>';
+                echo '<div class="status-container">';
+                echo '<p><span class="status" style=font-weight: 600;">' . $productStatus . '</span></p>';
+                echo '</div>';
+                echo '<div class="sproduct-stock-container">';
+                echo '<p>Current Stock: <span style="font-weight: 600;">' . $productCurrentStock . '</span></p>';
                 echo '<p>Total Stock: <span style="font-weight: 600;">' . $productStock . '</span></p>';
                 echo '</div>';
                 echo '<div class="sproduct-button-container">';

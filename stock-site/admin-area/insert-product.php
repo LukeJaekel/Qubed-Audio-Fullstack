@@ -48,10 +48,10 @@ if (isset($_POST['insert-product'])) {
 
         $insertProduct = "INSERT INTO `products` (product_id, product_title, product_description, category_id, 
                                                  product_image, product_price_pd, product_price_pw,
-                                                 product_stock, product_status, date_added) VALUES ('$nextId', 
+                                                 product_stock, product_current_stock, product_status, date_added) VALUES ('$nextId', 
                                                  '$productTitle', '$productDescription', '$productCategory', 
                                                  '$productImage', '$productPricePerDay', '$productPricePerWeek', 
-                                                 '$productStock', 'Available', NOW());";
+                                                 '$productStock', '$productStock', 'Available', NOW());";
 
         $resultQuery = mysqli_query($connection, $insertProduct);
         if ($resultQuery) {
