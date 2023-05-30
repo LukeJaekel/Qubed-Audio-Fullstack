@@ -34,7 +34,7 @@ include('functions/function.php');
         <header class="js-header">
             <div class="top-container">
                 <div class="header-left-container">
-                    <div class="logo-container">
+                    <div class="logo-container" onclick="loadStockPage();">
                         <img class="logo" src="logo/logo.jpg" alt="qubed-logo">
                         <p style="color: rgb(233, 32, 23);">Q-<span style="color: rgb(35, 35, 35);">Stock</span></p>
                     </div>
@@ -80,33 +80,39 @@ include('functions/function.php');
                         getCategories();
                     ?>
                 </nav>
-                <div class="sproduct-container">
-                    <div class="sproduct-left-container">
-                        <div class="sproduct-image-container">
-                            <img src="product-images/behringer-pmp500.webp" alt="">
+                <div class="sproduct">
+                    <div class="sproduct-container">
+                        <div class="sproduct-left-container">
+                            <div class="sproduct-image-container">
+                                <img src="product-images/behringer-pmp500.webp" alt="">
+                            </div>
                         </div>
-                    </div>
-                    <div class="text-container">
-                        <p class="sproduct-title">Behringer PMP500</p>
-                        <div class="sproduct-price-container">
-                            <p>Per Day: <span style="font-weight: 600;">£22.00</span></p>
-                            <p>Per Week: <span style="font-weight: 600;">£80.00</span></p>
-                        </div>
-                        <div class="sproduct-status-container">
-                            <p>Availability: <span class="status" style="color: rgb(240, 104, 0); font-weight: 600;">Currently out on hire</span></p>
-                            <p>Quantity in stock: <span style="font-weight: 600;">0</span></p>
-                        </div>
-                        <div class="sproduct-button-container">
-                            <button class="add-to-cart-button">Add to Cart</button>
-                            <label for="sproduct-quantity" id="quantity"></label>
-                            <select class="sproduct-quantity-box" name="quantity">
-                                <option value="1">1</option>
-                            </select>
+                        <div class="sproduct-text-container">
+                            <p class="sproduct-title">Behringer PMP500</p>
+                            <div class="sproduct-price-container">
+                                <p>Per Day: <span style="font-weight: 600;">£22.00</span></p>
+                                <p>Per Week: <span style="font-weight: 600;">£80.00</span></p>
+                            </div>
+                            <div class="sproduct-status-container">
+                                <p>Availability: <span class="status" style="color: rgb(240, 104, 0); font-weight: 600;">Currently out on hire</span></p>
+                                <p>Current Stock: <span style="font-weight: 600;">0</span></p>
+                                <p>Total Stock: <span style="font-weight: 600;">1</span></p>
+                            </div>
+                            <div class="sproduct-button-container">
+                                <button class="add-to-cart-button">Add to Cart</button>
+                                <label for="sproduct-quantity" id="quantity"></label>
+                                <select class="sproduct-quantity-box" name="quantity">
+                                    <option value="1">1</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="sproduct-description-container">
                         <h1>Description</h1>
-                        <p>This is the Behringer PMP500. It works great for smaller events.</p>
+                        <p>
+                            This is the Behringer PMP500. It works great for smaller events
+                            and comes in a handy little case to carry with ease to your event.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -128,9 +134,9 @@ include('functions/function.php');
                         <div class="middle-title-container">
                             <p>THE BORING STUFF</p>
                         </div>
-                        <p><a href="terms-and-conditions.html">Terms and Conditions</a></p>
+                        <p><a href="../main-site/terms-and-conditions.html">Terms and Conditions</a></p>
                         <p><a href="#">Privacy Policy</a></p>
-                        <p><a href="documents/pli-insurance-certificate.pdf" target="_blank">PLI Insurance Certificate</a></p>
+                        <p><a href="../main-site/documents/pli-insurance-certificate.pdf" target="_blank">PLI Insurance Certificate</a></p>
                     </div>
                 </div>
                 <div class="right-container">
@@ -138,8 +144,8 @@ include('functions/function.php');
                         <div class="right-title-container">
                             <p>THE COMPANY</p>
                         </div>
-                        <p><a href="contact.html">Contact Us</a></p>
-                        <p><a href="home.html#about">About</a></p>
+                        <p><a href="../main-site/contact.php">Contact Us</a></p>
+                        <p><a href="../main-site/home.html#about">About</a></p>
                     </div>
                 </div>
                 <div class="socials-container">

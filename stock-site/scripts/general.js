@@ -1,8 +1,8 @@
 /* Author:
    Luke Jaekel */
 
-function loadHomePage() {
-    window.location.href = "home.html";
+function loadStockPage() {
+    window.location.href = "stock.php";
 }
 
 function loadMainSite() {

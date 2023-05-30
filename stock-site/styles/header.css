@@ -39,6 +39,7 @@
     gap: 20px;
     font-size: 26px;
     margin-right: 20px;
+    cursor: pointer;
 }
 
 .header-middle-container {

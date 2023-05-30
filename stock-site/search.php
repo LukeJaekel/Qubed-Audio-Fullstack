@@ -33,7 +33,7 @@ include('functions/function.php');
         <header class="js-header">
             <div class="top-container">
                 <div class="header-left-container">
-                    <div class="logo-container">
+                    <div class="logo-container" onclick="loadStockPage();">
                         <img class="logo" src="logo/logo.jpg" alt="qubed-logo">
                         <p style="color: rgb(233, 32, 23);">Q-<span style="color: rgb(35, 35, 35);">Stock</span></p>
                     </div>
@@ -109,9 +109,9 @@ include('functions/function.php');
                         <div class="middle-title-container">
                             <p>THE BORING STUFF</p>
                         </div>
-                        <p><a href="terms-and-conditions.html">Terms and Conditions</a></p>
+                        <p><a href="../main-site/terms-and-conditions.html">Terms and Conditions</a></p>
                         <p><a href="#">Privacy Policy</a></p>
-                        <p><a href="documents/pli-insurance-certificate.pdf" target="_blank">PLI Insurance Certificate</a></p>
+                        <p><a href="../main-site/documents/pli-insurance-certificate.pdf" target="_blank">PLI Insurance Certificate</a></p>
                     </div>
                 </div>
                 <div class="right-container">
@@ -119,8 +119,8 @@ include('functions/function.php');
                         <div class="right-title-container">
                             <p>THE COMPANY</p>
                         </div>
-                        <p><a href="contact.html">Contact Us</a></p>
-                        <p><a href="home.html#about">About</a></p>
+                        <p><a href="../main-site/contact.php">Contact Us</a></p>
+                        <p><a href="../main-site/home.html#about">About</a></p>
                     </div>
                 </div>
                 <div class="socials-container">
