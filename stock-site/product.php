@@ -76,13 +76,16 @@ include('functions/function.php');
                 <nav class="sidebar">
                     <p>Categories</p>
                     <?php
+
+                        echo '<li><a href="stock.php">All Stock</a></li>';
+
                         // Fetches all categories
                         getCategories();
                     ?>
                 </nav>
                 <div class="sproduct">
                     <?php
-                        
+                        // Fetches product details
                         productDetails();
                     ?>
                 </div>

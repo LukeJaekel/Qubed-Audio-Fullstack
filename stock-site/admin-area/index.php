@@ -13,15 +13,15 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-        <script defer src="scripts/header.js"></script>
-        <script defer src="scripts/general.js"></script>
+        <script defer src="../scripts/header.js"></script>
+        <script defer src="../scripts/general.js"></script>
     </head>
     <body>
 
         <header class="js-header">
             <div class="top-container">
                 <div class="header-left-container">
-                    <div class="logo-container">
+                    <div class="logo-container" onclick="loadStockPage();">
                         <img src="../logo/logo.jpg" alt="qubed-logo">
                         <p style="color: rgb(233, 32, 23);">Q-<span style="color: rgb(35, 35, 35);">Stock</span></p>
                     </div>
