@@ -54,7 +54,16 @@ include('functions/function.php');
                     <img src="icons/account-icon.png" alt="my-account-icon">
                     <div class="basket-container">
                         <img src="icons/basket-icon.png" alt="basket-icon">
-                        <span class="basket-number">0</span>
+                        <span class="basket-number">
+                            <?php 
+                                cartQuantity();
+                            ?>
+                        </span>
+                        <div>
+                            <?php
+                                totalCartPrice();
+                            ?>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -134,5 +143,10 @@ include('functions/function.php');
                 <p>Website Developed by <a target="_blank" href="https://github.com/LukeJaekel">Luke Jaekel</a></p>
             </div>
         </footer>
+
+        <?php
+            // Fetches logic for cart
+            cart();
+        ?>
     </body>
 </html>

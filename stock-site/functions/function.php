@@ -1,6 +1,5 @@
 <?php
 
-
 // Connects to database
 include("./includes/connect.php");
 
@@ -78,7 +77,7 @@ function getProducts() {
             echo '</div>';
             echo '</div>';
             echo '<div class="button-container">';
-            echo '<button class="add-to-cart-button">Add To Cart</button>';
+            echo '<button class="add-to-cart-button"><a href="stock.php?add_to_cart=' . $productId . '">Add To Cart<a></button>';
             echo '<label for="quantity" id="quantity"></label>';
             echo '<select class="quantity" name="quantity">';
             echo '<option value="1">1</option>';
@@ -147,7 +146,8 @@ function getProductsFromCategories() {
             
                   '>Found <strong>$resultCount</strong> results</p>";
 
-            echo "<p style='
+            echo "
+            <p style='
 
                   position: absolute;
                   top: 10px;
@@ -190,7 +190,7 @@ function getProductsFromCategories() {
             echo '</div>';
             echo '</div>';
             echo '<div class="button-container">';
-            echo '<button class="add-to-cart-button">Add To Cart</button>';
+            echo '<button class="add-to-cart-button"><a href="stock.php?add_to_cart=' . $productId . '">Add To Cart<a></button>';
             echo '<label for="quantity" id="quantity"></label>';
             echo '<select class="quantity" name="quantity">';
             echo '<option value="1">1</option>';
@@ -316,7 +316,7 @@ function searchProduct() {
             echo '</div>';
             echo '</div>';
             echo '<div class="button-container">';
-            echo '<button class="add-to-cart-button">Add To Cart</button>';
+            echo '<button class="add-to-cart-button"><a href="stock.php?add_to_cart=' . $productId . '">Add To Cart<a></button>';
             echo '<label for="quantity" id="quantity"></label>';
             echo '<select class="quantity" name="quantity">';
             echo '<option value="1">1</option>';
@@ -334,6 +334,7 @@ function searchProduct() {
     }
 }
 
+// Fetches product details for product page
 function productDetails() {
 
     global $connection;
@@ -381,7 +382,7 @@ function productDetails() {
                 echo '<p>Total Stock: <span style="font-weight: 600;">' . $productStock . '</span></p>';
                 echo '</div>';
                 echo '<div class="sproduct-button-container">';
-                echo '<button class="add-to-cart-button">Add to Cart</button>';
+                echo '<button class="add-to-cart-button"><a href="stock.php?add_to_cart=' . $productId . '">Add To Cart<a></button>';
                 echo '<label for="sproduct-quantity" id="quantity"></label>';
                 echo '<select class="sproduct-quantity-box" name="quantity">';
                 echo '<option value="1">1</option>';
@@ -413,6 +414,126 @@ function productDetails() {
             }
         }
     }
+}
+
+
+// Get IP Address
+function getIPAddress() {  
+    
+    //whether ip is from the share internet  
+    if(!empty($_SERVER['HTTP_CLIENT_IP'])) {  
+        $ip = $_SERVER['HTTP_CLIENT_IP'];  
+    }  
+    
+    //whether ip is from the proxy  
+    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {  
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];  
+    }  
+    
+    //whether ip is from the remote address  
+    else {  
+        $ip = $_SERVER['REMOTE_ADDR'];  
+    }  
+    
+    return $ip;  
+}
+
+
+// Cart function
+function cart() {
+
+    if (isset($_GET['add_to_cart'])) {
+        global $connection;
+
+        $ip = getIPAddress();
+
+        $productId = $_GET['add_to_cart'];
+        $sql = "SELECT * FROM `cart_details` WHERE ip_address = '$ip' AND
+                product_id = $productId";
+        $result = $connection->query($sql);
+
+        $resultCount = mysqli_num_rows($result);
+        if ($resultCount > 0) {
+            echo "<script>alert('You already have this item in the cart')</script>";
+            echo "<script>window.open('stock.php', '_self')</script>";
+        }
+        else {
+            $insertQuery = "INSERT INTO `cart_details` (product_id, ip_address, quantity) 
+                                                        VALUES ($productId, '$ip', 0)";
+            $result = $connection->query($insertQuery);
+            echo "<script>alert('Item added to cart')</script>";
+            echo "<script>window.open('stock.php', '_self')</script>";
+        }
+    }
+}
+
+
+// Fetches number of items in cart
+function cartQuantity() {
+
+    // Enable error reporting and display
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+
+    global $connection;
+
+    if (isset($_GET['add_to_cart'])) {
+
+        $ip = getIPAddress();
+
+        $sql = "SELECT * FROM `cart_details` WHERE ip_address = '$ip'";
+        $result = $connection->query($sql);
+
+        $itemCount = mysqli_num_rows($result);
+    }
+    else {
+
+        $ip = getIPAddress();
+
+        $sql = "SELECT * FROM `cart_details` WHERE ip_address = '$ip'";
+        $result = $connection->query($sql);
+
+        $itemCount = mysqli_num_rows($result);
+    }
+
+    echo $itemCount;
+}
+
+
+// Fetches total cart price
+function totalCartPrice() {
+    global $connection;
+
+    $dailyTotal = 0;
+    $weeklyTotal = 0;
+
+    $ip = getIPAddress();
+
+    $cartQuery = "SELECT * FROM `cart_details` WHERE ip_address = '$ip'";
+    $cartResult = $connection->query($cartQuery);
+
+    while ($row = mysqli_fetch_array($cartResult)) {
+        $productId = $row['product_id'];
+
+        $selectQuery = "SELECT * FROM `products` WHERE product_id = '$productId'";
+        $selectResult = $connection->query($selectQuery);
+
+        while ($rowProductPrice = mysqli_fetch_array($selectResult)) {
+
+            // Total price per day
+            $dailyProductPrice = array($rowProductPrice['product_price_pd']);
+            $dailyProductValues = array_sum($dailyProductPrice);
+            $dailyTotal += $dailyProductValues;
+
+            // Total price per week
+            $weeklyProductPrice = array($rowProductPrice['product_price_pw']);
+            $weeklyProductValues = array_sum($weeklyProductPrice);
+            $weeklyTotal += $weeklyProductValues;
+        }
+    }
+
+    echo "<p>Total Per Day: £$dailyTotal</p>";
+    echo "<p>Total Per Week: £$weeklyTotal</p>";
 }
 
 ?>

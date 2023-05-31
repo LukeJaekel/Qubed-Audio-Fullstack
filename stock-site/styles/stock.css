@@ -158,10 +158,13 @@ p {
     border: none;
     border-radius: 3px;
     background-color: rgb(233, 32, 23);
-    color: rgb(35, 35, 35);
     font-weight: 600;
     cursor: pointer;
     transition: all 0.15s;
+}
+
+.add-to-cart-button a {
+    color: rgb(35, 35, 35);
 }
 
 .add-to-cart-button:hover {
