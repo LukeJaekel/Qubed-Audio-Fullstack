@@ -15,10 +15,6 @@ section {
     animation: transitionIn 1s ease-in-out;
 }
 
-header {
-    animation: slideInFromTop 0.75s;
-}
-
 @media (max-width: 1160px) {
     body {
         padding-top: 140px;

@@ -62,21 +62,10 @@ include('functions/function.php');
 
         <!-- MAIN SECTION -->
         <main>
-            <div class="stock-title-container">
-                <h1>Welcome to Q-Stock</h1>
-                <p>
-                    Browse through our products or 
-                    find what you require on the
-                    navigation menu.
-                </p>
-            </div>
-
             <div class="main-content">
                 <nav class="sidebar">
                     <p>Categories</p>
                     <?php
-                        echo '<li><a href="stock.php">All Stock</a></li>';
-
                         // Fetches all categories
                         getCategories();
                     ?>

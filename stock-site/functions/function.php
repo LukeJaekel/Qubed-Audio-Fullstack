@@ -130,6 +130,12 @@ function getProductsFromCategories() {
             echo "</div>";
         }
         else {
+            // Retrieve category title from the database
+            $selectCategory = "SELECT category_title FROM `categories` WHERE category_id = $categoryId;";
+            $resultCategory = mysqli_query($connection, $selectCategory);
+            $categoryRow = mysqli_fetch_assoc($resultCategory);
+            $categoryTitle = $categoryRow['category_title'];
+
             echo "<p style='
 
                   position: absolute;
@@ -137,8 +143,20 @@ function getProductsFromCategories() {
                   right: 20px;
                   font-size: 24px;
                   color: rgb(235, 235, 235);
+                  animation: transitionIn 1s;
             
                   '>Found <strong>$resultCount</strong> results</p>";
+
+            echo "<p style='
+
+                  position: absolute;
+                  top: 10px;
+                  left: 320px;
+                  font-size: 24px;
+                  color: rgb(235, 235, 235);
+                  animation: transitionIn 1s;
+            
+                  '>Category: <strong>$categoryTitle</strong></p>";
         }
 
 
@@ -192,7 +210,6 @@ function getProductsFromCategories() {
 
 // Fetches all available categories
 function getCategories() {
-
     global $connection;
 
     $selectCategories = "SELECT * FROM `categories`;";
@@ -202,7 +219,13 @@ function getCategories() {
         $categoryTitle = $rowData['category_title'];
         $categoryId = $rowData['category_id'];
 
-        echo "<li><a href='stock.php?category=$categoryId'>$categoryTitle</a></li>";
+        // Check if the current category is selected
+        $selectedCategory = isset($_GET['category']) && $_GET['category'] == $categoryId;
+
+        // Add a class for styling the selected category
+        $class = $selectedCategory ? 'selected' : '';
+
+        echo "<li><a href='stock.php?category=$categoryId' class='$class'>$categoryTitle</a></li>";
     }
 }
 
@@ -218,7 +241,6 @@ function searchProduct() {
         // Retrieve product data from the database
         $sql = "SELECT * FROM `products` WHERE product_title LIKE '%$searchValue%'";
         $result = $connection->query($sql);
-
         
         $resultCount = mysqli_num_rows($result);
         if ($resultCount == 0) {
@@ -239,7 +261,8 @@ function searchProduct() {
             echo "</div>";
         }
         else {
-            echo "<p style='
+            if (empty($searchValue)) {
+                echo "<p style='
 
                     position: absolute;
                     top: 10px;
@@ -248,6 +271,18 @@ function searchProduct() {
                     color: rgb(235, 235, 235);
             
                     '>Found <strong>$resultCount</strong> results</p>";
+            }
+            else {
+                echo "<p style='
+
+                        position: absolute;
+                        top: 10px;
+                        right: 20px;
+                        font-size: 24px;
+                        color: rgb(235, 235, 235);
+                
+                        '>Found <strong>$resultCount</strong> results for '$searchValue'</p>";
+            }
         }
 
 
