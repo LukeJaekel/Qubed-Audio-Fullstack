@@ -7,8 +7,7 @@ How it works:
 This project features two websites. The main site which contains information about 
 the business and the audio rental website which allows customers to hire sound equipment 
 and relevant services. Essentially, the rental side fetches data dynamically from an SQL 
-database by obtaining "n" number of products. Apart from that, it works like any other 
-e-commerce website.
+database.
 
 Back-end Software:
 
