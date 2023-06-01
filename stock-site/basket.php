@@ -60,11 +60,6 @@ include('functions/function.php');
                             ?>
                         </span>
                     </div>
-                    <div>
-                        <?php
-                            totalCartPrice();
-                        ?>
-                    </div>
                 </div>
             </div>
         </header>
@@ -123,28 +118,65 @@ include('functions/function.php');
                         <h1>Order Summary</h1>
                     </div>
                     <div class="line"></div>
-                    <div class="subtotal-container">
+                    <div class="item-amount-container">
                         <p>3 Items</p>
-                        <p>£20.00</p>
                     </div>
-                    <div class="hire-length-container">
-                        <p>Hire Duration *</p>
-                        <select class="hire-length" required>
-                            <?php
-                                echo "<option value='$i'>1 day</option>";
-                                for ($i = 2; $i <= 30; $i++) {
-                                    echo "<option value='$i'>$i days</option>";
-                                }
-                            ?>
-                        </select>
+                    <div class="item-container">
+                        <p class="left-aligned-text">1x Behringer PMP500</p>
+                        <p class="center-aligned-text">P/Day: £20.00</p>   
+                        <p class="right-aligned-text">P/Week: £200.00</p>
                     </div>
-                    <div class="terms-and-conditions-container">
-                        <input type="checkbox" id="t-and-cs" name="myCheckbox" required>
-                        <label for="t-and-cs">By ticking this box, you agree to <a href="../main-site/terms-and-conditions.html">Terms and Conditions *</a></label>
+                    <div class="line"></div>
+                    <div class="summary-total-container">
+                        <p class="left-aligned-text">TOTAL:</p>
+                        <?php
+                            totalCartPrice();
+                        ?>
                     </div>
-                    <div class="button-container">
-                        <button class="submit-button"><a>Submit Request</a></button>
-                    </div>
+                    <form class="right-form-content" method="post">
+                        <div class="basket-title-container">
+                            <h1 style="text-align: center; width: 100%;">Details</h1>
+                        </div>
+                        <div class="line"></div>
+                        <div class="contact-number-container">
+                            <p>Best Contact Number *</p>
+                            <div class="contact-input">
+                                <select name="select-phone" id="select-phone" required>
+                                    <option value="1">Use number stored on account</option>
+                                    <option value="2">Use a different number</option>
+                                </select>
+                                <input type="tel" name="phone" id="phone" placeholder="Phone Number *" required>
+                            </div>
+                            <p>Best Drop Off Location *</p>
+                            <div class="contact-input">
+                                <select name="select-address" id="select-address" required>
+                                    <option value="1">Use address stored on account</option>
+                                    <option value="2">Use a different address</option>
+                                </select>
+                                <input type="text" name="house-number" id="house-number" placeholder="House/Flat Number *" required>
+                                <input type="text" name="address" id="address" placeholder="Street Address *" required>
+                                <input type="text" name="city" id="city" placeholder="Town/City *" required>
+                                <input type="text" name="post-code" id="post-code" placeholder="Post Code *" required>
+                            </div>
+                        </div>
+                        <div class="hire-length-container">
+                            <p>Hire Date (from) *</p>
+                            <p>Hire Date (to) *</p>
+                            <input type="date" class="calendar" required>
+                            <input type="date" class="calendar" required>
+                        </div>
+                        <div class="terms-and-conditions-container">
+                            <input type="checkbox" id="t-and-cs" name="myCheckbox" required>
+                            <label for="t-and-cs">By ticking this box, you agree to <a href="../main-site/terms-and-conditions.html">Terms and Conditions *</a></label>
+                        </div>
+                        <div class="terms-and-conditions-container">
+                            <input type="checkbox" id="t-and-cs" name="myCheckbox" required>
+                            <label for="t-and-cs">By ticking this box, you agree that the information provided is correct *</a></label>
+                        </div>
+                        <div class="button-container">
+                            <button type="submit" class="submit-button"><a>Submit Request</a></button>
+                        </div>
+                    </form>
                 </section>
             </div>
         </main>

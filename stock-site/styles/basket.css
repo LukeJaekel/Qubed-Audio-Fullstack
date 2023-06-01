@@ -165,29 +165,102 @@
     gap: 10px;
     align-items: center;
     background-color: rgb(35, 35, 35);
-    min-height: 600px;
+    min-height: 150px;
+    box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.6);
 }
 
 .summary-title-container {
     color: rgb(235, 235, 235);
 }
 
-.subtotal-container {
+.item-amount-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     color: white;
     font-size: 20px;
     width: 100%;
+    padding-top: 5px;
+}
+
+.right-form-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.item-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    color: white;
+    padding: 5px;
+    font-size: 16px;
+    width: 100%;
+    background-color: rgb(63, 63, 63);
+    border: solid 1px rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.center-aligned-text {
+    justify-self: center;
+}
+
+.right-aligned-text {
+    justify-self: end;
+}
+
+.summary-total-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: space-between;
+    padding: 5px;
+    color: white;
+    width: 100%;
+    align-items: center;
+    margin-bottom: 100px;
+}
+
+.contact-number-container {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+}
+
+.contact-input select {
+    margin-bottom: 10px;
+    height: 30px;
+    font-size: 16px;
+    width: 100%;
+}
+
+.contact-input input {
+    height: 30px;
+    padding: 10px;
+    font-size: 16px;
+    display: none;
+    width: 100%;
+    margin-bottom: 5px;
+    animation: slideInFromTop 0.3s;
+}
+
+.hire-length-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    gap: 10px;
 }
 
 .hire-length-container p {
     color: white;
 }
 
-.hire-length {
-    font-size: 20px;
+.calendar {
+    height: 30px;
     text-align: center;
-    width: 100%;
+    font-size: 16px;
 }
 
 .terms-and-conditions-container {
@@ -212,6 +285,12 @@
 
 .terms-and-conditions-container label a:hover {
     text-decoration: underline;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
 .submit-button {

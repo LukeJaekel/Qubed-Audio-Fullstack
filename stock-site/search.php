@@ -59,11 +59,6 @@ include('functions/function.php');
                                 cartQuantity();
                             ?>
                         </span>
-                        <div>
-                            <?php
-                                totalCartPrice();
-                            ?>
-                        </div>
                     </div>
                 </div>
             </div>

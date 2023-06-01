@@ -60,11 +60,6 @@ include('functions/function.php');
                             ?>
                         </span>
                     </div>
-                    <div>
-                        <?php
-                            totalCartPrice();
-                        ?>
-                    </div>
                 </div>
             </div>
         </header>

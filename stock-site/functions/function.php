@@ -532,8 +532,12 @@ function totalCartPrice() {
         }
     }
 
-    echo "<p>Total Per Day: £$dailyTotal</p>";
-    echo "<p>Total Per Week: £$weeklyTotal</p>";
+    // Format the total prices with ".00" for integers
+    $formattedDailyTotal = number_format($dailyTotal, 2);
+    $formattedWeeklyTotal = number_format($weeklyTotal, 2);
+
+    echo "<p>P/Day: £$formattedDailyTotal</p>";
+    echo "<p>P/Week: £$formattedWeeklyTotal</p>";
 }
 
 ?>
