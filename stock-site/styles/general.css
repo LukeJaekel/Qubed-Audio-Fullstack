@@ -7,8 +7,12 @@ html {
 
 body {
     margin: 0;
-    background-color: rgb(97, 97, 97);
+    background-color: rgb(50, 50, 50);
     padding-top: 100px;
+}
+
+main {
+    min-height: 800px;
 }
 
 section {

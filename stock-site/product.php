@@ -54,7 +54,7 @@ include('functions/function.php');
                     </div>
                     <img src="icons/account-icon.png" alt="my-account-icon">
                     <div class="basket-container">
-                        <img src="icons/basket-icon.png" alt="basket-icon">
+                        <img onclick="window.open('basket.php', '_self');" src="icons/basket-icon.png" alt="basket-icon">
                         <span class="basket-number">
                             <?php 
                                 cartQuantity();

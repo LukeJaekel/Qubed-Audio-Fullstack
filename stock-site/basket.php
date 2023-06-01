@@ -17,7 +17,7 @@ include('functions/function.php');
         <link rel="stylesheet" href="styles/header.css">
         <link rel="stylesheet" href="styles/general.css">
         <link rel="stylesheet" href="styles/footer.css">
-        <link rel="stylesheet" href="styles/stock.css">
+        <link rel="stylesheet" href="styles/basket.css">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,7 +25,7 @@ include('functions/function.php');
 
         <script defer src="scripts/header.js"></script>
         <script defer src="scripts/general.js"></script>
-        <script defer src="scripts/product-box.js"></script>
+        <script defer src="scripts/basket.js"></script>
     </head>
     <body>
 
@@ -71,25 +71,81 @@ include('functions/function.php');
 
         <!-- MAIN SECTION -->
         <main>
-            <div class="main-content">
-                <nav class="sidebar">
-                    <p>Categories</p>
-                    <?php
-                        // Fetches all categories
-                        getCategories();
-                    ?>
-                </nav>
-                <div class="product-grid-container">
-                    <div class="product-grid">
-                        <?php
-                            // Fetches all products
-                            getProducts();
-
-                            // Fetches products from certain category if chosen
-                            getProductsFromCategories();
-                        ?>
+            <div class="basket-content-container">
+                <section class="basket-left-container">
+                    <div class="basket-title-container">
+                        <h1>Equipment Cart</h1>
+                        <h1>3 Items</h1>
                     </div>
-                </div>
+                    <div class="line"></div>
+                    <div class="basket-headings">
+                        <p class="details-heading">Product Details</p>
+                        <p class="quantity-heading">Quantity</p>
+                        <p class="price-heading">Price</p>
+                        <p class="total-heading">Total</p>
+                    </div>
+                    <div class="sproduct-grid">
+                        <div class="sproduct">
+                            <div class="product-details">
+                                <div class="product-details-container">
+                                    <div class="product-image-container">
+                                        <img class="product-image" src="product-images/behringer-pmp500.webp" alt="product-image">
+                                    </div>
+                                </div>
+                                <div class="product-details-text">
+                                    <p class="product-title">Behringer PMP500</p>
+                                    <p class="product-category">Consoles</p>
+                                    <a class="remove-item" href="#">X Remove Item</a>
+                                </div>
+                            </div>
+                            <div class="quantity-container">
+                                <button onclick="decreaseQuantity();">
+                                    <img src="icons/minus-icon.png" alt="">
+                                </button>
+                                <input class="quantity" id="js-quantity" type="text" pattern="^[a-zA-Z0-9]+$" onkeydown="return blockChars(event)" maxlength="2" required value="1">
+                                <button onclick="increaseQuantity();">
+                                    <img src="icons/plus-icon.png" alt="">
+                                </button>
+                            </div>
+                            <div class="price-container">
+                                <p>P/Day: £20.00</p>
+                                <p>P/Week: £80.00</p>
+                            </div>
+                            <div class="total-container">
+                                <p>P/Day: £200.00</p>
+                                <p>P/Week: £800.00</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="basket-right-container">
+                    <div class="basket-title-container">
+                        <h1>Order Summary</h1>
+                    </div>
+                    <div class="line"></div>
+                    <div class="subtotal-container">
+                        <p>3 Items</p>
+                        <p>£20.00</p>
+                    </div>
+                    <div class="hire-length-container">
+                        <p>Hire Duration *</p>
+                        <select class="hire-length" required>
+                            <?php
+                                echo "<option value='$i'>1 day</option>";
+                                for ($i = 2; $i <= 30; $i++) {
+                                    echo "<option value='$i'>$i days</option>";
+                                }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="terms-and-conditions-container">
+                        <input type="checkbox" id="t-and-cs" name="myCheckbox" required>
+                        <label for="t-and-cs">By ticking this box, you agree to <a href="../main-site/terms-and-conditions.html">Terms and Conditions *</a></label>
+                    </div>
+                    <div class="button-container">
+                        <button class="submit-button"><a>Submit Request</a></button>
+                    </div>
+                </section>
             </div>
         </main>
 
