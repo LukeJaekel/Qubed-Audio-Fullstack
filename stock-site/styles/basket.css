@@ -77,7 +77,12 @@
 }
 
 .remove-item {
+    text-align: left;
     color: rgb(233, 32, 23);
+    width: 92px;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
 .remove-item:hover {
@@ -86,6 +91,24 @@
 }
 
 .remove-item:active {
+    opacity: 0.4;
+}
+
+.update-basket {
+    color: rgb(23, 121, 233);
+    text-align: left;
+    width: 100px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.update-basket:hover {
+    color: rgb(64, 136, 219);
+    opacity: 0.8;
+}
+
+.update-basket:active {
     opacity: 0.4;
 }
 

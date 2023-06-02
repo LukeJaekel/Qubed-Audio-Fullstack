@@ -80,37 +80,113 @@ include('functions/function.php');
                         <p class="total-heading">Total</p>
                     </div>
                     <div class="sproduct-grid">
-                        <div class="sproduct">
-                            <div class="product-details">
-                                <div class="product-details-container">
-                                    <div class="product-image-container">
-                                        <img class="product-image" src="product-images/behringer-pmp500.webp" alt="product-image">
+                        <!-- ITEMS IN CART -->
+                        <?php 
+                            global $connection;
+
+                            $dailyTotal = 0;
+                            $weeklyTotal = 0;
+                        
+                            $ip = getIPAddress();
+                        
+                            $cartQuery = "SELECT * FROM `cart_details` WHERE ip_address = '$ip'";
+                            $cartResult = $connection->query($cartQuery);
+                        
+                            while ($row = mysqli_fetch_array($cartResult)) {
+                                $productId = $row['product_id'];
+                        
+                                $selectQuery = "SELECT * FROM `products` WHERE product_id = '$productId'";
+                                $selectResult = $connection->query($selectQuery);
+                        
+                                while ($productRow = mysqli_fetch_array($selectResult)) {
+                        
+                                    // Total price per day
+                                    $dailyProductPrice = array($productRow['product_price_pd']);
+                                    $dailyProductValue = array_sum($dailyProductPrice);
+                                    $dailyTotal += $dailyProductValue;
+                        
+                                    // Total price per week
+                                    $weeklyProductPrice = array($productRow['product_price_pw']);
+                                    $weeklyProductValue = array_sum($weeklyProductPrice);
+                                    $weeklyTotal += $weeklyProductValue;
+
+                                    $formattedDailyValue = number_format($dailyProductValue, 2);
+                                    $formattedWeeklyValue = number_format($weeklyProductValue, 2);
+                                    $formattedDailyTotal = number_format($dailyTotal, 2);
+                                    $formattedWeeklyTotal = number_format($weeklyTotal, 2);
+                                    
+                                    // Product Title
+                                    $productTitle = $productRow['product_title'];
+
+                                    // Product Image
+                                    $productImage = $productRow['product_image'];
+
+                                    // Product Category
+                                    $productCategory = $productRow['category_id'];
+                        ?>  
+                                <form id="product-<?php echo $productId ?>" name="product-form[]" action="" method="post">
+                                    <div class="sproduct">
+                                        <div class="product-details">
+                                            <div class="product-details-container">
+                                                <div class="product-image-container">
+                                                    <img class="product-image" src="<?php echo $productImage ?>" alt="product-image" onerror="this.src=`admin-area/product-images/default-image.jpeg`">
+                                                </div>
+                                            </div>
+                                            <div class="product-details-text">
+                                                <p class="product-title"><?php echo $productTitle ?></p>
+                                                <p class="product-category"><?php echo $productCategory ?></p>
+                                                <input class="remove-item" type="submit" value="X Remove Item" name="remove-basket">
+                                                <input type="hidden" name="product-id" value="<?php echo $productId ?>">
+                                                <input class="update-basket" type="submit" value="&#8635; Update Basket" name="update-basket">
+                                            </div>
+                                        </div>
+                                        <div class="quantity-container">
+                                            <button type="button" onclick="decreaseQuantity();">
+                                                <img src="icons/minus-icon.png" alt="">
+                                            </button>
+                                            <input class="quantity" id="js-quantity" name="qty" type="text" pattern="^[a-zA-Z0-9]+$" onkeydown="return blockChars(event)" maxlength="2" required value="1">
+                                            <button type="button" onclick="increaseQuantity();">
+                                                <img src="icons/plus-icon.png" alt="">
+                                            </button>
+                                        </div>
+                                        <?php
+
+                                            // Enable error reporting and display
+                                            error_reporting(E_ALL);
+                                            ini_set('display_errors', 1);
+                                                
+                                            $ip = getIPAddress();
+
+                                            $totalDailyProductValue = 0; // Initialize with default value
+                                            $totalWeeklyProductValue = 0; // Initialize with default value
+                                            
+                                            if (isset($_POST['update-basket'])) {
+                                                $quantity = $_POST['qty'];
+
+                                                $updateCart = "UPDATE `cart_details` SET quantity = $quantity WHERE
+                                                                ip_address = '$ip'";
+                                                $resultQty = $connection->query($updateCart);
+
+                                                $totalDailyProductValue = $formattedDailyValue * $quantity;
+                                                $totalWeeklyProductValue = $formattedWeeklyValue * $quantity;
+                                                $formattedDailyTotal = $formattedDailyTotal * $quantity;
+                                                $formattedWeeklyTotal = $formattedWeeklyTotal * $quantity;
+                                            }
+
+                                            ?>
+                                        <div class="price-container">
+                                            <p>P/Day: £<?php echo $formattedDailyValue ?></p>
+                                            <p>P/Week: £<?php echo $formattedWeeklyValue ?></p>
+                                        </div>
+                                        <div class="total-container">
+                                            <p>P/Day: £<?php echo number_format($totalDailyProductValue, 2); ?></p>
+                                            <p>P/Week: £<?php echo number_format($totalWeeklyProductValue, 2); ?></p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="product-details-text">
-                                    <p class="product-title">Behringer PMP500</p>
-                                    <p class="product-category">Consoles</p>
-                                    <a class="remove-item" href="#">X Remove Item</a>
-                                </div>
-                            </div>
-                            <div class="quantity-container">
-                                <button onclick="decreaseQuantity();">
-                                    <img src="icons/minus-icon.png" alt="">
-                                </button>
-                                <input class="quantity" id="js-quantity" type="text" pattern="^[a-zA-Z0-9]+$" onkeydown="return blockChars(event)" maxlength="2" required value="1">
-                                <button onclick="increaseQuantity();">
-                                    <img src="icons/plus-icon.png" alt="">
-                                </button>
-                            </div>
-                            <div class="price-container">
-                                <p>P/Day: £20.00</p>
-                                <p>P/Week: £80.00</p>
-                            </div>
-                            <div class="total-container">
-                                <p>P/Day: £200.00</p>
-                                <p>P/Week: £800.00</p>
-                            </div>
-                        </div>
+                                </form>
+                        <!-- Closes while loop -->
+                        <?php }} ?>
+
                     </div>
                 </section>
                 <section class="basket-right-container">
@@ -180,6 +256,26 @@ include('functions/function.php');
                 </section>
             </div>
         </main>
+
+        <!-- Function to remove item -->
+        <?php
+            function removeItem() {
+                global $connection;
+                if (isset($_POST['remove-basket'])) {
+                    $productId = $_POST['product-id']; // Assuming you have a hidden input field with the product ID
+                    $deleteQuery = "DELETE FROM `cart_details` WHERE product_id = $productId";
+                    $resultDelete = $connection->query($deleteQuery);
+
+                    if ($resultDelete) {
+                        echo "<script>window.open('basket.php', '_self')</script>";
+                    }
+                }
+            }
+
+            echo $removeItem = removeItem();
+        ?>
+
+
 
         <!-- FOOTER SECTION -->
         <footer class="footer">

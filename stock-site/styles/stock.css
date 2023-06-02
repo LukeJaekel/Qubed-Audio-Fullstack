@@ -90,6 +90,42 @@ p {
     animation: fade-in 1s ease forwards; /* Apply the animation */
 }
 
+.quantity-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    color: rgb(235, 235, 235);
+    gap: 5px;
+}
+
+.quantity-container button {
+    display: flex;
+    background: none;
+    border: none;
+    cursor: pointer;
+    height: 25px;
+}
+
+.quantity-container button img {
+    height: 100%;
+    transition: all 0.15s;
+}
+
+.quantity-container button img:hover {
+    opacity: 0.8;
+}
+
+.quantity-container button img:active {
+    opacity: 0.6;
+}
+
+.quantity-container input {
+    width: 40px;
+    font-size: 18px;
+    text-align: center;
+}
+
 @keyframes fade-in {
     from {
         opacity: 0;
@@ -145,12 +181,6 @@ p {
     display: flex;
     gap: 5px;
     margin-top: 30px;
-}
-
-.quantity {
-    width: 50px;
-    font-size: 20px;
-    text-indent: 10px;
 }
 
 .add-to-cart-button {

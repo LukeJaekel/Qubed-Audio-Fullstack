@@ -468,6 +468,8 @@ function cart() {
 }
 
 
+/* ----- CART FUNCTIONS ----- */
+
 // Fetches number of items in cart
 function cartQuantity() {
 
@@ -536,8 +538,8 @@ function totalCartPrice() {
     $formattedDailyTotal = number_format($dailyTotal, 2);
     $formattedWeeklyTotal = number_format($weeklyTotal, 2);
 
-    echo "<p>P/Day: £$formattedDailyTotal</p>";
-    echo "<p>P/Week: £$formattedWeeklyTotal</p>";
+    echo "<p class='center-aligned-text'>P/Day: £$formattedDailyTotal</p>";
+    echo "<p class='right-aligned-text'>P/Week: £$formattedWeeklyTotal</p>";
 }
 
 ?>

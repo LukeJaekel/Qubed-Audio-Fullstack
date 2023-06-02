@@ -26,6 +26,7 @@ include('functions/function.php');
         <script defer src="scripts/header.js"></script>
         <script defer src="scripts/general.js"></script>
         <script defer src="scripts/product-box.js"></script>
+        <script defer src="scripts/basket.js"></script>
     </head>
     <body>
 
