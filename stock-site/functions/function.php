@@ -12,7 +12,7 @@ function getProducts() {
     if (!isset($_GET['category'])) {
 
         // Retrieve product data from the database
-        $sql = "SELECT * FROM `products` ORDER BY rand() LIMIT 0,9;";
+        $sql = "SELECT * FROM `products`;";
         $result = $connection->query($sql);
 
         
@@ -80,7 +80,7 @@ function getProducts() {
             echo '<div class="sproduct-button-container">';
             echo '<form method="get" action="stock.php">';
             echo '<input type="hidden" name="add_to_cart" value="' . $productId . '">';
-            echo '<label for="sproduct-quantity">Quantity:</label>';
+            echo '<label for="sproduct-quantity"></label>';
             echo '<select class="sproduct-quantity-box" name="quantity">';
             for ($i = 1; $i <= 100; $i++) {
                 echo '<option value="' . $i . '">' . $i . '</option>';
@@ -190,6 +190,7 @@ function getProductsFromCategories() {
 
 
             // Generate HTML code for each product
+            // Generate HTML code for each product
             echo '<div class="product" id="' . $productId . '">';
             echo '<div class="image-container">';
             echo '<img class="product-image" src="' . $productImage . '" alt="' . $productName . '" onerror="this.src=`admin-area/product-images/default-image.jpeg`">';
@@ -208,15 +209,29 @@ function getProductsFromCategories() {
             echo '</div>';
             echo '</div>';
             echo '<div class="sproduct-button-container">';
-            echo '<button class="add-to-cart-button"><a href="stock.php?add_to_cart=' . $productId . '">Add To Cart<a></button>';
-            echo '<label for="sproduct-quantity" id="quantity"></label>';
+            echo '<form method="get" action="stock.php">';
+            echo '<input type="hidden" name="add_to_cart" value="' . $productId . '">';
+            echo '<label for="sproduct-quantity"></label>';
             echo '<select class="sproduct-quantity-box" name="quantity">';
             for ($i = 1; $i <= 100; $i++) {
                 echo '<option value="' . $i . '">' . $i . '</option>';
             }
             echo '</select>';
+            echo '<button class="add-to-cart-button" type="submit">Add To Cart</button>';
+            echo '</form>';
+
+
+            echo '<script>
+            function addToCart(productId) {
+                var quantitySelect = document.getElementById("quantity-select");
+                var quantity = quantitySelect.value;
+                var url = "stock.php?add_to_cart=" + productId + "&quantity=" + quantity;
+                window.location.href = url;
+            }
+            </script>';
+
             echo '</div>';
-            echo '</div>';
+            echo '</form>';
             echo '<div class="status-container">';
             echo '<p>' . $productStatus . '</p>';
             echo '</div>';
@@ -319,6 +334,7 @@ function searchProduct() {
 
 
             // Generate HTML code for each product
+            // Generate HTML code for each product
             echo '<div class="product" id="' . $productId . '">';
             echo '<div class="image-container">';
             echo '<img class="product-image" src="' . $productImage . '" alt="' . $productName . '" onerror="this.src=`admin-area/product-images/default-image.jpeg`">';
@@ -337,15 +353,29 @@ function searchProduct() {
             echo '</div>';
             echo '</div>';
             echo '<div class="sproduct-button-container">';
-            echo '<button class="add-to-cart-button"><a href="stock.php?add_to_cart=' . $productId . '">Add To Cart<a></button>';
-            echo '<label for="sproduct-quantity" id="quantity"></label>';
+            echo '<form method="get" action="stock.php">';
+            echo '<input type="hidden" name="add_to_cart" value="' . $productId . '">';
+            echo '<label for="sproduct-quantity"></label>';
             echo '<select class="sproduct-quantity-box" name="quantity">';
             for ($i = 1; $i <= 100; $i++) {
                 echo '<option value="' . $i . '">' . $i . '</option>';
             }
             echo '</select>';
+            echo '<button class="add-to-cart-button" type="submit">Add To Cart</button>';
+            echo '</form>';
+
+
+            echo '<script>
+            function addToCart(productId) {
+                var quantitySelect = document.getElementById("quantity-select");
+                var quantity = quantitySelect.value;
+                var url = "stock.php?add_to_cart=" + productId + "&quantity=" + quantity;
+                window.location.href = url;
+            }
+            </script>';
+
             echo '</div>';
-            echo '</div>';
+            echo '</form>';
             echo '<div class="status-container">';
             echo '<p>' . $productStatus . '</p>';
             echo '</div>';
@@ -491,11 +521,6 @@ function cart() {
             // Item already exists in the cart, update the quantity
             $updateQuery = "UPDATE `cart_details` SET quantity = quantity + $quantity WHERE ip_address = '$ip' AND product_id = $productId";
             $updateResult = $connection->query($updateQuery);
-            if ($updateResult) {
-                echo "<script>alert('Quantity updated successfully.')</script>";
-            } else {
-                echo "<script>alert('Failed to update quantity.')</script>";
-            }
         } else {
             // Item doesn't exist in the cart, insert a new row
             $insertQuery = "INSERT INTO `cart_details` (product_id, ip_address, quantity) 
