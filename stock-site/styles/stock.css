@@ -120,8 +120,9 @@ p {
     opacity: 0.6;
 }
 
-.quantity-container input {
+.quantity {
     width: 40px;
+    height: 100%;
     font-size: 18px;
     text-align: center;
 }

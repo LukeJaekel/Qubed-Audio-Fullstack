@@ -15,33 +15,3 @@ window.onscroll = function(e) {
         }
     }
 }
-
-
-// Initialises hamburger menu for smaller devices
-document.addEventListener('DOMContentLoaded', function() {
-    var menuButton = document.getElementById('menu-bar');
-    var navbar = document.querySelector('.links');
-
-    function toggleLinks() {
-        if (window.innerWidth <= 1160) {
-        navbar.style.display = menuButton.checked ? 'none' : 'flex';
-        } else {
-        navbar.style.display = 'flex';
-        }
-    }
-
-    function toggleMenu() {
-        navbar.style.display = menuButton.checked ? 'flex' : 'none';
-    }
-
-    toggleLinks();
-
-    menuButton.addEventListener('click', function() {
-        toggleLinks();
-        toggleMenu();
-    });
-
-    window.addEventListener('resize', function() {
-        toggleLinks();
-    });
-});

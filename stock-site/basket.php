@@ -94,6 +94,7 @@ include('functions/function.php');
                         
                             while ($row = mysqli_fetch_array($cartResult)) {
                                 $productId = $row['product_id'];
+                                $currentQuantity = $row['quantity'];
                         
                                 $selectQuery = "SELECT * FROM `products` WHERE product_id = '$productId'";
                                 $selectResult = $connection->query($selectQuery);
@@ -114,6 +115,7 @@ include('functions/function.php');
                                     $formattedWeeklyValue = number_format($weeklyProductValue, 2);
                                     $formattedDailyTotal = number_format($dailyTotal, 2);
                                     $formattedWeeklyTotal = number_format($weeklyTotal, 2);
+
                                     
                                     // Product Title
                                     $productTitle = $productRow['product_title'];
@@ -124,7 +126,7 @@ include('functions/function.php');
                                     // Product Category
                                     $productCategory = $productRow['category_id'];
                         ?>  
-                                <form id="product-<?php echo $productId ?>" name="product-form[]" action="" method="post">
+                                <form id="product-<?php echo $productId ?>" name="product-form[]" action="" method="post" onsubmit="updateTotals(<?php echo $productId; ?>); return false;">
                                     <div class="sproduct">
                                         <div class="product-details">
                                             <div class="product-details-container">
@@ -144,7 +146,7 @@ include('functions/function.php');
                                             <button type="button" onclick="decreaseQuantity();">
                                                 <img src="icons/minus-icon.png" alt="">
                                             </button>
-                                            <input class="quantity" id="js-quantity" name="qty" type="text" pattern="^[a-zA-Z0-9]+$" onkeydown="return blockChars(event)" maxlength="2" required value="1">
+                                            <input class="quantity" id="js-quantity-<?php echo $productId ?>" name="qty" type="text" pattern="^[a-zA-Z0-9]+$" onkeydown="return blockChars(event)" maxlength="2" required value="<?php echo isset($currentQuantity) ? $currentQuantity : 1; ?>">
                                             <button type="button" onclick="increaseQuantity();">
                                                 <img src="icons/plus-icon.png" alt="">
                                             </button>
@@ -154,33 +156,46 @@ include('functions/function.php');
                                             // Enable error reporting and display
                                             error_reporting(E_ALL);
                                             ini_set('display_errors', 1);
-                                                
+
                                             $ip = getIPAddress();
 
-                                            $totalDailyProductValue = 0; // Initialize with default value
-                                            $totalWeeklyProductValue = 0; // Initialize with default value
+                                            $totalDailyProductValue = $formattedDailyValue * $currentQuantity;
+                                            $totalWeeklyProductValue = $formattedWeeklyValue * $currentQuantity;
+                                            $formattedDailyTotal = number_format($totalDailyProductValue, 2, '.', '');
+                                            $formattedWeeklyTotal = number_format($totalWeeklyProductValue, 2, '.', '');
                                             
                                             if (isset($_POST['update-basket'])) {
-                                                $quantity = $_POST['qty'];
-
-                                                $updateCart = "UPDATE `cart_details` SET quantity = $quantity WHERE
-                                                                ip_address = '$ip'";
+                                                $updateProductId = $_POST['product-id'];
+                                                $updateQuantity = $_POST['qty'];
+                                            
+                                                $updateCart = "UPDATE `cart_details` SET quantity = $updateQuantity WHERE ip_address = '$ip' AND product_id = $updateProductId";
                                                 $resultQty = $connection->query($updateCart);
+                                            
+                                                // Fetch the updated quantity from the database
+                                                $getQuantityQuery = "SELECT quantity FROM `cart_details` WHERE ip_address = '$ip' AND product_id = $updateProductId";
+                                                $resultGetQuantity = $connection->query($getQuantityQuery);
+                                            
+                                                if ($resultGetQuantity && $resultGetQuantity->num_rows > 0) {
+                                                    $row = $resultGetQuantity->fetch_assoc();
+                                                    $currentQuantity = $row['quantity'];
+                                            
+                                                    // Update the value attribute of the quantity input field
+                                                    echo "<script>document.getElementById('js-quantity-$productId').value = $currentQuantity;</script>";
+                                            
+                                                    // Update the total values in the total-container using JavaScript
+                                                    $formattedDailyTotal = number_format($dailyProductValue * $currentQuantity, 2);
+                                                    $formattedWeeklyTotal = number_format($weeklyProductValue * $currentQuantity, 2);
 
-                                                $totalDailyProductValue = $formattedDailyValue * $quantity;
-                                                $totalWeeklyProductValue = $formattedWeeklyValue * $quantity;
-                                                $formattedDailyTotal = $formattedDailyTotal * $quantity;
-                                                $formattedWeeklyTotal = $formattedWeeklyTotal * $quantity;
+                                                }
                                             }
-
-                                            ?>
+                                        ?>
                                         <div class="price-container">
                                             <p>P/Day: £<?php echo $formattedDailyValue ?></p>
                                             <p>P/Week: £<?php echo $formattedWeeklyValue ?></p>
                                         </div>
                                         <div class="total-container">
-                                            <p>P/Day: £<?php echo number_format($totalDailyProductValue, 2); ?></p>
-                                            <p>P/Week: £<?php echo number_format($totalWeeklyProductValue, 2); ?></p>
+                                            <p id="js-daily-total-<?php echo $productId; ?>">P/Day: £<?php echo $formattedDailyTotal ?></p>
+                                            <p id="js-weekly-total-<?php echo $productId; ?>">P/Week: £<?php echo $formattedWeeklyTotal ?></p>
                                         </div>
                                     </div>
                                 </form>
@@ -257,25 +272,10 @@ include('functions/function.php');
             </div>
         </main>
 
-        <!-- Function to remove item -->
+        <!-- Remove item from basket -->
         <?php
-            function removeItem() {
-                global $connection;
-                if (isset($_POST['remove-basket'])) {
-                    $productId = $_POST['product-id']; // Assuming you have a hidden input field with the product ID
-                    $deleteQuery = "DELETE FROM `cart_details` WHERE product_id = $productId";
-                    $resultDelete = $connection->query($deleteQuery);
-
-                    if ($resultDelete) {
-                        echo "<script>window.open('basket.php', '_self')</script>";
-                    }
-                }
-            }
-
-            echo $removeItem = removeItem();
+            removeItem();
         ?>
-
-
 
         <!-- FOOTER SECTION -->
         <footer class="footer">
@@ -332,5 +332,44 @@ include('functions/function.php');
             // Fetches logic for cart
             cart();
         ?>
+
+        <script>
+            let inputElement = document.getElementById("js-quantity-<?php echo $productId ?>");
+  
+            inputElement.addEventListener("blur", function(event) {
+                if (event.target.value.length === 0) {
+                event.target.value = "1";
+                }
+            });
+            
+
+            function increaseQuantity() {
+                let element = document.getElementById('js-quantity-<?php echo $productId ?>');
+                let quantity = parseInt(element.value);
+
+                if (!isNaN(quantity)) {
+                    if (quantity > 98) {
+                        return;
+                    }
+                    else {
+                        element.value = quantity + 1;
+                    }
+                }
+            }
+
+            function decreaseQuantity() {
+                let element = document.getElementById('js-quantity-<?php echo $productId ?>');
+                let quantity = parseInt(element.value);
+
+                if (!isNaN(quantity)) {
+                    if (quantity < 2) {
+                        return;
+                    }
+                    else {
+                        element.value = quantity - 1;
+                    }
+                }
+            }
+        </script>
     </body>
 </html>

@@ -1,10 +1,15 @@
 <?php 
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
 // Connects to database
-include('includes/connect.php');
+include('./includes/connect.php');
 
 // Grabs common functions
-include('functions/function.php');
+include('./functions/function.php');
 
 ?>
 
@@ -26,7 +31,6 @@ include('functions/function.php');
         <script defer src="scripts/header.js"></script>
         <script defer src="scripts/general.js"></script>
         <script defer src="scripts/product-box.js"></script>
-        <script defer src="scripts/basket.js"></script>
     </head>
     <body>
 
@@ -139,7 +143,6 @@ include('functions/function.php');
                 <p>Website Developed by <a target="_blank" href="https://github.com/LukeJaekel">Luke Jaekel</a></p>
             </div>
         </footer>
-
         <?php
             // Fetches logic for cart
             cart();
