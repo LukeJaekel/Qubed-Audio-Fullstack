@@ -124,7 +124,12 @@ include('functions/function.php');
                                     $productImage = $productRow['product_image'];
 
                                     // Product Category
-                                    $productCategory = $productRow['category_id'];
+                                    $categoryId = $productRow['category_id'];
+                                    $categoryQuery = "SELECT category_title FROM `categories` WHERE category_id = '$categoryId'";
+                                    $categoryResult = $connection->query($categoryQuery);
+                                    $categoryRow = mysqli_fetch_array($categoryResult);
+                                    $productCategory = $categoryRow['category_title'];
+
                         ?>  
                                 <form id="product-<?php echo $productId ?>" name="product-form[]" action="" method="post" onsubmit="updateTotals(<?php echo $productId; ?>); return false;">
                                     <div class="sproduct">
@@ -143,11 +148,11 @@ include('functions/function.php');
                                             </div>
                                         </div>
                                         <div class="quantity-container">
-                                            <button type="button" onclick="decreaseQuantity();">
+                                        <button type="button" onclick="decreaseQuantity(<?php echo $productId ?>);">
                                                 <img src="icons/minus-icon.png" alt="">
                                             </button>
-                                            <input class="quantity" id="js-quantity-<?php echo $productId ?>" name="qty" type="text" pattern="^[a-zA-Z0-9]+$" onkeydown="return blockChars(event)" maxlength="2" required value="<?php echo isset($currentQuantity) ? $currentQuantity : 1; ?>">
-                                            <button type="button" onclick="increaseQuantity();">
+                                            <input class="quantity" id="js-quantity-<?php echo $productId ?>" name="qty" type="text" pattern="^[a-zA-Z0-9]+$" onkeydown="return blockChars(event)" maxlength="2" required value="<?php echo isset($currentQuantity) ? $currentQuantity : 1; ?>" data-product-id="<?php echo $productId ?>">
+                                            <button type="button" onclick="increaseQuantity(<?php echo $productId ?>);">
                                                 <img src="icons/plus-icon.png" alt="">
                                             </button>
                                         </div>
@@ -339,33 +344,32 @@ include('functions/function.php');
             });
             
 
-            function increaseQuantity() {
-                let element = document.getElementById('js-quantity-<?php echo $productId ?>');
-                let quantity = parseInt(element.value);
+            function increaseQuantity(productId) {
+            let element = document.getElementById('js-quantity-' + productId);
+            let quantity = parseInt(element.value);
 
-                if (!isNaN(quantity)) {
-                    if (quantity > 98) {
-                        return;
-                    }
-                    else {
-                        element.value = quantity + 1;
-                    }
+            if (!isNaN(quantity)) {
+                if (quantity > 98) {
+                return;
+                } else {
+                element.value = quantity + 1;
                 }
             }
+            }
 
-            function decreaseQuantity() {
-                let element = document.getElementById('js-quantity-<?php echo $productId ?>');
-                let quantity = parseInt(element.value);
+            function decreaseQuantity(productId) {
+            let element = document.getElementById('js-quantity-' + productId);
+            let quantity = parseInt(element.value);
 
-                if (!isNaN(quantity)) {
-                    if (quantity < 2) {
-                        return;
-                    }
-                    else {
-                        element.value = quantity - 1;
-                    }
+            if (!isNaN(quantity)) {
+                if (quantity < 2) {
+                return;
+                } else {
+                element.value = quantity - 1;
                 }
             }
+            }
+
         </script>
     </body>
 </html>

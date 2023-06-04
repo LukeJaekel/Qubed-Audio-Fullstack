@@ -575,11 +575,6 @@ function cartQuantity() {
 
 // Fetches total cart price
 function totalCartPrice() {
-    
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-
     global $connection;
 
     $dailyTotal = 0;
@@ -592,21 +587,21 @@ function totalCartPrice() {
 
     while ($row = mysqli_fetch_array($cartResult)) {
         $productId = $row['product_id'];
+        $currentQuantity = $row['quantity'];
 
         $selectQuery = "SELECT * FROM `products` WHERE product_id = '$productId'";
         $selectResult = $connection->query($selectQuery);
 
         while ($rowProductPrice = mysqli_fetch_array($selectResult)) {
-
             // Total price per day
             $dailyProductPrice = array($rowProductPrice['product_price_pd']);
-            $dailyProductValues = array_sum($dailyProductPrice);
-            $dailyTotal += $dailyProductValues;
+            $dailyProductValue = array_sum($dailyProductPrice);
+            $dailyTotal += $dailyProductValue * $currentQuantity;
 
             // Total price per week
             $weeklyProductPrice = array($rowProductPrice['product_price_pw']);
-            $weeklyProductValues = array_sum($weeklyProductPrice);
-            $weeklyTotal += $weeklyProductValues;
+            $weeklyProductValue = array_sum($weeklyProductPrice);
+            $weeklyTotal += $weeklyProductValue * $currentQuantity;
         }
     }
 
@@ -636,60 +631,60 @@ function removeItem() {
 
 function loadProductItems() {
 
-// Enable error reporting and display
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+    // Enable error reporting and display
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
 
-global $connection;
+    global $connection;
 
-$ip = getIPAddress();
+    $ip = getIPAddress();
 
-$dailyTotal = 0;
-$weeklyTotal = 0;
+    $dailyTotal = 0;
+    $weeklyTotal = 0;
 
-$cartQuery = "SELECT * FROM `cart_details` WHERE ip_address = '$ip'";
-$cartResult = $connection->query($cartQuery);
+    $cartQuery = "SELECT * FROM `cart_details` WHERE ip_address = '$ip'";
+    $cartResult = $connection->query($cartQuery);
 
-while ($row = mysqli_fetch_array($cartResult)) {
-    $productId = $row['product_id'];
-    $currentQuantity = $row['quantity'];
-
-    $selectQuery = "SELECT * FROM `products` WHERE product_id = '$productId'";
-    $selectResult = $connection->query($selectQuery);
-
-    while ($productRow = mysqli_fetch_array($selectResult)) {
-
-        // Total price per day
-        $dailyProductPrice = array($productRow['product_price_pd']);
-        $dailyProductValue = array_sum($dailyProductPrice);
-        $dailyTotal += $dailyProductValue;
-
-        // Total price per week
-        $weeklyProductPrice = array($productRow['product_price_pw']);
-        $weeklyProductValue = array_sum($weeklyProductPrice);
-        $weeklyTotal += $weeklyProductValue;
-
-        // Product Title
-        $productTitle = $productRow['product_title'];
-    
-    // Fetch the updated quantity from the database
-    $getQuantityQuery = "SELECT quantity FROM `cart_details` WHERE ip_address = '$ip' AND product_id = $productId";
-    $resultGetQuantity = $connection->query($getQuantityQuery);
-
-    if ($resultGetQuantity && $resultGetQuantity->num_rows > 0) {
-        $row = $resultGetQuantity->fetch_assoc();
+    while ($row = mysqli_fetch_array($cartResult)) {
+        $productId = $row['product_id'];
         $currentQuantity = $row['quantity'];
 
-        $formattedDailyTotal = number_format($dailyProductValue * $currentQuantity, 2);
-        $formattedWeeklyTotal = number_format($weeklyProductValue * $currentQuantity, 2);
+        $selectQuery = "SELECT * FROM `products` WHERE product_id = '$productId'";
+        $selectResult = $connection->query($selectQuery);
 
-        echo '<div class="item-container">';
-        echo '<p class="left-aligned-text">'. $currentQuantity .'x '. $productTitle .'</p>';
-        echo '<p class="center-aligned-text">P/Day: £'. $formattedDailyTotal .'</p>';
-        echo '<p class="right-aligned-text">P/Week: £'. $formattedWeeklyTotal .'</p>';
-        echo '</div>';
+        while ($productRow = mysqli_fetch_array($selectResult)) {
+
+            // Total price per day
+            $dailyProductPrice = array($productRow['product_price_pd']);
+            $dailyProductValue = array_sum($dailyProductPrice);
+            $dailyTotal += $dailyProductValue;
+
+            // Total price per week
+            $weeklyProductPrice = array($productRow['product_price_pw']);
+            $weeklyProductValue = array_sum($weeklyProductPrice);
+            $weeklyTotal += $weeklyProductValue;
+
+            // Product Title
+            $productTitle = $productRow['product_title'];
+        
+            // Fetch the updated quantity from the database
+            $getQuantityQuery = "SELECT quantity FROM `cart_details` WHERE ip_address = '$ip' AND product_id = $productId";
+            $resultGetQuantity = $connection->query($getQuantityQuery);
+
+            if ($resultGetQuantity && $resultGetQuantity->num_rows > 0) {
+                $row = $resultGetQuantity->fetch_assoc();
+                $currentQuantity = $row['quantity'];
+
+                $formattedDailyTotal = number_format($dailyProductValue * $currentQuantity, 2);
+                $formattedWeeklyTotal = number_format($weeklyProductValue * $currentQuantity, 2);
+
+                echo '<div class="item-container">';
+                echo '<p class="left-aligned-text">'. $currentQuantity .'x '. $productTitle .'</p>';
+                echo '<p class="center-aligned-text">P/Day: £'. $formattedDailyTotal .'</p>';
+                echo '<p class="right-aligned-text">P/Week: £'. $formattedWeeklyTotal .'</p>';
+                echo '</div>';
+            }
+        }
     }
-}
-}
 }
 ?>
