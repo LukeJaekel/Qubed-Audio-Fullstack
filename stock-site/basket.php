@@ -70,7 +70,7 @@ include('functions/function.php');
                 <section class="basket-left-container">
                     <div class="basket-title-container">
                         <h1>Equipment Cart</h1>
-                        <h1>3 Items</h1>
+                        <h1><?php cartQuantity(); ?> Items</h1>
                     </div>
                     <div class="line"></div>
                     <div class="basket-headings">
@@ -210,13 +210,9 @@ include('functions/function.php');
                     </div>
                     <div class="line"></div>
                     <div class="item-amount-container">
-                        <p>3 Items</p>
+                        <p><?php cartQuantity(); ?> Items</p>
                     </div>
-                    <div class="item-container">
-                        <p class="left-aligned-text">1x Behringer PMP500</p>
-                        <p class="center-aligned-text">P/Day: £20.00</p>   
-                        <p class="right-aligned-text">P/Week: £200.00</p>
-                    </div>
+                    <?php loadProductItems(); ?>
                     <div class="line"></div>
                     <div class="summary-total-container">
                         <p class="left-aligned-text">TOTAL:</p>
