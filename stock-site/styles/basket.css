@@ -64,10 +64,19 @@
     gap: 10px;
 }
 
-.product-title {
+.product-title a {
     color: rgb(235, 235, 235);
     font-size: 16px;
     font-weight: 600;
+}
+
+.product-title a:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+}
+
+.product-title a:active {
+    opacity: 0.6;
 }
 
 .product-category {

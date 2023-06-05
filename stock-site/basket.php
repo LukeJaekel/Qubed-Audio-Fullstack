@@ -11,7 +11,7 @@ include('functions/function.php');
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Q-Stock | Stock</title>
+        <title>Q-Stock | My Basket</title>
         <link rel="icon" type="image/x-icon" href="logo/logo.jpg">
 
         <link rel="stylesheet" href="styles/header.css">
@@ -140,7 +140,7 @@ include('functions/function.php');
                                                 </div>
                                             </div>
                                             <div class="product-details-text">
-                                                <p class="product-title"><?php echo $productTitle ?></p>
+                                                <p class="product-title"><a href='product.php?product_id=<?php echo $productId ?>'><?php echo $productTitle ?></a></p>
                                                 <p class="product-category"><?php echo $productCategory ?></p>
                                                 <input class="remove-item" type="submit" value="X Remove Item" name="remove-basket">
                                                 <input type="hidden" name="product-id" value="<?php echo $productId ?>">
