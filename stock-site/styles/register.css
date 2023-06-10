@@ -53,7 +53,8 @@ main {
     margin-bottom: 10px;
 }
 
-.login-link-container p a {
+.login-link-container p a,
+.reset-password-container p a {
     color: rgb(78, 190, 255);
 }
 

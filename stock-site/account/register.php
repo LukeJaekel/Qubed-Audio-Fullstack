@@ -35,7 +35,7 @@ include('functions/function.php');
                         <h1>Create an Account</h1>
                     </div>
                     <div class="login-link-container">
-                        <p>Already have an account? <a href="#">Login Here</a></p>
+                        <p>Already have an account? <a href="login.php">Login Here</a></p>
                     </div>
                     <div class="input-container">
                         <p>First name *</p>
@@ -75,6 +75,15 @@ include('functions/function.php');
                         <p>Postcode *</p>
                         <input type="text" placeholder="Enter Postcode *" required>
                     </div>
+                    <div class="line"></div>
+                    <div class="input-container">
+                        <p>Create Password *</p>
+                        <input type="password" placeholder="Enter New Password *" required>
+                    </div>
+                    <div class="input-container">
+                        <p>Confirm Password *</p>
+                        <input type="password" placeholder="Re-enter New Password *" required>
+                    </div>
                     <div class="terms-and-conditions">
                         <div class="terms-and-conditions-container">
                             <input type="checkbox" id="t-and-cs" name="myCheckbox" required>
@@ -92,3 +101,4 @@ include('functions/function.php');
             </form>
         </main>
     </body>
+</html>
