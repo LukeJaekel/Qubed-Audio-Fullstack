@@ -295,6 +295,11 @@
     font-size: 16px;
 }
 
+.terms-and-conditions {
+    display: flex;
+    gap: 20px;
+}
+
 .terms-and-conditions-container {
     display: flex;
     font-size: 14px;

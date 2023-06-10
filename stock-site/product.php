@@ -49,7 +49,7 @@ include('functions/function.php');
                 </div>
                 <div class="header-right-container">
                     <div class="login-container">
-                        <a href="#">Register</a>
+                        <a href="account/register.php">Register</a>
                         <a href="#">Login</a>
                     </div>
                     <img src="icons/account-icon.png" alt="my-account-icon">

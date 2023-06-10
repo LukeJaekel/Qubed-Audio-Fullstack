@@ -48,7 +48,7 @@ include('functions/function.php');
                 </div>
                 <div class="header-right-container">
                     <div class="login-container">
-                        <a href="#">Register</a>
+                        <a href="account/register.php">Register</a>
                         <a href="#">Login</a>
                     </div>
                     <img src="icons/account-icon.png" alt="my-account-icon">
@@ -248,6 +248,7 @@ include('functions/function.php');
                                 <input type="text" name="house-number" id="house-number" placeholder="House/Flat Number *" required>
                                 <input type="text" name="address" id="address" placeholder="Street Address *" required>
                                 <input type="text" name="city" id="city" placeholder="Town/City *" required>
+                                <input type="text" name="county" id="county" placeholder="County/Region *" required>
                                 <input type="text" name="post-code" id="post-code" placeholder="Post Code *" required>
                             </div>
                         </div>

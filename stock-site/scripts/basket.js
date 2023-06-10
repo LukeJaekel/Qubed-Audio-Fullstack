@@ -16,6 +16,7 @@ var valueSelect = document.getElementById("select-address");
 var addressInput = document.getElementById("address");
 var houseNumberInput = document.getElementById("house-number");
 var cityInput = document.getElementById("city");
+var countyInput = document.getElementById("county");
 var postCodeInput = document.getElementById("post-code");
 
 // Add event listener to the select element
@@ -24,11 +25,13 @@ valueSelect.addEventListener("change", function() {
     addressInput.style.display = "none";
     houseNumberInput.style.display = "none";
     cityInput.style.display = "none";
+    countyInput.style.display = "none";
     postCodeInput.style.display = "none";
   } else {
     addressInput.style.display = "block";
     houseNumberInput.style.display = "block";
     cityInput.style.display = "block";
+    countyInput.style.display = "block";
     postCodeInput.style.display = "block";
   }
 });
