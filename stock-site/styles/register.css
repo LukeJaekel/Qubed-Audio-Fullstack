@@ -58,6 +58,10 @@ main {
     color: rgb(78, 190, 255);
 }
 
+.reset-password-container {
+    text-align: center;
+}
+
 .input-container {
     display: flex;
     flex-direction: column;

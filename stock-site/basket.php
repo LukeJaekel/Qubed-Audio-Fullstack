@@ -336,7 +336,7 @@ include('functions/function.php');
         ?>
 
         <script>
-            let inputElement = document.getElementById("js-quantity-<?php echo $productId ?>");
+            let inputElement = document.getElementById("js-quantity-" + productId);
   
             inputElement.addEventListener("blur", function(event) {
                 if (event.target.value.length === 0) {
