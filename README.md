@@ -15,3 +15,5 @@ This project originally stemmed from a collaboration between me and a friend who
 designed a stock management system written entirely in VB.NET that links to the same 
 database as the website. With the software acting as a "front-end" to the back-end, 
 he is able to manage the database easily through a bespoke GUI.
+
+bb
