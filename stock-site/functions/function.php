@@ -1,7 +1,7 @@
 <?php
 
 // Connects to database
-include("./includes/connect.php");
+include(__DIR__ . '/../includes/connect.php');
 
 // Fetches all products
 function getProducts() {
@@ -550,26 +550,18 @@ function cartQuantity() {
 
     global $connection;
 
-    if (isset($_GET['add_to_cart'])) {
+    $ip = getIPAddress();
 
-        $ip = getIPAddress();
+    $sql = "SELECT SUM(quantity) AS total_quantity FROM `cart_details` WHERE ip_address = '$ip'";
+    $result = $connection->query($sql);
 
-        $sql = "SELECT * FROM `cart_details` WHERE ip_address = '$ip'";
-        $result = $connection->query($sql);
-
-        $itemCount = mysqli_num_rows($result);
+    if ($result) {
+        $row = mysqli_fetch_assoc($result);
+        $totalQuantity = $row['total_quantity'] ?? 0;
+        echo $totalQuantity;
+    } else {
+        echo 0;
     }
-    else {
-
-        $ip = getIPAddress();
-
-        $sql = "SELECT * FROM `cart_details` WHERE ip_address = '$ip'";
-        $result = $connection->query($sql);
-
-        $itemCount = mysqli_num_rows($result);
-    }
-
-    echo $itemCount;
 }
 
 

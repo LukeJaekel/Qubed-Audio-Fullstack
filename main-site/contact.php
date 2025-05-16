@@ -119,8 +119,7 @@
                                 <button type="submit" class="submit-button" value="Submit">Submit</button>
                             </div>
                             <div>
-                                <p class="status <?php echo ($status === 'Email sent successfully.') ? 'success' : 'error'; ?>">
-                                    <?php echo $status; ?>
+                                <p class="status">
                                 </p>
                             </div>
                         </form>

@@ -260,7 +260,7 @@ include('functions/function.php');
                         </div>
                         <div class="terms-and-conditions-container">
                             <input type="checkbox" id="t-and-cs" name="myCheckbox" required>
-                            <label for="t-and-cs">By ticking this box, you agree to <a href="../main-site/terms-and-conditions.html">Terms and Conditions *</a></label>
+                            <label for="t-and-cs">By ticking this box, you agree to <a href="../main-site/terms-and-conditions.html" target="_blank">Terms and Conditions *</a></label>
                         </div>
                         <div class="terms-and-conditions-container">
                             <input type="checkbox" id="t-and-cs" name="myCheckbox" required>

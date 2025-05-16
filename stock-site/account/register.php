@@ -1,10 +1,10 @@
 <?php 
 
 // Connects to database
-include('includes/connect.php');
+include(__DIR__ . '/../includes/connect.php');
 
 // Grabs common functions
-include('functions/function.php');
+include(__DIR__ . '/../functions/function.php');
 
 ?>
 
