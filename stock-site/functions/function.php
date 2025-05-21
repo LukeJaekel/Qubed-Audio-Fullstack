@@ -3,6 +3,29 @@
 // Connects to database
 include(__DIR__ . '/../includes/connect.php');
 
+
+// Fetches current product status by ID and outputs whether booked or not
+function getStatusDetails($statusID) {
+    switch ($statusID) {
+        case 1:
+            return [
+                'text' => 'Asset Booked',
+                'colour' => 'rgb(250, 170, 100)' // orange
+            ];
+        case 0:
+            return [
+                'text' => 'In Warehouse',
+                'colour' => 'rgb(100, 250, 128)' // green
+            ];
+        default:
+            return [
+                'text' => 'Unknown Status',
+                'colour' => 'black'
+            ];
+    }
+}
+
+
 // Fetches all products
 function getProducts() {
 
@@ -12,7 +35,7 @@ function getProducts() {
     if (!isset($_GET['category'])) {
 
         // Retrieve product data from the database
-        $sql = "SELECT * FROM `products`;";
+        $sql = "SELECT * FROM stock;";
         $result = $connection->query($sql);
 
         
@@ -51,13 +74,13 @@ function getProducts() {
 
         // Loop through the retrieved data and generate dynamic HTML
         while ($row = $result->fetch_assoc()) {
-            $productId = $row['product_id'];
-            $productName = $row["product_title"];
-            $productPricePerDay = $row["product_price_pd"];
-            $productPricePerWeek = $row["product_price_pw"];
-            $productStatus = $row["product_status"];
-            $productAvailability = $row["product_stock"];
-            $productImage = $row["product_image"];
+            $productId = $row['ID'];
+            $productName = $row["AssetName"];
+            $productPricePerDay = $row["AssetCostPerDay"];
+            $productPricePerWeek = $row["AssetCostPerWeek"];
+            $productAvailability = $row["AssetQty"];
+            $productImage = $row["AssetImage"];
+            $statusDetails = getStatusDetails($row["AssetStatusID"]);
 
             // Generate HTML code for each product
             echo '<div class="product" id="' . $productId . '">';
@@ -66,7 +89,7 @@ function getProducts() {
             echo '</div>';
             echo '<div class="text-container">';
             echo '<div class="product-title-container">';
-            echo '<p><a class="product-title-link" href="product.php?product_id=' . $productId . '">' . $productName . '</a></p>';
+            echo '<p><a class="product-title-link" href="product.php?ID=' . $productId . '">' . $productName . '</a></p>';
             echo '</div>';
             echo '<div class="price-container">';
             echo '<p>Price p/day:</p>';
@@ -102,7 +125,7 @@ function getProducts() {
             echo '</div>';
             echo '</form>';
             echo '<div class="status-container">';
-            echo '<p>' . $productStatus . '</p>';
+            echo '<p style="color:' . $statusDetails['colour'] . ';">' . $statusDetails['text'] . '</p>';
             echo '</div>';
             echo '<div class="stock-container">';
             echo '<p>Stock available:</p>';
@@ -122,10 +145,10 @@ function getProductsFromCategories() {
     // Checks if category is chosen
     if (isset($_GET['category'])) {
 
-        $categoryId = $_GET['category'];
+        $categoryId = (int)$_GET['category'];
 
         // Retrieve product data from the database
-        $sql = "SELECT * FROM `products` WHERE category_id = $categoryId ORDER BY rand() LIMIT 0,9;";
+        $sql = "SELECT * FROM `stock` WHERE AssetCategoryID = $categoryId ORDER BY rand();";
         $result = $connection->query($sql);
 
         $resultCount = mysqli_num_rows($result);
@@ -148,10 +171,10 @@ function getProductsFromCategories() {
         }
         else {
             // Retrieve category title from the database
-            $selectCategory = "SELECT category_title FROM `categories` WHERE category_id = $categoryId;";
+            $selectCategory = "SELECT CategoryName FROM `categories` WHERE CategoryID = $categoryId;";
             $resultCategory = mysqli_query($connection, $selectCategory);
             $categoryRow = mysqli_fetch_assoc($resultCategory);
-            $categoryTitle = $categoryRow['category_title'];
+            $categoryTitle = $categoryRow['CategoryName'];
 
             echo "<p style='
 
@@ -180,13 +203,14 @@ function getProductsFromCategories() {
 
         // Loop through the retrieved data and generate dynamic HTML
         while ($row = $result->fetch_assoc()) {
-            $productId = $row['product_id'];
-            $productName = $row["product_title"];
-            $productPricePerDay = $row["product_price_pd"];
-            $productPricePerWeek = $row["product_price_pw"];
-            $productStatus = $row["product_status"];
-            $productAvailability = $row["product_stock"];
-            $productImage = $row["product_image"];
+            $productId = $row['ID'];
+            $productName = $row["AssetName"];
+            $productPricePerDay = $row["AssetCostPerDay"];
+            $productPricePerWeek = $row["AssetCostPerWeek"];
+            $productStatus = $row["AssetStatusID"];
+            $productAvailability = $row["AssetQty"];
+            $productImage = $row["AssetImage"];
+            $statusDetails = getStatusDetails($row["AssetStatusID"]);
 
 
             // Generate HTML code for each product
@@ -197,7 +221,7 @@ function getProductsFromCategories() {
             echo '</div>';
             echo '<div class="text-container">';
             echo '<div class="product-title-container">';
-            echo '<p><a class="product-title-link" href="product.php?product_id=' . $productId . '">' . $productName . '</a></p>';
+            echo '<p><a class="product-title-link" href="product.php?ID=' . $productId . '">' . $productName . '</a></p>';
             echo '</div>';
             echo '<div class="price-container">';
             echo '<p>Price p/day:</p>';
@@ -233,7 +257,7 @@ function getProductsFromCategories() {
             echo '</div>';
             echo '</form>';
             echo '<div class="status-container">';
-            echo '<p>' . $productStatus . '</p>';
+            echo '<p style="color:' . $statusDetails['colour'] . ';">' . $statusDetails['text'] . '</p>';
             echo '</div>';
             echo '<div class="stock-container">';
             echo '<p>Stock available:</p>';
@@ -252,8 +276,9 @@ function getCategories() {
     $resultCategories = mysqli_query($connection, $selectCategories);
 
     while ($rowData = mysqli_fetch_assoc($resultCategories)) {
-        $categoryTitle = $rowData['category_title'];
-        $categoryId = $rowData['category_id'];
+
+        $categoryTitle = $rowData['CategoryName'];
+        $categoryId = $rowData['CategoryID'];
 
         // Check if the current category is selected
         $selectedCategory = isset($_GET['category']) && $_GET['category'] == $categoryId;
@@ -275,7 +300,7 @@ function searchProduct() {
         $searchValue = $_GET['search-data'];
 
         // Retrieve product data from the database
-        $sql = "SELECT * FROM `products` WHERE product_title LIKE '%$searchValue%'";
+        $sql = "SELECT * FROM `stock` WHERE AssetName LIKE '%$searchValue%'";
         $result = $connection->query($sql);
         
         $resultCount = mysqli_num_rows($result);
@@ -324,13 +349,14 @@ function searchProduct() {
 
         // Loop through the retrieved data and generate dynamic HTML
         while ($row = $result->fetch_assoc()) {
-            $productId = $row['product_id'];
-            $productName = $row["product_title"];
-            $productPricePerDay = $row["product_price_pd"];
-            $productPricePerWeek = $row["product_price_pw"];
-            $productStatus = $row["product_status"];
-            $productAvailability = $row["product_stock"];
-            $productImage = $row["product_image"];
+            $productId = $row['ID'];
+            $productName = $row["AssetName"];
+            $productPricePerDay = $row["AssetCostPerDay"];
+            $productPricePerWeek = $row["AssetCostPerWeek"];
+            $productStatus = $row["AssetStatusID"];
+            $productAvailability = $row["AssetQty"];
+            $productImage = $row["AssetImage"];
+            $statusDetails = getStatusDetails($row["AssetStatusID"]);
 
 
             // Generate HTML code for each product
@@ -377,7 +403,7 @@ function searchProduct() {
             echo '</div>';
             echo '</form>';
             echo '<div class="status-container">';
-            echo '<p>' . $productStatus . '</p>';
+            echo '<p style="color:' . $statusDetails['colour'] . ';">' . $statusDetails['text'] . '</p>';
             echo '</div>';
             echo '<div class="stock-container">';
             echo '<p>Stock available:</p>';
@@ -393,28 +419,29 @@ function productDetails() {
 
     global $connection;
 
-    if (isset($_GET['product_id'])) {
+    if (isset($_GET['ID'])) {
 
         // Checks if category is not chosen
         if (!isset($_GET['category'])) {
 
-            $productId = $_GET['product_id'];
+            $productId = $_GET['ID'];
 
             // Retrieve product data from the database
-            $sql = "SELECT * FROM `products` WHERE product_id = $productId";
+            $sql = "SELECT * FROM `stock` WHERE ID = $productId";
             $result = $connection->query($sql);
 
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
     
-                $productName = $row["product_title"];
-                $productPricePerDay = $row["product_price_pd"];
-                $productPricePerWeek = $row["product_price_pw"];
-                $productStatus = $row["product_status"];
-                $productStock = $row["product_stock"];
-                $productCurrentStock = $row['product_current_stock'];
-                $productImage = $row["product_image"];
-                $productDescription = $row['product_description'];
+                $productName = $row["AssetName"];
+                $productPricePerDay = $row["AssetCostPerDay"];
+                $productPricePerWeek = $row["AssetCostPerWeek"];
+                $productStatus = $row["AssetStatusID"];
+                $productStock = $row["AssetQty"];
+                $productCurrentStock = $row['AssetCurrentQty'];
+                $productImage = $row["AssetImage"];
+                $productDescription = $row['AssetDescription'];
+                $statusDetails = getStatusDetails($row["AssetStatusID"]);
 
                 // Declare and initialize the $i variable
                 $i = 1;
@@ -437,7 +464,7 @@ function productDetails() {
                 echo '<p>Per Week: <span style="font-weight: 600;">£' . $productPricePerWeek . '</span></p>';
                 echo '</div>';
                 echo '<div class="status-container">';
-                echo '<p><span class="status" style=font-weight: 600;">' . $productStatus . '</span></p>';
+                echo '<p><span class="status" style=font-weight: 600; style="color:' . $statusDetails['colour'] . ';"">' . $statusDetails['text'] . '</span></p>';
                 echo '</div>';
                 echo '<div class="sproduct-stock-container">';
                 echo '<p>Current Stock: <span style="font-weight: 600;">' . $productCurrentStock . '</span></p>';
@@ -513,17 +540,17 @@ function cart() {
         $productId = $_GET['add_to_cart'];
         $quantity = $_GET['quantity'];
 
-        $sql = "SELECT * FROM `cart_details` WHERE ip_address = '$ip' AND product_id = $productId";
+        $sql = "SELECT * FROM `cart_details` WHERE ip_address = '$ip' AND ID = $productId";
         $result = $connection->query($sql);
         $resultCount = mysqli_num_rows($result);
 
         if ($resultCount > 0) {
             // Item already exists in the cart, update the quantity
-            $updateQuery = "UPDATE `cart_details` SET quantity = quantity + $quantity WHERE ip_address = '$ip' AND product_id = $productId";
+            $updateQuery = "UPDATE `cart_details` SET quantity = quantity + $quantity WHERE ip_address = '$ip' AND ID = $productId";
             $updateResult = $connection->query($updateQuery);
         } else {
             // Item doesn't exist in the cart, insert a new row
-            $insertQuery = "INSERT INTO `cart_details` (product_id, ip_address, quantity) 
+            $insertQuery = "INSERT INTO `cart_details` (ID, ip_address, quantity) 
                             VALUES ($productId, '$ip', $quantity)";
             $result = $connection->query($insertQuery);
             if ($result) {
@@ -581,17 +608,17 @@ function totalCartPrice() {
         $productId = $row['product_id'];
         $currentQuantity = $row['quantity'];
 
-        $selectQuery = "SELECT * FROM `products` WHERE product_id = '$productId'";
+        $selectQuery = "SELECT * FROM `stock` WHERE ID = '$productId'";
         $selectResult = $connection->query($selectQuery);
 
         while ($rowProductPrice = mysqli_fetch_array($selectResult)) {
             // Total price per day
-            $dailyProductPrice = array($rowProductPrice['product_price_pd']);
+            $dailyProductPrice = array($rowProductPrice['AssetCostPerDay']);
             $dailyProductValue = array_sum($dailyProductPrice);
             $dailyTotal += $dailyProductValue * $currentQuantity;
 
             // Total price per week
-            $weeklyProductPrice = array($rowProductPrice['product_price_pw']);
+            $weeklyProductPrice = array($rowProductPrice['AssetCostPerWeek']);
             $weeklyProductValue = array_sum($weeklyProductPrice);
             $weeklyTotal += $weeklyProductValue * $currentQuantity;
         }
@@ -641,23 +668,23 @@ function loadProductItems() {
         $productId = $row['product_id'];
         $currentQuantity = $row['quantity'];
 
-        $selectQuery = "SELECT * FROM `products` WHERE product_id = '$productId'";
+        $selectQuery = "SELECT * FROM `stock` WHERE ID = '$productId'";
         $selectResult = $connection->query($selectQuery);
 
         while ($productRow = mysqli_fetch_array($selectResult)) {
 
             // Total price per day
-            $dailyProductPrice = array($productRow['product_price_pd']);
+            $dailyProductPrice = array($productRow['AssetCostPerDay']);
             $dailyProductValue = array_sum($dailyProductPrice);
             $dailyTotal += $dailyProductValue;
 
             // Total price per week
-            $weeklyProductPrice = array($productRow['product_price_pw']);
+            $weeklyProductPrice = array($productRow['AssetCostPerWeek']);
             $weeklyProductValue = array_sum($weeklyProductPrice);
             $weeklyTotal += $weeklyProductValue;
 
             // Product Title
-            $productTitle = $productRow['product_title'];
+            $productTitle = $productRow['AssetName'];
         
             // Fetch the updated quantity from the database
             $getQuantityQuery = "SELECT quantity FROM `cart_details` WHERE ip_address = '$ip' AND product_id = $productId";

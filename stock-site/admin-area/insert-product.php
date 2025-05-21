@@ -46,7 +46,7 @@ if (isset($_POST['insert-product'])) {
             $productImage = 'product-images/default-image.jpeg';
         }
 
-        $insertProduct = "INSERT INTO `products` (product_id, product_title, product_description, category_id, 
+        $insertProduct = "INSERT INTO `products` (product_id, product_title, product_description, CategoryID, 
                                                  product_image, product_price_pd, product_price_pw,
                                                  product_stock, product_current_stock, product_status, date_added) VALUES ('$nextId', 
                                                  '$productTitle', '$productDescription', '$productCategory', 
@@ -146,8 +146,8 @@ if (isset($_POST['insert-product'])) {
                     $resultQuery = mysqli_query($connection, $selectQuery);
 
                     while ($row = mysqli_fetch_assoc($resultQuery)) {
-                        $categoryTitle = $row['category_title'];
-                        $categoryId = $row['category_id'];
+                        $categoryTitle = $row['CategoryName'];
+                        $categoryId = $row['CategoryID'];
 
                         echo "<option value='$categoryId'>$categoryTitle</option>";
                     }

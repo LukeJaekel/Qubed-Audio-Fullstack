@@ -3,15 +3,16 @@ function setStatusColor() {
     const statusContainers = document.getElementsByClassName("status-container");
 
     for (var i = 0; i < statusContainers.length; i++) {
-        let container = statusContainers[i];
-        let statusText = container.innerText;
-
-        if (statusText === "Available") {
-            container.style.color = "rgb(100, 250, 128)";
-        } else if (statusText === "Currently out on hire") {
-            container.style.color = "rgb(250, 170, 100)";
-        } else if (statusText === "Currently not available") {
-            container.style.color = "rgb(250, 100, 100)";
+        $productStatusID = $row["AssetStatusID"];
+        if ($productStatusID == 1) {
+            $statusText = "Asset Booked";
+            $statusColor = "rgb(250, 170, 100)"; // orange
+        } else if ($productStatusID == 0) {
+            $statusText = "In Warehouse";
+            $statusColor = "rgb(100, 250, 128)"; // green
+        } else {
+            $statusText = "Unknown Status";
+            $statusColor = "white";
         }
     }
 }

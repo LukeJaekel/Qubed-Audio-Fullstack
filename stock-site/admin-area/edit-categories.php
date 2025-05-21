@@ -13,7 +13,7 @@ if (isset($_POST['insert-category'])) {
 
 
     // Get the maximum ID value from the categories table
-    $maxIdQuery = "SELECT MAX(category_id) AS max_id FROM `categories`;";
+    $maxIdQuery = "SELECT MAX(CategoryID) AS max_id FROM `categories`;";
     $resultMaxId = mysqli_query($connection, $maxIdQuery);
     $rowMaxId = mysqli_fetch_assoc($resultMaxId);
     $nextId = $rowMaxId['max_id'] + 1;
@@ -21,7 +21,7 @@ if (isset($_POST['insert-category'])) {
 
     // Select data from database
     $selectQuery = "SELECT * FROM `categories` 
-                    WHERE category_title = '$categoryTitle';";
+                    WHERE CategoryName = '$categoryTitle';";
     
     $resultSelect = mysqli_query($connection, $selectQuery);
     $number = mysqli_num_rows($resultSelect);
@@ -34,7 +34,7 @@ if (isset($_POST['insert-category'])) {
 
     // Otherwise, insert new category
     else {
-        $insertQuery = "INSERT INTO `categories` (category_id, category_title) 
+        $insertQuery = "INSERT INTO `categories` (CategoryID, CategoryName) 
                         VALUES ('$nextId', '$categoryTitle');";
         
         $result = mysqli_query($connection, $insertQuery);

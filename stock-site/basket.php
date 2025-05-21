@@ -96,18 +96,18 @@ include('functions/function.php');
                                 $productId = $row['product_id'];
                                 $currentQuantity = $row['quantity'];
                         
-                                $selectQuery = "SELECT * FROM `products` WHERE product_id = '$productId'";
+                                $selectQuery = "SELECT * FROM `stock` WHERE ID = '$productId'";
                                 $selectResult = $connection->query($selectQuery);
                         
                                 while ($productRow = mysqli_fetch_array($selectResult)) {
                         
                                     // Total price per day
-                                    $dailyProductPrice = array($productRow['product_price_pd']);
+                                    $dailyProductPrice = array($productRow['AssetCostPerDay']);
                                     $dailyProductValue = array_sum($dailyProductPrice);
                                     $dailyTotal += $dailyProductValue;
                         
                                     // Total price per week
-                                    $weeklyProductPrice = array($productRow['product_price_pw']);
+                                    $weeklyProductPrice = array($productRow['AssetCostPerWeek']);
                                     $weeklyProductValue = array_sum($weeklyProductPrice);
                                     $weeklyTotal += $weeklyProductValue;
 
@@ -118,17 +118,17 @@ include('functions/function.php');
 
                                     
                                     // Product Title
-                                    $productTitle = $productRow['product_title'];
+                                    $productTitle = $productRow['AssetName'];
 
                                     // Product Image
-                                    $productImage = $productRow['product_image'];
+                                    $productImage = $productRow['AssetImage'];
 
                                     // Product Category
-                                    $categoryId = $productRow['category_id'];
-                                    $categoryQuery = "SELECT category_title FROM `categories` WHERE category_id = '$categoryId'";
+                                    $categoryId = $productRow['AssetCategoryID'];
+                                    $categoryQuery = "SELECT CategoryName FROM `categories` WHERE CategoryID = '$categoryId'";
                                     $categoryResult = $connection->query($categoryQuery);
                                     $categoryRow = mysqli_fetch_array($categoryResult);
-                                    $productCategory = $categoryRow['category_title'];
+                                    $productCategory = $categoryRow['CategoryName'];
 
                         ?>  
                                 <form id="product-<?php echo $productId ?>" name="product-form[]" action="" method="post" onsubmit="updateTotals(<?php echo $productId; ?>); return false;">
