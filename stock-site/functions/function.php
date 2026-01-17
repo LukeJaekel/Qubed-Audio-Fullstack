@@ -518,7 +518,8 @@ function getIPAddress() {
     
     //whether ip is from the proxy  
     elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {  
-        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];  
+        $ipList = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+        $ip = trim($ipList[0]);  // take the first IP only
     }  
     
     //whether ip is from the remote address  
