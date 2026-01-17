@@ -340,7 +340,7 @@ function searchProduct() {
                         top: 10px;
                         right: 20px;
                         font-size: 24px;
-                        color: rgb(235, 235, 235);
+                        color: rgb(32, 7, 7);
                 
                         '>Found <strong>$resultCount</strong> results for '$searchValue'</p>";
             }
@@ -541,17 +541,17 @@ function cart() {
         $productId = $_GET['add_to_cart'];
         $quantity = $_GET['quantity'];
 
-        $sql = "SELECT * FROM `cart_details` WHERE ip_address = '$ip' AND ID = $productId";
+        $sql = "SELECT * FROM `cart_details` WHERE ip_address = '$ip' AND product_id = $productId";
         $result = $connection->query($sql);
         $resultCount = mysqli_num_rows($result);
 
         if ($resultCount > 0) {
             // Item already exists in the cart, update the quantity
-            $updateQuery = "UPDATE `cart_details` SET quantity = quantity + $quantity WHERE ip_address = '$ip' AND ID = $productId";
+            $updateQuery = "UPDATE `cart_details` SET quantity = quantity + $quantity WHERE ip_address = '$ip' AND product_id = $productId";
             $updateResult = $connection->query($updateQuery);
         } else {
             // Item doesn't exist in the cart, insert a new row
-            $insertQuery = "INSERT INTO `cart_details` (ID, ip_address, quantity) 
+            $insertQuery = "INSERT INTO `cart_details` (product_id, ip_address, quantity) 
                             VALUES ($productId, '$ip', $quantity)";
             $result = $connection->query($insertQuery);
             if ($result) {
