@@ -72,7 +72,7 @@ function getProducts() {
         // Declare and initialize the $i variable
         $i = 1;
 
-        // Loop through the retrieved data and generate dynamic HTML
+        // Loop through the retrieved stock and generate dynamic HTML
         while ($row = $result->fetch_assoc()) {
             $productId = $row['ID'];
             $productName = $row["AssetName"];
@@ -105,11 +105,14 @@ function getProducts() {
             echo '<input type="hidden" name="add_to_cart" value="' . $productId . '">';
             echo '<label for="sproduct-quantity"></label>';
             echo '<select class="sproduct-quantity-box" name="quantity">';
-            for ($i = 1; $i <= 100; $i++) {
-                echo '<option value="' . $i . '">' . $i . '</option>';
+            $maxQty = (int)$row['AssetQty'];
+
+            for ($i = 1; $i <= $maxQty; $i++) {
+                echo '<option value="'.$i.'">'.$i.'</option>';
             }
+            $disabled = ($productAvailability <= 0) ? 'disabled' : '';
             echo '</select>';
-            echo '<button class="add-to-cart-button" type="submit">Add To Cart</button>';
+            echo '<button class="add-to-cart-button" type="submit" '.$disabled.'>Add To Cart</button>';
             echo '</form>';
 
 
@@ -237,11 +240,14 @@ function getProductsFromCategories() {
             echo '<input type="hidden" name="add_to_cart" value="' . $productId . '">';
             echo '<label for="sproduct-quantity"></label>';
             echo '<select class="sproduct-quantity-box" name="quantity">';
-            for ($i = 1; $i <= 100; $i++) {
-                echo '<option value="' . $i . '">' . $i . '</option>';
+            $maxQty = (int)$row['AssetQty'];
+
+            for ($i = 1; $i <= $maxQty; $i++) {
+                echo '<option value="'.$i.'">'.$i.'</option>';
             }
+            $disabled = ($productAvailability <= 0) ? 'disabled' : '';
             echo '</select>';
-            echo '<button class="add-to-cart-button" type="submit">Add To Cart</button>';
+            echo '<button class="add-to-cart-button" type="submit" '.$disabled.'>Add To Cart</button>';
             echo '</form>';
 
 
@@ -289,7 +295,6 @@ function getCategories() {
         echo "<li><a href='stock.php?category=$categoryId' class='$class'>$categoryTitle</a></li>";
     }
 }
-
 
 // Searches Products
 function searchProduct() {
@@ -383,11 +388,14 @@ function searchProduct() {
             echo '<input type="hidden" name="add_to_cart" value="' . $productId . '">';
             echo '<label for="sproduct-quantity"></label>';
             echo '<select class="sproduct-quantity-box" name="quantity">';
-            for ($i = 1; $i <= 100; $i++) {
-                echo '<option value="' . $i . '">' . $i . '</option>';
+            $maxQty = (int)$row['AssetQty'];
+
+            for ($i = 1; $i <= $maxQty; $i++) {
+                echo '<option value="'.$i.'">'.$i.'</option>';
             }
+            $disabled = ($productAvailability <= 0) ? 'disabled' : '';
             echo '</select>';
-            echo '<button class="add-to-cart-button" type="submit">Add To Cart</button>';
+            echo '<button class="add-to-cart-button" type="submit" '.$disabled.'>Add To Cart</button>';
             echo '</form>';
 
 
@@ -474,8 +482,10 @@ function productDetails() {
                 echo '<button class="add-to-cart-button"><a href="stock.php?add_to_cart=' . $productId . '&quantity=' . $i . '">Add To Cart</a></button>';
                 echo '<label for="sproduct-quantity" id="quantity"></label>';
                 echo '<select class="sproduct-quantity-box" name="quantity">';
-                for ($i = 1; $i <= 100; $i++) {
-                    echo '<option value="' . $i . '">' . $i . '</option>';
+                $maxQty = (int)$row['AssetQty'];
+
+                for ($i = 1; $i <= $maxQty; $i++) {
+                    echo '<option value="'.$i.'">'.$i.'</option>';
                 }
                 echo '</select>';
                 echo '</div>';
@@ -555,9 +565,7 @@ function cart() {
                             VALUES ($productId, '$ip', $quantity)";
             $result = $connection->query($insertQuery);
             if ($result) {
-                echo "<script>alert('Item added to cart');
-                              window.open('stock.php', '_self');
-                      </script>";
+                echo "<script>window.open('stock.php', '_self');</script>";
             } else {
                 echo "<script>alert('Failed to add item to cart')</script>";
             }

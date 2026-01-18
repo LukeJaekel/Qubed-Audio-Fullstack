@@ -140,7 +140,7 @@ include('functions/function.php');
                                                 </div>
                                             </div>
                                             <div class="product-details-text">
-                                                <p class="product-title"><a href='product.php?product_id=<?php echo $productId ?>'><?php echo $productTitle ?></a></p>
+                                                <p class="product-title"><a href='product.php?ID=<?php echo $productId ?>'><?php echo $productTitle ?></a></p>
                                                 <p class="product-category"><?php echo $productCategory ?></p>
                                                 <input class="remove-item" type="submit" value="X Remove Item" name="remove-basket">
                                                 <input type="hidden" name="product-id" value="<?php echo $productId ?>">
@@ -151,7 +151,7 @@ include('functions/function.php');
                                         <button type="button" onclick="decreaseQuantity(<?php echo $productId ?>);">
                                                 <img src="icons/minus-icon.png" alt="">
                                             </button>
-                                            <input class="quantity" id="js-quantity-<?php echo $productId ?>" name="qty" type="text" pattern="^[a-zA-Z0-9]+$" onkeydown="return blockChars(event)" maxlength="2" required value="<?php echo isset($currentQuantity) ? $currentQuantity : 1; ?>" data-product-id="<?php echo $productId ?>">
+                                            <input class="quantity" id="js-quantity-<?php echo $productId ?>" name="qty" type="text" pattern="^[a-zA-Z0-9]+$" onkeydown="return blockChars(event)" maxlength="2" required value="<?php echo isset($currentQuantity) ? $currentQuantity : 1; ?>" data-product-id="<?php echo $productId ?>" readonly>
                                             <button type="button" onclick="increaseQuantity(<?php echo $productId ?>);">
                                                 <img src="icons/plus-icon.png" alt="">
                                             </button>
