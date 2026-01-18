@@ -566,8 +566,7 @@ function cart() {
                             VALUES ($productId, '$ip', $quantity)";
             $connection->query($insertQuery);
         }
-        header("Location: stock.php");
-        exit;
+        echo "<script>window.open('stock.php', '_self');</script>";
     }
 }
 
