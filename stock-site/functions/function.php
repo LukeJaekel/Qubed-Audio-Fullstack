@@ -101,7 +101,7 @@ function getProducts() {
             echo '</div>';
             echo '</div>';
             echo '<div class="sproduct-button-container">';
-            echo '<form method="get" action="stock.php">';
+            echo '<form method="post" action="stock.php">';
             echo '<input type="hidden" name="add_to_cart" value="' . $productId . '">';
             echo '<label for="sproduct-quantity"></label>';
             echo '<select class="sproduct-quantity-box" name="quantity">';
@@ -236,7 +236,7 @@ function getProductsFromCategories() {
             echo '</div>';
             echo '</div>';
             echo '<div class="sproduct-button-container">';
-            echo '<form method="get" action="stock.php">';
+            echo '<form method="post" action="stock.php">';
             echo '<input type="hidden" name="add_to_cart" value="' . $productId . '">';
             echo '<label for="sproduct-quantity"></label>';
             echo '<select class="sproduct-quantity-box" name="quantity">';
@@ -384,7 +384,7 @@ function searchProduct() {
             echo '</div>';
             echo '</div>';
             echo '<div class="sproduct-button-container">';
-            echo '<form method="get" action="stock.php">';
+            echo '<form method="post" action="stock.php">';
             echo '<input type="hidden" name="add_to_cart" value="' . $productId . '">';
             echo '<label for="sproduct-quantity"></label>';
             echo '<select class="sproduct-quantity-box" name="quantity">';
@@ -546,32 +546,28 @@ function getIPAddress() {
 function cart() {
     global $connection;
 
-    if (isset($_GET['add_to_cart'])) {
+    if (isset($_POST['add_to_cart'])) {
         $ip = getIPAddress();
-        $productId = $_GET['add_to_cart'];
-        $quantity = $_GET['quantity'];
+        $productId = $_POST['add_to_cart'];
+        $quantity = $_POST['quantity'];
+
+        if ($quantity <= 0) return;
 
         $sql = "SELECT * FROM `cart_details` WHERE ip_address = '$ip' AND product_id = $productId";
         $result = $connection->query($sql);
-        $resultCount = mysqli_num_rows($result);
 
-        if ($resultCount > 0) {
-            // Item already exists in the cart, update the quantity
-            $updateQuery = "UPDATE `cart_details` SET quantity = quantity + $quantity WHERE ip_address = '$ip' AND product_id = $productId";
-            $updateResult = $connection->query($updateQuery);
+        if ($result->num_rows > 0) {
+            $updateQuery = "UPDATE cart_details 
+                            SET quantity = quantity + $quantity 
+                            WHERE ip_address = '$ip' AND product_id = $productId";
+            $connection->query($updateQuery);
         } else {
-            // Item doesn't exist in the cart, insert a new row
-            $insertQuery = "INSERT INTO `cart_details` (product_id, ip_address, quantity) 
+            $insertQuery = "INSERT INTO cart_details (product_id, ip_address, quantity) 
                             VALUES ($productId, '$ip', $quantity)";
-            $result = $connection->query($insertQuery);
-            if ($result) {
-                echo "<script>window.open('stock.php', '_self');</script>";
-            } else {
-                echo "<script>alert('Failed to add item to cart')</script>";
-            }
+            $connection->query($insertQuery);
         }
-    } else {
-        echo "Invalid request.";
+        header("Location: stock.php");
+        exit;
     }
 }
 
