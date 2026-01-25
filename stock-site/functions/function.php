@@ -186,7 +186,7 @@ function getProductsFromCategories() {
                   right: 20px;
                   font-size: 24px;
                   color: rgb(235, 235, 235);
-                  animation: transitionIn 1s;
+                  /* animation: transitionIn 1s; */
             
                   '>Found <strong>$resultCount</strong> results</p>";
 
@@ -198,7 +198,7 @@ function getProductsFromCategories() {
                   left: 320px;
                   font-size: 24px;
                   color: rgb(235, 235, 235);
-                  animation: transitionIn 1s;
+                  /* animation: transitionIn 1s; */
             
                   '>Category: <strong>$categoryTitle</strong></p>";
         }

@@ -86,8 +86,8 @@ p {
     align-items: center;
     border-radius: 8px;
     box-shadow: 1px 1px 3px rgba(255, 255, 255, 0.2);
-    opacity: 0; /* Initially hide the products */
-    animation: fade-in 1s ease forwards; /* Apply the animation */
+    /*opacity: 0; */ /* Initially hide the products */
+    /*animation: fade-in 1s ease forwards;*/ /* Apply the animation */ 
 }
 
 .quantity-container {
@@ -127,16 +127,18 @@ p {
     text-align: center;
 }
 
+
 @keyframes fade-in {
     from {
         opacity: 0;
         transform: translateY(20px); /* Move the products down */
-    }
+    } 
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
+
 
 .image-container {
     width: 250px;

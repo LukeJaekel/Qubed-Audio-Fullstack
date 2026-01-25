@@ -1,9 +1,9 @@
 /* Author:
    Luke Jaekel */
 
-html {
+/* html {
     scroll-behavior: smooth;
-}
+}*/
 
 body {
     margin: 0;
@@ -15,9 +15,9 @@ main {
     min-height: 800px;
 }
 
-section {
+/* section {
     animation: transitionIn 1s ease-in-out;
-}
+}*/
 
 @media (max-width: 1160px) {
     body {

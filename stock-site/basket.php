@@ -8,6 +8,31 @@ include('functions/function.php');
 
 ?>
 
+<?php
+$ip = getIPAddress();
+
+if (isset($_POST['update-basket'], $_POST['product-id'], $_POST['qty'])) {
+    $productId = (int) $_POST['product-id'];
+
+    if (isset($_POST['qty'][$productId])) {
+        $quantity = (int) $_POST['qty'][$productId];
+
+        if ($quantity < 1) {
+            $quantity = 1;
+        }
+
+        $updateQuery = "
+            UPDATE cart_details
+            SET quantity = $quantity
+            WHERE ip_address = '$ip'
+            AND product_id = $productId
+        ";
+
+        $connection->query($updateQuery);
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -131,7 +156,7 @@ include('functions/function.php');
                                     $productCategory = $categoryRow['CategoryName'];
 
                         ?>  
-                                <form id="product-<?php echo $productId ?>" name="product-form[]" action="" method="post" onsubmit="updateTotals(<?php echo $productId; ?>); return false;">
+                                <form id="product-<?php echo $productId ?>" name="product-form[]" method="post" onsubmit="updateTotals(<?php echo $productId; ?>);">
                                     <div class="sproduct">
                                         <div class="product-details">
                                             <div class="product-details-container">
@@ -144,56 +169,18 @@ include('functions/function.php');
                                                 <p class="product-category"><?php echo $productCategory ?></p>
                                                 <input class="remove-item" type="submit" value="X Remove Item" name="remove-basket">
                                                 <input type="hidden" name="product-id" value="<?php echo $productId ?>">
-                                                <input class="update-basket" type="submit" value="&#8635; Update Basket" name="update-basket">
+                                                <input class="update-basket" type="submit" value="&#8635; Update Quantity" name="update-basket">
                                             </div>
                                         </div>
                                         <div class="quantity-container">
                                         <button type="button" onclick="decreaseQuantity(<?php echo $productId ?>);">
                                                 <img src="icons/minus-icon.png" alt="">
                                             </button>
-                                            <input class="quantity" id="js-quantity-<?php echo $productId ?>" name="qty" type="text" pattern="^[a-zA-Z0-9]+$" onkeydown="return blockChars(event)" maxlength="2" required value="<?php echo isset($currentQuantity) ? $currentQuantity : 1; ?>" data-product-id="<?php echo $productId ?>" readonly>
+                                            <input class="quantity" id="js-quantity-<?php echo $productId ?>" name="qty[<?php echo $productId; ?>]" type="text" pattern="^[a-zA-Z0-9]+$" onkeydown="return blockChars(event)" maxlength="2" required value="<?php echo isset($currentQuantity) ? $currentQuantity : 1; ?>" data-product-id="<?php echo $productId ?>" readonly>
                                             <button type="button" onclick="increaseQuantity(<?php echo $productId ?>);">
                                                 <img src="icons/plus-icon.png" alt="">
                                             </button>
                                         </div>
-                                        <?php
-
-                                            // Enable error reporting and display
-                                            error_reporting(E_ALL);
-                                            ini_set('display_errors', 1);
-
-                                            $ip = getIPAddress();
-
-                                            $totalDailyProductValue = $formattedDailyValue * $currentQuantity;
-                                            $totalWeeklyProductValue = $formattedWeeklyValue * $currentQuantity;
-                                            $formattedDailyTotal = number_format($totalDailyProductValue, 2, '.', '');
-                                            $formattedWeeklyTotal = number_format($totalWeeklyProductValue, 2, '.', '');
-                                            
-                                            if (isset($_POST['update-basket'])) {
-                                                $updateProductId = $_POST['product-id'];
-                                                $updateQuantity = $_POST['qty'];
-                                            
-                                                $updateCart = "UPDATE `cart_details` SET quantity = $updateQuantity WHERE ip_address = '$ip' AND product_id = $updateProductId";
-                                                $resultQty = $connection->query($updateCart);
-                                            
-                                                // Fetch the updated quantity from the database
-                                                $getQuantityQuery = "SELECT quantity FROM `cart_details` WHERE ip_address = '$ip' AND product_id = $updateProductId";
-                                                $resultGetQuantity = $connection->query($getQuantityQuery);
-                                            
-                                                if ($resultGetQuantity && $resultGetQuantity->num_rows > 0) {
-                                                    $row = $resultGetQuantity->fetch_assoc();
-                                                    $currentQuantity = $row['quantity'];
-                                            
-                                                    // Update the value attribute of the quantity input field
-                                                    echo "<script>document.getElementById('js-quantity-$productId').value = $currentQuantity;</script>";
-                                            
-                                                    // Update the total values in the total-container using JavaScript
-                                                    $formattedDailyTotal = number_format($dailyProductValue * $currentQuantity, 2);
-                                                    $formattedWeeklyTotal = number_format($weeklyProductValue * $currentQuantity, 2);
-
-                                                }
-                                            }
-                                        ?>
                                         <div class="price-container">
                                             <p>P/Day: £<?php echo $formattedDailyValue ?></p>
                                             <p>P/Week: £<?php echo $formattedWeeklyValue ?></p>
