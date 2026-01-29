@@ -198,12 +198,14 @@ foreach ($fields as $field) {
     $check->execute();
     $check->store_result();
     
+    // Checks whether an account with that email already exists
     if ($check->num_rows > 0) {
         return "Error: Looks like an account with this email already exists";
     }
     
+    // Checks whether email address is valid
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        die("Invalid email address");
+        return "Error: The email address entered is invalid";
     }
 
     // Adds user to the DB

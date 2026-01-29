@@ -1,17 +1,17 @@
 <?php 
 
 // Connects to database
-include('includes/connect.php');
+include('../includes/connect.php');
 
 // Grabs common functions
-include('functions/function.php');
+include('../functions/function.php');
 
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Q-Stock | Dashboard</title>
+        <title>Q-Stock | Administration Dashboard</title>
         <link rel="icon" type="image/x-icon" href="../logo/logo.jpg">
         <link rel="stylesheet" href="../styles/dashboard.css">
 
@@ -32,7 +32,7 @@ include('functions/function.php');
                 </div>
             </div>
             <div class="header-right-container">
-                <h1>Welcome <span style="color:rgb(233, 32, 23);">Luke</span></h1>
+                <h1><span style="color:rgb(233, 32, 23);">Administration Dashboard</span></h1>
             </div>
         </div>
     </header>

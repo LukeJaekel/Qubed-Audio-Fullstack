@@ -32,6 +32,12 @@ main {
     height: 80px;
 }
 
+.login-register-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-self: center;
+}
+
 .registration-form, .login-form {
     display: flex;
     flex-direction: column;
@@ -116,7 +122,8 @@ main {
 }
 
 .login-link-container p a,
-.reset-password-container p a {
+.reset-password-container p a,
+.login-register-container p a {
     color: rgb(78, 190, 255);
 }
 
@@ -243,7 +250,6 @@ main {
 .toggle-password:hover {
     opacity: 0.7;
 }
-
 
 @keyframes transitionSlideIn {
     from {
