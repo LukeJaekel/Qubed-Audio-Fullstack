@@ -78,6 +78,7 @@ p {
     display: flex;
     flex-direction: column;
     width: 300px;
+    min-height: 600px;
     height: auto;
     font-size: 20px;
     color: white;

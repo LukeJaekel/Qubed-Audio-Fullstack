@@ -90,18 +90,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // If fields are filled, then it will check for staff login first
-    $checkUser = $connection->prepare("select id, EmailAddress, PasswordHash, PasswordSalt
+    $checkUser = $connection->prepare("select id, EmailAddress, PasswordHash, PasswordSalt, LockedAccount
                                         from staff where EmailAddress = ? limit 1");
     $checkUser->bind_param("s", $email);
     $checkUser->execute();
     $result = $checkUser->get_result();
 
     if ($staff = $result->fetch_assoc()) {
+
+        if ((int)$staff['LockedAccount'] === 1) {
+            return 'Your account is currently locked, please contact your system administrator';
+        }
+
         if (verifyStaffPassword($password, $staff['PasswordHash'], $staff['PasswordSalt'])) {
+
+            // Protects against session fixation attacks
+            session_regenerate_id(true);
+
             $_SESSION['user_id'] = $staff['id'];
             $_SESSION['role'] = 'staff';
 
-            header('Location: admin-dashboard.php');
+            header('Location: ../admin-area');
             exit;
         }
 
@@ -117,6 +126,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($user = $result->fetch_assoc()) {
         if (password_verify($password, $user['PasswordHash'])) {
+
+            // Protects against session fixation attacks
+            session_regenerate_id(true);
+
             $_SESSION['user_id'] = $user['UserID'];
             $_SESSION['role'] = 'user';
 
@@ -128,7 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // If neither matched
-    return 'There was no account with that email address. Consider registering';
+    return "We couldn't find an account with that email address";
 }
 
 

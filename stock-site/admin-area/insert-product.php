@@ -75,43 +75,11 @@ if (isset($_POST['insert-product'])) {
     <link rel="stylesheet" href="styles/header.css">
     <link rel="stylesheet" href="styles/general.css">
     <link rel="stylesheet" href="styles/form-content.css">
+    <link rel="stylesheet" href="styles/insert-product.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <style>
-        .title-container {
-            display: flex;
-            justify-content: center;
-        }
-
-        .form-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 30px;
-        }
-
-        .form-input-container {
-            margin-bottom: 30px;
-            position: relative;
-        }
-
-        .title {
-            width: 100%;
-            margin-bottom: 10px;
-            margin-left: 5px;
-        }
-
-        .pound-sign {
-            position: absolute;
-            font-size: 24px;
-            left: 10px;
-            bottom: 6px;
-        }
-
-    </style>
 </head>
 <body>
     <div class="title-container">

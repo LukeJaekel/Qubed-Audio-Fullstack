@@ -372,7 +372,7 @@ function searchProduct() {
             echo '</div>';
             echo '<div class="text-container">';
             echo '<div class="product-title-container">';
-            echo '<p><a class="product-title-link" href="product.php?product_id=' . $productId . '">' . $productName . '</a></p>';
+            echo '<p><a class="product-title-link" href="product.php?ID=' . $productId . '">' . $productName . '</a></p>';
             echo '</div>';
             echo '<div class="price-container">';
             echo '<p>Price p/day:</p>';

@@ -12,7 +12,7 @@
 .js-header {
     flex-direction: column;
     position: fixed;
-    background-color: rgb(240, 240, 240);
+    background-color: rgb(35, 61, 48);
     top: 0;
     left: 0;
     right: 0;
@@ -27,6 +27,10 @@
 .top-container {
     display: flex;
     align-items: center;
+}
+
+.top-container div h1 {
+    color: #edeba8;
 }
 
 .header-left-container {
