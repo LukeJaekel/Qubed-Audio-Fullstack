@@ -35,7 +35,7 @@ function getProducts() {
     if (!isset($_GET['category'])) {
 
         // Retrieve product data from the database
-        $sql = "SELECT * FROM stock;";
+        $sql = "SELECT * FROM stock WHERE AssetInactive = 0 AND Deleted = 0;";
         $result = $connection->query($sql);
 
         
@@ -148,13 +148,49 @@ function getProductsFromCategories() {
     // Checks if category is chosen
     if (isset($_GET['category'])) {
 
-        $categoryId = (int)$_GET['category'];
+        $categoryId = filter_input(INPUT_GET, 'category', FILTER_VALIDATE_INT);
 
-        // Retrieve product data from the database
-        $sql = "SELECT * FROM `stock` WHERE AssetCategoryID = $categoryId ORDER BY rand();";
-        $result = $connection->query($sql);
+        if (!$categoryId) {
+            exit("Invalid category.");
+        }
+
+        // Check category exists and is active
+        $stmt = $connection->prepare("
+            SELECT CategoryName
+            FROM categories
+            WHERE CategoryID = ?
+            AND CategoryInactive = 0
+        ");
+
+        $stmt->bind_param("i", $categoryId);
+        $stmt->execute();
+
+        $categoryResult = $stmt->get_result();
+
+        if ($categoryResult->num_rows === 0) {
+            exit("Category not found.");
+        }
+
+        $categoryRow = $categoryResult->fetch_assoc();
+        $categoryTitle = htmlspecialchars($categoryRow['CategoryName'], ENT_QUOTES, 'UTF-8');
+
+        // Fetch products from active category
+        $productStmt = $connection->prepare("
+            SELECT *
+            FROM stock
+            WHERE AssetCategoryID = ?
+            AND AssetInactive = 0
+            AND Deleted = 0
+            ORDER BY rand()
+        ");
+
+        $productStmt->bind_param("i", $categoryId);
+        $productStmt->execute();
+
+        $result = $productStmt->get_result();
 
         $resultCount = mysqli_num_rows($result);
+
         if ($resultCount == 0) {
             echo "<div style='
                  position: absolute;
@@ -173,11 +209,7 @@ function getProductsFromCategories() {
             echo "</div>";
         }
         else {
-            // Retrieve category title from the database
-            $selectCategory = "SELECT CategoryName FROM `categories` WHERE CategoryID = $categoryId;";
-            $resultCategory = mysqli_query($connection, $selectCategory);
-            $categoryRow = mysqli_fetch_assoc($resultCategory);
-            $categoryTitle = $categoryRow['CategoryName'];
+
 
             echo "<p style='
 
@@ -278,7 +310,7 @@ function getProductsFromCategories() {
 function getCategories() {
     global $connection;
 
-    $selectCategories = "SELECT * FROM `categories`;";
+    $selectCategories = "SELECT * FROM `categories` WHERE CategoryInactive = 0;";
     $resultCategories = mysqli_query($connection, $selectCategories);
 
     while ($rowData = mysqli_fetch_assoc($resultCategories)) {
@@ -302,11 +334,15 @@ function searchProduct() {
     global $connection;
     if (isset($_GET['search-data-product'])) {
 
-        $searchValue = $_GET['search-data'];
-
+        $searchValue = "%" . $_GET['search-data'] . "%";
         // Retrieve product data from the database
-        $sql = "SELECT * FROM `stock` WHERE AssetName LIKE '%$searchValue%'";
-        $result = $connection->query($sql);
+
+        $stmt = $connection->prepare("SELECT * FROM stock WHERE AssetName LIKE ? AND AssetInactive = 0 AND Deleted = 0");
+
+        $stmt->bind_param("s", $searchValue);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
         
         $resultCount = mysqli_num_rows($result);
         if ($resultCount == 0) {
@@ -432,11 +468,33 @@ function productDetails() {
         // Checks if category is not chosen
         if (!isset($_GET['category'])) {
 
-            $productId = $_GET['ID'];
+            $productId = filter_input(INPUT_GET, 'ID', FILTER_VALIDATE_INT);
 
             // Retrieve product data from the database
-            $sql = "SELECT * FROM `stock` WHERE ID = $productId";
-            $result = $connection->query($sql);
+            $stmt = $connection->prepare("SELECT * FROM stock WHERE ID = ? AND AssetInactive = 0 AND Deleted = 0");
+
+            $stmt->bind_param("i", $productId);
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+
+            if ($result->num_rows === 0) {
+                echo "<div style='
+                        position: absolute;
+                        top: 50px;
+                
+                        '>";
+                
+                echo "<h1 style='
+                        color: rgb(235, 235, 235);
+                        text-align: center;
+                        '>
+
+                        Product not found... <br>:(</br>
+                        
+                        </h1>";
+                echo "</div>";
+            }
 
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
@@ -544,28 +602,66 @@ function getIPAddress() {
 
 // Cart function
 function cart() {
+
     global $connection;
 
     if (isset($_POST['add_to_cart'])) {
+
         $ip = getIPAddress();
-        $productId = $_POST['add_to_cart'];
-        $quantity = $_POST['quantity'];
 
-        if ($quantity <= 0) return;
+        $productId = filter_input(INPUT_POST, 'add_to_cart', FILTER_VALIDATE_INT);
+        $quantity = filter_input(INPUT_POST, 'quantity', FILTER_VALIDATE_INT);
 
-        $sql = "SELECT * FROM `cart_details` WHERE ip_address = '$ip' AND product_id = $productId";
-        $result = $connection->query($sql);
-
-        if ($result->num_rows > 0) {
-            $updateQuery = "UPDATE cart_details 
-                            SET quantity = quantity + $quantity 
-                            WHERE ip_address = '$ip' AND product_id = $productId";
-            $connection->query($updateQuery);
-        } else {
-            $insertQuery = "INSERT INTO cart_details (product_id, ip_address, quantity) 
-                            VALUES ($productId, '$ip', $quantity)";
-            $connection->query($insertQuery);
+        if (!$productId || !$quantity || $quantity < 1) {
+            return;
         }
+
+        // Validate product exists and is active
+        $stmt = $connection->prepare("SELECT AssetQty FROM stock WHERE ID = ? AND AssetInactive = 0 AND Deleted = 0");
+
+        $stmt->bind_param("i", $productId);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows === 0) {
+            return;
+        }
+
+        $product = $result->fetch_assoc();
+
+        // Prevent quantity exceeding stock
+        if ($quantity > $product['AssetQty']) {
+            $quantity = $product['AssetQty'];
+        }
+
+        // Check if already in cart
+        $cartStmt = $connection->prepare("SELECT quantity FROM cart_details WHERE ip_address = ? AND product_id = ?");
+
+        $cartStmt->bind_param("si", $ip, $productId);
+        $cartStmt->execute();
+
+        $cartResult = $cartStmt->get_result();
+
+        // Update existing cart item
+        if ($cartResult->num_rows > 0) {
+
+            $updateStmt = $connection->prepare("UPDATE cart_details SET quantity = quantity + ? WHERE ip_address = ? AND product_id = ?");
+
+            $updateStmt->bind_param("isi", $quantity, $ip, $productId);
+            $updateStmt->execute();
+
+        } 
+        
+        // Insert new cart item
+        else {
+
+            $insertStmt = $connection->prepare("INSERT INTO cart_details (product_id, ip_address, quantity) VALUES (?, ?, ?)");
+
+            $insertStmt->bind_param("isi", $productId, $ip, $quantity);
+            $insertStmt->execute();
+        }
+
         echo "<script>window.open('stock.php', '_self');</script>";
     }
 }
