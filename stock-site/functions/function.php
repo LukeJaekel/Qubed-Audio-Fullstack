@@ -25,6 +25,95 @@ function getStatusDetails($statusID) {
     }
 }
 
+function renderProductCard($row) {
+
+    $productId = (int)$row['ID'];
+
+    $productName = htmlspecialchars($row["AssetName"] ?? '', ENT_QUOTES, 'UTF-8');
+
+    $productPricePerDay = htmlspecialchars($row["AssetCostPerDay"], ENT_QUOTES, 'UTF-8');
+
+    $productPricePerWeek = htmlspecialchars($row["AssetCostPerWeek"], ENT_QUOTES, 'UTF-8');
+
+    $productAvailability = (int)$row["AssetQty"];
+
+    $productImage = htmlspecialchars($row["AssetImage"] ?? '', ENT_QUOTES, 'UTF-8');
+
+    $statusDetails = getStatusDetails($row["AssetStatusID"]);
+
+    echo '<div class="product" id="' . $productId . '">';
+
+    echo '<div class="image-container">';
+    echo '<img class="product-image"
+            src="' . $productImage . '"
+            alt="' . $productName . '"
+            onerror="this.src=`admin-area/product-images/default-image.jpeg`">';
+    echo '</div>';
+
+    echo '<div class="text-container">';
+
+    echo '<div class="product-title-container">';
+    echo '<p>
+            <a class="product-title-link"
+               href="product.php?ID=' . $productId . '">'
+               . $productName .
+            '</a>
+          </p>';
+    echo '</div>';
+
+    echo '<div class="price-container">';
+    echo '<p>Price p/day:</p>';
+    echo '<p>£' . $productPricePerDay . '</p>';
+    echo '</div>';
+
+    echo '<div class="price-container">';
+    echo '<p>Price p/week:</p>';
+    echo '<p>£' . $productPricePerWeek . '</p>';
+    echo '</div>';
+
+    echo '</div>';
+
+    echo '<div class="sproduct-button-container">';
+
+    echo '<form method="post" action="stock.php">';
+
+    echo '<input type="hidden"
+                 name="add_to_cart"
+                 value="' . $productId . '">';
+
+    echo '<select class="sproduct-quantity-box" name="quantity">';
+
+    for ($i = 1; $i <= $productAvailability; $i++) {
+        echo '<option value="' . $i . '">' . $i . '</option>';
+    }
+
+    echo '</select>';
+
+    $disabled = ($productAvailability <= 0) ? 'disabled' : '';
+
+    echo '<button class="add-to-cart-button"
+                  type="submit"
+                  ' . $disabled . '>
+            Add To Cart
+          </button>';
+
+    echo '</form>';
+
+    echo '</div>';
+
+    echo '<div class="status-container">';
+    echo '<p style="color:' . $statusDetails['colour'] . ';">'
+            . $statusDetails['text'] .
+         '</p>';
+    echo '</div>';
+
+    echo '<div class="stock-container">';
+    echo '<p>Stock available:</p>';
+    echo '<p>' . $productAvailability . '</p>';
+    echo '</div>';
+
+    echo '</div>';
+}
 
 // Fetches all products
 function getProducts() {
@@ -74,67 +163,7 @@ function getProducts() {
 
         // Loop through the retrieved stock and generate dynamic HTML
         while ($row = $result->fetch_assoc()) {
-            $productId = $row['ID'];
-            $productName = $row["AssetName"];
-            $productPricePerDay = $row["AssetCostPerDay"];
-            $productPricePerWeek = $row["AssetCostPerWeek"];
-            $productAvailability = $row["AssetQty"];
-            $productImage = $row["AssetImage"];
-            $statusDetails = getStatusDetails($row["AssetStatusID"]);
-
-            // Generate HTML code for each product
-            echo '<div class="product" id="' . $productId . '">';
-            echo '<div class="image-container">';
-            echo '<img class="product-image" src="' . $productImage . '" alt="' . $productName . '" onerror="this.src=`admin-area/product-images/default-image.jpeg`">';
-            echo '</div>';
-            echo '<div class="text-container">';
-            echo '<div class="product-title-container">';
-            echo '<p><a class="product-title-link" href="product.php?ID=' . $productId . '">' . $productName . '</a></p>';
-            echo '</div>';
-            echo '<div class="price-container">';
-            echo '<p>Price p/day:</p>';
-            echo '<p>£' . $productPricePerDay . '</p>';
-            echo '</div>';
-            echo '<div class="price-container">';
-            echo '<p>Price p/week:</p>';
-            echo '<p>£' . $productPricePerWeek . '</p>';
-            echo '</div>';
-            echo '</div>';
-            echo '<div class="sproduct-button-container">';
-            echo '<form method="post" action="stock.php">';
-            echo '<input type="hidden" name="add_to_cart" value="' . $productId . '">';
-            echo '<label for="sproduct-quantity"></label>';
-            echo '<select class="sproduct-quantity-box" name="quantity">';
-            $maxQty = (int)$row['AssetQty'];
-
-            for ($i = 1; $i <= $maxQty; $i++) {
-                echo '<option value="'.$i.'">'.$i.'</option>';
-            }
-            $disabled = ($productAvailability <= 0) ? 'disabled' : '';
-            echo '</select>';
-            echo '<button class="add-to-cart-button" type="submit" '.$disabled.'>Add To Cart</button>';
-            echo '</form>';
-
-
-            echo '<script>
-            function addToCart(productId) {
-                var quantitySelect = document.getElementById("quantity-select");
-                var quantity = quantitySelect.value;
-                var url = "stock.php?add_to_cart=" + productId + "&quantity=" + quantity;
-                window.location.href = url;
-            }
-            </script>';
-
-            echo '</div>';
-            echo '</form>';
-            echo '<div class="status-container">';
-            echo '<p style="color:' . $statusDetails['colour'] . ';">' . $statusDetails['text'] . '</p>';
-            echo '</div>';
-            echo '<div class="stock-container">';
-            echo '<p>Stock available:</p>';
-            echo '<p>' . $productAvailability . '</p>';
-            echo '</div>';
-            echo '</div>';
+            renderProductCard($row);
         }
     }
 }
@@ -168,7 +197,22 @@ function getProductsFromCategories() {
         $categoryResult = $stmt->get_result();
 
         if ($categoryResult->num_rows === 0) {
-            exit("Category not found.");
+            echo "<div style='
+                        position: absolute;
+                        top: 50px;
+                
+                        '>";
+                
+            echo "<h1 style='
+                    color: rgb(235, 235, 235);
+                    text-align: center;
+                    '>
+
+                    Category not found... <br>:(</br>
+                    
+                    </h1>";
+            echo "</div>";
+            return;
         }
 
         $categoryRow = $categoryResult->fetch_assoc();
@@ -181,7 +225,7 @@ function getProductsFromCategories() {
             WHERE AssetCategoryID = ?
             AND AssetInactive = 0
             AND Deleted = 0
-            ORDER BY rand()
+            ORDER BY AssetID DESC
         ");
 
         $productStmt->bind_param("i", $categoryId);
@@ -238,70 +282,7 @@ function getProductsFromCategories() {
 
         // Loop through the retrieved data and generate dynamic HTML
         while ($row = $result->fetch_assoc()) {
-            $productId = $row['ID'];
-            $productName = $row["AssetName"];
-            $productPricePerDay = $row["AssetCostPerDay"];
-            $productPricePerWeek = $row["AssetCostPerWeek"];
-            $productStatus = $row["AssetStatusID"];
-            $productAvailability = $row["AssetQty"];
-            $productImage = $row["AssetImage"];
-            $statusDetails = getStatusDetails($row["AssetStatusID"]);
-
-
-            // Generate HTML code for each product
-            // Generate HTML code for each product
-            echo '<div class="product" id="' . $productId . '">';
-            echo '<div class="image-container">';
-            echo '<img class="product-image" src="' . $productImage . '" alt="' . $productName . '" onerror="this.src=`admin-area/product-images/default-image.jpeg`">';
-            echo '</div>';
-            echo '<div class="text-container">';
-            echo '<div class="product-title-container">';
-            echo '<p><a class="product-title-link" href="product.php?ID=' . $productId . '">' . $productName . '</a></p>';
-            echo '</div>';
-            echo '<div class="price-container">';
-            echo '<p>Price p/day:</p>';
-            echo '<p>£' . $productPricePerDay . '</p>';
-            echo '</div>';
-            echo '<div class="price-container">';
-            echo '<p>Price p/week:</p>';
-            echo '<p>£' . $productPricePerWeek . '</p>';
-            echo '</div>';
-            echo '</div>';
-            echo '<div class="sproduct-button-container">';
-            echo '<form method="post" action="stock.php">';
-            echo '<input type="hidden" name="add_to_cart" value="' . $productId . '">';
-            echo '<label for="sproduct-quantity"></label>';
-            echo '<select class="sproduct-quantity-box" name="quantity">';
-            $maxQty = (int)$row['AssetQty'];
-
-            for ($i = 1; $i <= $maxQty; $i++) {
-                echo '<option value="'.$i.'">'.$i.'</option>';
-            }
-            $disabled = ($productAvailability <= 0) ? 'disabled' : '';
-            echo '</select>';
-            echo '<button class="add-to-cart-button" type="submit" '.$disabled.'>Add To Cart</button>';
-            echo '</form>';
-
-
-            echo '<script>
-            function addToCart(productId) {
-                var quantitySelect = document.getElementById("quantity-select");
-                var quantity = quantitySelect.value;
-                var url = "stock.php?add_to_cart=" + productId + "&quantity=" + quantity;
-                window.location.href = url;
-            }
-            </script>';
-
-            echo '</div>';
-            echo '</form>';
-            echo '<div class="status-container">';
-            echo '<p style="color:' . $statusDetails['colour'] . ';">' . $statusDetails['text'] . '</p>';
-            echo '</div>';
-            echo '<div class="stock-container">';
-            echo '<p>Stock available:</p>';
-            echo '<p>' . $productAvailability . '</p>';
-            echo '</div>';
-            echo '</div>';
+            renderProductCard($row);
         }
     }
 }
@@ -390,70 +371,7 @@ function searchProduct() {
 
         // Loop through the retrieved data and generate dynamic HTML
         while ($row = $result->fetch_assoc()) {
-            $productId = $row['ID'];
-            $productName = $row["AssetName"];
-            $productPricePerDay = $row["AssetCostPerDay"];
-            $productPricePerWeek = $row["AssetCostPerWeek"];
-            $productStatus = $row["AssetStatusID"];
-            $productAvailability = $row["AssetQty"];
-            $productImage = $row["AssetImage"];
-            $statusDetails = getStatusDetails($row["AssetStatusID"]);
-
-
-            // Generate HTML code for each product
-            // Generate HTML code for each product
-            echo '<div class="product" id="' . $productId . '">';
-            echo '<div class="image-container">';
-            echo '<img class="product-image" src="' . $productImage . '" alt="' . $productName . '" onerror="this.src=`admin-area/product-images/default-image.jpeg`">';
-            echo '</div>';
-            echo '<div class="text-container">';
-            echo '<div class="product-title-container">';
-            echo '<p><a class="product-title-link" href="product.php?ID=' . $productId . '">' . $productName . '</a></p>';
-            echo '</div>';
-            echo '<div class="price-container">';
-            echo '<p>Price p/day:</p>';
-            echo '<p>£' . $productPricePerDay . '</p>';
-            echo '</div>';
-            echo '<div class="price-container">';
-            echo '<p>Price p/week:</p>';
-            echo '<p>£' . $productPricePerWeek . '</p>';
-            echo '</div>';
-            echo '</div>';
-            echo '<div class="sproduct-button-container">';
-            echo '<form method="post" action="stock.php">';
-            echo '<input type="hidden" name="add_to_cart" value="' . $productId . '">';
-            echo '<label for="sproduct-quantity"></label>';
-            echo '<select class="sproduct-quantity-box" name="quantity">';
-            $maxQty = (int)$row['AssetQty'];
-
-            for ($i = 1; $i <= $maxQty; $i++) {
-                echo '<option value="'.$i.'">'.$i.'</option>';
-            }
-            $disabled = ($productAvailability <= 0) ? 'disabled' : '';
-            echo '</select>';
-            echo '<button class="add-to-cart-button" type="submit" '.$disabled.'>Add To Cart</button>';
-            echo '</form>';
-
-
-            echo '<script>
-            function addToCart(productId) {
-                var quantitySelect = document.getElementById("quantity-select");
-                var quantity = quantitySelect.value;
-                var url = "stock.php?add_to_cart=" + productId + "&quantity=" + quantity;
-                window.location.href = url;
-            }
-            </script>';
-
-            echo '</div>';
-            echo '</form>';
-            echo '<div class="status-container">';
-            echo '<p style="color:' . $statusDetails['colour'] . ';">' . $statusDetails['text'] . '</p>';
-            echo '</div>';
-            echo '<div class="stock-container">';
-            echo '<p>Stock available:</p>';
-            echo '<p>' . $productAvailability . '</p>';
-            echo '</div>';
-            echo '</div>';
+            renderProductCard($row);
         }
     }
 }
