@@ -25,6 +25,40 @@ function getStatusDetails($statusID) {
     }
 }
 
+// Loads the header listings section above the product grid
+function renderResultsHeader($count, $type = 'all', $searchValue = null, $categoryTitle = null) {
+
+    if ($count == 0) {
+        echo "<div class='results-message no-results'>
+                <h1>No results found :(</h1>
+              </div>";
+        return;
+    }
+
+    // ONLY output inner content
+    if ($type === 'category') {
+        echo "<script>
+            document.querySelector('.category-header').textContent = " . json_encode($categoryTitle) . ";
+            document.querySelector('.listing-left-container p').textContent = 'Showing $count results';
+        </script>";
+    }
+
+    if ($type === 'search') {
+        echo "<script>
+            document.querySelector('.category-header').textContent = 'Search results';
+            document.querySelector('.listing-left-container p').textContent = 'Showing $count results for " . addslashes($searchValue) . "';
+        </script>";
+    }
+
+    if ($type === 'all') {
+        echo "<script>
+            document.querySelector('.category-header').textContent = 'All Products';
+            document.querySelector('.listing-left-container p').textContent = 'Showing $count results';
+        </script>";
+    }
+}
+
+// Loads the product
 function renderProductCard($row) {
 
     $productId = (int)$row['ID'];
@@ -43,73 +77,80 @@ function renderProductCard($row) {
 
     echo '<div class="product" id="' . $productId . '">';
 
-    echo '<div class="image-container">';
-    echo '<img class="product-image"
-            src="' . $productImage . '"
-            alt="' . $productName . '"
-            onerror="this.src=`admin-area/product-images/default-image.jpeg`">';
+        echo '<div class="product-top-container">';
+
+            echo '<div class="image-container">';
+                echo '<img class="product-image"
+                        src="' . $productImage . '"
+                        alt="' . $productName . '"
+                        onerror="this.src=`admin-area/product-images/default-image.jpeg`">';
+                echo '</div>';
+
+                echo '<div class="text-container">';
+
+                echo '<div class="product-title-container">';
+                echo '<p>
+                        <a class="product-title-link"
+                        href="product.php?ID=' . $productId . '">'
+                        . $productName .
+                        '</a>
+                    </p>';
+            echo '</div>';
+
+        echo '</div>';
     echo '</div>';
 
-    echo '<div class="text-container">';
+    echo '<div class="product-bottom-container">';
 
-    echo '<div class="product-title-container">';
-    echo '<p>
-            <a class="product-title-link"
-               href="product.php?ID=' . $productId . '">'
-               . $productName .
-            '</a>
-          </p>';
-    echo '</div>';
 
-    echo '<div class="price-container">';
-    echo '<p>Price p/day:</p>';
-    echo '<p>£' . $productPricePerDay . '</p>';
-    echo '</div>';
+    echo '<div class="price-main-container">';
 
-    echo '<div class="price-container">';
-    echo '<p>Price p/week:</p>';
-    echo '<p>£' . $productPricePerWeek . '</p>';
-    echo '</div>';
+        echo '<div class="price-container">';
+            echo '<p><span style="color: rgb(220,32,25);">£' . $productPricePerDay . '</span> / day</p>';
+        echo '</div>';
+
+        echo '<div class="price-container">';
+            echo '<p><span style="color: rgb(255,255,255);">£' . $productPricePerWeek . '</span> / week</p>';
+        echo '</div>';
 
     echo '</div>';
 
     echo '<div class="sproduct-button-container">';
 
-    echo '<form method="post" action="stock.php">';
+        echo '<form method="post" action="stock.php">';
 
-    echo '<input type="hidden"
-                 name="add_to_cart"
-                 value="' . $productId . '">';
+            echo '<input type="hidden" name="add_to_cart" value="' . $productId . '">';
 
-    echo '<select class="sproduct-quantity-box" name="quantity">';
+            echo '<select class="sproduct-quantity-box" name="quantity">';
 
-    for ($i = 1; $i <= $productAvailability; $i++) {
-        echo '<option value="' . $i . '">' . $i . '</option>';
-    }
+                for ($i = 1; $i <= $productAvailability; $i++) {
+                    echo '<option value="' . $i . '">' . $i . '</option>';
+                }
 
-    echo '</select>';
+            echo '</select>';
 
-    $disabled = ($productAvailability <= 0) ? 'disabled' : '';
+            $disabled = ($productAvailability <= 0) ? 'disabled' : '';
 
-    echo '<button class="add-to-cart-button"
-                  type="submit"
-                  ' . $disabled . '>
-            Add To Cart
-          </button>';
+            echo '<button class="add-to-cart-button" type="submit" ' . $disabled . '>';
+                echo '<img src="icons/cart-icon.png" alt="cart-icon">';
+                echo 'Add to Basket';
+            echo '</button>';
 
-    echo '</form>';
+        echo '</form>';
 
     echo '</div>';
 
     echo '<div class="status-container">';
-    echo '<p style="color:' . $statusDetails['colour'] . ';">'
-            . $statusDetails['text'] .
-         '</p>';
+        echo '<p style="color:' . $statusDetails['colour'] . ';">'
+                . $statusDetails['text'] .
+            '</p>';
     echo '</div>';
 
     echo '<div class="stock-container">';
-    echo '<p>Stock available:</p>';
-    echo '<p>' . $productAvailability . '</p>';
+        echo '<p>Stock available:</p>';
+        echo '<p>' . $productAvailability . '</p>';
+    echo '</div>';
+
     echo '</div>';
 
     echo '</div>';
@@ -127,35 +168,12 @@ function getProducts() {
         $sql = "SELECT * FROM stock WHERE AssetInactive = 0 AND Deleted = 0;";
         $result = $connection->query($sql);
 
-        
         $resultCount = mysqli_num_rows($result);
+
+        renderResultsHeader($resultCount, 'all');
+
         if ($resultCount == 0) {
-            echo "<div style='
-                 position: absolute;
-                 top: 50px;
-            
-                 '>";
-            
-            echo "<h1 style='
-                  color: rgb(235, 235, 235);
-                  text-align: center;
-                  '>
-
-                  Nothing to see here... <br>:(</br>
-                  
-                  </h1>";
-            echo "</div>";
-        }
-        else {
-            echo "<p style='
-
-                  position: absolute;
-                  top: 10px;
-                  right: 20px;
-                  font-size: 24px;
-                  color: rgb(235, 235, 235);
-            
-                  '>Found <strong>$resultCount</strong> results</p>";
+            return;
         }
 
         // Declare and initialize the $i variable
@@ -197,26 +215,12 @@ function getProductsFromCategories() {
         $categoryResult = $stmt->get_result();
 
         if ($categoryResult->num_rows === 0) {
-            echo "<div style='
-                        position: absolute;
-                        top: 50px;
-                
-                        '>";
-                
-            echo "<h1 style='
-                    color: rgb(235, 235, 235);
-                    text-align: center;
-                    '>
-
-                    Category not found... <br>:(</br>
-                    
-                    </h1>";
-            echo "</div>";
+            renderResultsHeader(0, 'category', null, 'Category');
             return;
         }
 
         $categoryRow = $categoryResult->fetch_assoc();
-        $categoryTitle = htmlspecialchars($categoryRow['CategoryName'], ENT_QUOTES, 'UTF-8');
+        $categoryTitle = $categoryRow['CategoryName'];
 
         // Fetch products from active category
         $productStmt = $connection->prepare("
@@ -235,48 +239,11 @@ function getProductsFromCategories() {
 
         $resultCount = mysqli_num_rows($result);
 
+        // Renders the product listing info above the product grid
+        renderResultsHeader($resultCount, 'category', null, $categoryTitle);
+
         if ($resultCount == 0) {
-            echo "<div style='
-                 position: absolute;
-                 top: 50px;
-            
-                 '>";
-            
-            echo "<h1 style='
-                  color: rgb(235, 235, 235);
-                  text-align: center;
-                  '>
-
-                  Nothing to see here... <br>:(</br>
-                  
-                  </h1>";
-            echo "</div>";
-        }
-        else {
-
-
-            echo "<p style='
-
-                  position: absolute;
-                  top: 10px;
-                  right: 20px;
-                  font-size: 24px;
-                  color: rgb(235, 235, 235);
-                  /* animation: transitionIn 1s; */
-            
-                  '>Found <strong>$resultCount</strong> results</p>";
-
-            echo "
-            <p style='
-
-                  position: absolute;
-                  top: 10px;
-                  left: 320px;
-                  font-size: 24px;
-                  color: rgb(235, 235, 235);
-                  /* animation: transitionIn 1s; */
-            
-                  '>Category: <strong>$categoryTitle</strong></p>";
+            return;
         }
 
 
@@ -313,66 +280,36 @@ function getCategories() {
 function searchProduct() {
 
     global $connection;
-    if (isset($_GET['search-data-product'])) {
 
-        $searchValue = "%" . $_GET['search-data'] . "%";
-        // Retrieve product data from the database
+    if (!isset($_GET['search-data']) || trim($_GET['search-data']) === '') {
+        return;
+    }
 
-        $stmt = $connection->prepare("SELECT * FROM stock WHERE AssetName LIKE ? AND AssetInactive = 0 AND Deleted = 0");
+    $searchInput = $_GET['search-data'];
+    $searchValue = "%" . $searchInput . "%";
 
-        $stmt->bind_param("s", $searchValue);
-        $stmt->execute();
+    $stmt = $connection->prepare("
+        SELECT * 
+        FROM stock 
+        WHERE AssetName LIKE ? 
+        AND AssetInactive = 0 
+        AND Deleted = 0
+    ");
 
-        $result = $stmt->get_result();
-        
-        $resultCount = mysqli_num_rows($result);
-        if ($resultCount == 0) {
-            echo "<div style='
-                    position: absolute;
-                    top: 50px;
-            
-                    '>";
-            
-            echo "<h1 style='
-                    color: rgb(235, 235, 235);
-                    text-align: center;
-                    '>
+    $stmt->bind_param("s", $searchValue);
+    $stmt->execute();
 
-                    No results found... <br>:(</br>
-                    
-                    </h1>";
-            echo "</div>";
-        }
-        else {
-            if (empty($searchValue)) {
-                echo "<p style='
+    $result = $stmt->get_result();
+    $resultCount = $result->num_rows;
 
-                    position: absolute;
-                    top: 10px;
-                    right: 20px;
-                    font-size: 24px;
-                    color: rgb(235, 235, 235);
-            
-                    '>Found <strong>$resultCount</strong> results</p>";
-            }
-            else {
-                echo "<p style='
+    renderResultsHeader($resultCount, 'search', $searchInput);
 
-                        position: absolute;
-                        top: 10px;
-                        right: 20px;
-                        font-size: 24px;
-                        color: rgb(32, 7, 7);
-                
-                        '>Found <strong>$resultCount</strong> results for '$searchValue'</p>";
-            }
-        }
+    if ($resultCount === 0) {
+        return;
+    }
 
-
-        // Loop through the retrieved data and generate dynamic HTML
-        while ($row = $result->fetch_assoc()) {
-            renderProductCard($row);
-        }
+    while ($row = $result->fetch_assoc()) {
+        renderProductCard($row);
     }
 }
 

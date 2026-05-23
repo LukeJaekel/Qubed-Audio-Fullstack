@@ -8,10 +8,10 @@ window.onscroll = function(e) {
     for (var i = 0; i < headerElements.length; i++) {
         if (posY > 180) {
             headerElements[i].style.transition = "background-color 0.5s";
-            headerElements[i].style.backgroundColor = "rgba(240, 240, 240, 0.8)";
+            headerElements[i].style.backgroundColor = "rgba(0, 0, 0, 0.8)";
         }
         else {
-            headerElements[i].style.backgroundColor = "rgba(240, 240, 240, 1)";
+            headerElements[i].style.backgroundColor = "rgb(0, 0, 0)";
         }
     }
 }

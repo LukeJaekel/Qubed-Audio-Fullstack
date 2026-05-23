@@ -1,3 +1,5 @@
+<!-- NO LONGER USED -->
+
 <?php 
 
 // Connects to database
@@ -30,45 +32,13 @@ include('functions/function.php');
     <body>
 
         <!-- HEADER SECTION -->
-        <header class="js-header">
-            <div class="top-container">
-                <div class="header-left-container">
-                    <div class="logo-container" onclick="loadStockPage();">
-                        <img class="logo" src="logo/logo.jpg" alt="qubed-logo">
-                        <p style="color: rgb(233, 32, 23);">Q-<span style="color: rgb(35, 35, 35);">Stock</span></p>
-                    </div>
-                </div>
-                <div class="header-middle-container">
-                    <form class="search-bar" action="" method="get">
-                        <input type="search" placeholder="Search Item" name="search-data" aria-label="Search">
-                        <button type="submit" name="search-data-product" value="search">
-                            <img class="search-icon" src="icons/search-icon.svg" alt="search-icon">
-                        </button>
-                    </form>
-                </div>
-                <div class="header-right-container">
-                    <div class="login-container">
-                        <a href="account/register.php">Register</a>
-                        <a href="account/login.php">Login</a>
-                    </div>
-                    <img src="icons/account-icon.png" alt="my-account-icon">
-                    <div class="basket-container">
-                        <img onclick="window.open('basket.php', '_self');" src="icons/basket-icon.png" alt="basket-icon">
-                        <span class="basket-number">
-                            <?php 
-                                cartQuantity();
-                            ?>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </header>
+        <?php include 'includes/header.php'; ?>
 
         <!-- MAIN SECTION -->
         <main>
             <div class="main-content">
                 <nav class="sidebar">
-                    <p>Categories</p>
+                    <p>CATEGORIES</p>
                     <?php
                         // Fetches all categories
                         getCategories();
@@ -89,55 +59,7 @@ include('functions/function.php');
         </main>
 
         <!-- FOOTER SECTION -->
-        <footer class="footer">
-            <div class="footer-grid">
-                <div class="left-container">
-                    <div class="footer-logo-container" onclick="loadHomePage();">
-                        <img class="footer-logo" src="logo/logo.jpg" alt="qubed-logo">
-                    </div>
-                    <div onclick="loadHomePage();">
-                        <p class="footer-title">Qubed <span class="footer-title-two">Audio</span></p>
-                    </div>
-                </div>
-                <div class="middle-container">
-                    <div class="link-container">
-                        <div class="middle-title-container">
-                            <p>THE BORING STUFF</p>
-                        </div>
-                        <p><a href="../main-site/terms-and-conditions.html">Terms and Conditions</a></p>
-                        <p><a href="#">Privacy Policy</a></p>
-                        <p><a href="../main-site/documents/pli-insurance-certificate.pdf" target="_blank">PLI Insurance Certificate</a></p>
-                    </div>
-                </div>
-                <div class="right-container">
-                    <div class="link-container">
-                        <div class="right-title-container">
-                            <p>THE COMPANY</p>
-                        </div>
-                        <p><a href="../main-site/contact.php">Contact Us</a></p>
-                        <p><a href="../main-site/home.html#about">About</a></p>
-                    </div>
-                </div>
-                <div class="socials-container">
-                    <p>SOCIALS</p>
-                    <div class="socials-main-icon-container">
-                        <div class="socials-icon-container">
-                            <img class="socials-icon" src="icons/facebook-icon.svg" alt="facebook-icon">
-                        </div>
-                        <div class="socials-icon-container">
-                            <img class="socials-icon" src="icons/twitter-icon.svg" alt="twitter-icon">
-                        </div>
-                        <div class="socials-icon-container">
-                            <img class="socials-icon" src="icons/linkedin-icon.svg" alt="twitter-icon">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="copyright-container">
-                <p>© 2023 Qubed Audio | All Rights Reserved</p>
-                <p>Website Developed by <a target="_blank" href="https://github.com/LukeJaekel">Luke Jaekel</a></p>
-            </div>
-        </footer>
+        <?php include 'includes/footer.php'; ?>
 
         <?php
             // Fetches logic for cart
