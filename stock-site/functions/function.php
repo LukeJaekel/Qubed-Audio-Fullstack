@@ -25,6 +25,33 @@ function getStatusDetails($statusID) {
     }
 }
 
+// Used for filter on stock page to inject into stock.php
+function buildSortSql() {
+
+    $sort = $_GET['sort'] ?? '';
+
+    switch ($sort) {
+
+        case 'a-z':
+            return "ORDER BY AssetName ASC";
+
+        case 'price-low-to-high':
+            return "ORDER BY AssetCostPerDay ASC, AssetCostPerWeek ASC";
+
+        case 'price-high-to-low':
+            return "ORDER BY AssetCostPerDay DESC, AssetCostPerWeek ASC";
+
+        case 'newest':
+            return "ORDER BY ID DESC";
+
+        case 'available-now':
+            return "ORDER BY AssetQty DESC";
+
+        default:
+            return "ORDER BY ID DESC";
+    }
+}
+
 // Loads the header listings section above the product grid
 function renderResultsHeader($count, $type = 'all', $searchValue = null, $categoryTitle = null) {
 
@@ -35,7 +62,6 @@ function renderResultsHeader($count, $type = 'all', $searchValue = null, $catego
         return;
     }
 
-    // ONLY output inner content
     if ($type === 'category') {
         echo "<script>
             document.querySelector('.category-header').textContent = " . json_encode($categoryTitle) . ";
@@ -165,7 +191,9 @@ function getProducts() {
     if (!isset($_GET['category'])) {
 
         // Retrieve product data from the database
-        $sql = "SELECT * FROM stock WHERE AssetInactive = 0 AND Deleted = 0;";
+        $sortSql = buildSortSql();
+
+        $sql = "SELECT * FROM stock WHERE AssetInactive = 0 AND Deleted = 0 $sortSql";
         $result = $connection->query($sql);
 
         $resultCount = mysqli_num_rows($result);
@@ -221,16 +249,14 @@ function getProductsFromCategories() {
 
         $categoryRow = $categoryResult->fetch_assoc();
         $categoryTitle = $categoryRow['CategoryName'];
+        
 
         // Fetch products from active category
-        $productStmt = $connection->prepare("
-            SELECT *
-            FROM stock
-            WHERE AssetCategoryID = ?
-            AND AssetInactive = 0
-            AND Deleted = 0
-            ORDER BY AssetID DESC
-        ");
+        $sortSql = buildSortSql();
+
+        $query = "SELECT * FROM stock WHERE AssetCategoryID = ? AND AssetInactive = 0 AND Deleted = 0 $sortSql";
+
+        $productStmt = $connection->prepare($query);
 
         $productStmt->bind_param("i", $categoryId);
         $productStmt->execute();
@@ -288,13 +314,9 @@ function searchProduct() {
     $searchInput = $_GET['search-data'];
     $searchValue = "%" . $searchInput . "%";
 
-    $stmt = $connection->prepare("
-        SELECT * 
-        FROM stock 
-        WHERE AssetName LIKE ? 
-        AND AssetInactive = 0 
-        AND Deleted = 0
-    ");
+    $sortSql = buildSortSql();
+
+    $stmt = $connection->prepare("SELECT * FROM stock WHERE AssetName LIKE ? AND AssetInactive = 0 AND Deleted = 0 $sortSql");
 
     $stmt->bind_param("s", $searchValue);
     $stmt->execute();

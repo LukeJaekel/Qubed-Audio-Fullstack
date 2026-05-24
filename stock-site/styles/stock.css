@@ -96,6 +96,7 @@ p {
     margin-bottom: 10px;
     color: white;
     margin-left: 40px;
+    margin-right: 60px;
     padding-top: 20px;
 }
 
@@ -106,6 +107,16 @@ p {
 
 .listing-container p {
     color: rgb(211, 211, 211);
+}
+
+.sort-box {
+    width: 250px;
+    background-color: rgb(13, 17, 22);
+    color: rgb(255, 255, 255);
+    border-radius: 10px;
+    height: 40px;
+    padding-left: 10px;
+    font-size: 16px;
 }
 
 .product-grid-container {

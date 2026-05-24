@@ -37,7 +37,7 @@ include('functions/function.php');
         <main>
             <div class="main-content">
                 <nav class="sidebar">
-                    <p>Categories</p>
+                    <p>CATEGORIES</p>
                     <?php
                         // Fetches all categories
                         getCategories();

@@ -52,11 +52,53 @@ include('./functions/function.php');
 
                     <div class="listing-container">
                         <div class="listing-left-container">
-                            <h2 class="category-header"></h2>
-                            <p></p>
+                            <h2 class="category-header"><!-- USED AS A PLACEHOLDER FOR 
+                                                            renderResultsHeader() in function.php --></h2>
+                            <p><!-- USED AS A PLACEHOLDER FOR 
+                                renderResultsHeader() in function.php --></p>
                         </div>
 
-                        <div class="listing-right-container"></div>
+                        <div class="listing-right-container">
+                            <form method="GET" id="sort-form">
+
+                                <!-- Preserve category -->
+                                <?php if (isset($_GET['category'])): ?>
+                                    <input type="hidden" name="category" value="<?php echo $_GET['category']; ?>">
+                                <?php endif; ?>
+
+                                <!-- Preserve search -->
+                                <?php if (isset($_GET['search-data'])): ?>
+                                    <input type="hidden" name="search-data" value="<?php echo htmlspecialchars($_GET['search-data']); ?>">
+                                <?php endif; ?>
+
+                                <select name="sort" class="sort-box" onchange="this.form.submit()">
+                                    <option value="newest"
+                                        <?php if(($_GET['sort'] ?? '') == 'newest') echo 'selected'; ?>>
+                                        Sort by: Newest
+                                    </option>
+                                    <option value="a-z"
+                                        <?php if(($_GET['sort'] ?? '') == 'a-z') echo 'selected'; ?>>
+                                        Sort by: A-Z
+                                    </option>
+
+                                    <option value="price-low-to-high"
+                                        <?php if(($_GET['sort'] ?? '') == 'price-low-to-high') echo 'selected'; ?>>
+                                        Sort by: Price (Low to High)
+                                    </option>
+
+                                    <option value="price-high-to-low"
+                                        <?php if(($_GET['sort'] ?? '') == 'price-high-to-low') echo 'selected'; ?>>
+                                        Sort by: Price (High to Low)
+                                    </option>
+
+                                    <option value="available-now"
+                                        <?php if(($_GET['sort'] ?? '') == 'available-now') echo 'selected'; ?>>
+                                        Sort by: Available Now
+                                    </option>
+
+                                </select>
+                            </form>
+                        </div>
                     </div>
 
                     <div class="product-grid-container">
