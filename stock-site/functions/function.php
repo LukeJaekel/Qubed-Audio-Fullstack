@@ -234,7 +234,7 @@ function getProductsFromCategories() {
             SELECT CategoryName
             FROM categories
             WHERE CategoryID = ?
-            AND CategoryInactive = 0
+            AND WebInactive = 0
         ");
 
         $stmt->bind_param("i", $categoryId);
@@ -284,7 +284,7 @@ function getProductsFromCategories() {
 function getCategories() {
     global $connection;
 
-    $selectCategories = "SELECT * FROM `categories` WHERE CategoryInactive = 0;";
+    $selectCategories = "SELECT * FROM `categories` WHERE WebInactive = 0;";
     $resultCategories = mysqli_query($connection, $selectCategories);
 
     while ($rowData = mysqli_fetch_assoc($resultCategories)) {

@@ -1,9 +1,9 @@
 <?php
 
-$servername = "192.168.1.5";
+$servername = "192.168.1.4";
 $username = "stockalot";
 $password = "5t0ck410t/@";
-$database = "qubedaudio_new";
+$database = "stockalot";
 
 
 // Establish a database connection

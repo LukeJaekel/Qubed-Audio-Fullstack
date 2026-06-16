@@ -121,7 +121,7 @@ if (isset($_POST['update-basket'], $_POST['product-id'], $_POST['qty'])) {
                                     $categoryQuery = "SELECT CategoryName FROM `categories` WHERE CategoryID = '$categoryId'";
                                     $categoryResult = $connection->query($categoryQuery);
                                     $categoryRow = mysqli_fetch_array($categoryResult);
-                                    $productCategory = $categoryRow['CategoryName'];
+                                    $productCategory = $categoryRow['CategoryName'] ?? NULL;
 
                         ?>  
                                 <form id="product-<?php echo $productId ?>" name="product-form[]" method="post" onsubmit="updateTotals(<?php echo $productId; ?>);">
